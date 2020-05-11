@@ -5,6 +5,18 @@
  */
 package com.mycompany.pos;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author luuhiep
@@ -16,6 +28,31 @@ public class CategoryForm extends javax.swing.JFrame {
      */
     public CategoryForm() {
         initComponents();
+        this.tableUpdate();
+        this.resetInfoCategory();
+    }
+    
+    Connection conn;
+    PreparedStatement pst;
+    int selectedIndexId = -1;
+
+    
+    private static String DB_URL = "jdbc:mysql://localhost:3306/mipos";
+    private static String USER_NAME = "root";
+    private static String PASSWORD = "123456789";
+    
+    public static Connection getConnection(String dbURL, String userName, 
+            String password) {
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(dbURL, userName, password);
+            System.out.println("connect successfully!");
+        } catch (Exception ex) {
+            System.out.println("connect failure!");
+            ex.printStackTrace();
+        }
+        return conn;
     }
 
     /**
@@ -36,14 +73,14 @@ public class CategoryForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTitle = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        cbStatus = new javax.swing.JComboBox();
+        btnAdd = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        cateTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -125,13 +162,18 @@ public class CategoryForm extends javax.swing.JFrame {
 
         jLabel8.setText("Status");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Active", "Deactive", " " }));
 
-        jButton1.setText("Add");
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Delete");
+        btnDelete.setText("Delete");
 
-        jButton3.setText("Cancel");
+        btnCancel.setText("Cancel");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -147,15 +189,15 @@ public class CategoryForm extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel8)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1)
+                        .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)
+                        .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
+                        .addComponent(btnCancel)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -164,31 +206,44 @@ public class CategoryForm extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(33, 33, 33)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnAdd)
+                    .addComponent(btnDelete)
+                    .addComponent(btnCancel))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        cateTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Title", "Status"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        cateTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cateTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(cateTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,6 +271,87 @@ public class CategoryForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        
+        String title = txtTitle.getText();
+        String status = cbStatus.getSelectedItem().toString();
+        String statement = "";
+        
+        String btnStatus = btnAdd.getText();
+        
+        if (btnStatus == "Add"){
+            statement = "INSERT INTO category(title, status) ";
+            statement += String.format("VALUES(\"%s\", \"%s\");",title, status);
+        } else if (btnStatus == "Update") {
+            statement = "UPDATE category ";
+            statement += String.format("SET title=\"%s\", status=\"%s\" ", title, status);
+            statement += String.format("WHERE id = %d", this.selectedIndexId);
+        }
+        
+        try {
+            conn = getConnection(DB_URL, USER_NAME, PASSWORD);
+           
+            System.out.println(statement);
+            pst = conn.prepareStatement(statement);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "done");
+            this.resetInfoCategory();
+            this.tableUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void cateTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cateTableMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel d = (DefaultTableModel)cateTable.getModel();
+        int selectedId = cateTable.getSelectedRow();
+        this.selectedIndexId = Integer.parseInt(d.getValueAt(selectedId, 0).toString());
+        txtTitle.setText(d.getValueAt(selectedId, 1).toString());
+        cbStatus.setSelectedItem(d.getValueAt(selectedId, 2).toString());
+        btnAdd.setText("Update");
+        btnDelete.setEnabled(true);
+        btnCancel.setEnabled(true);
+    }//GEN-LAST:event_cateTableMouseClicked
+    
+    private void tableUpdate() {
+        int c;
+        try {
+            conn = getConnection(DB_URL, USER_NAME, PASSWORD);
+            String statement = "SELECT * FROM category";
+            System.out.println(statement);
+            pst = conn.prepareStatement(statement);
+            ResultSet rs =pst.executeQuery();
+            
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+            DefaultTableModel d = (DefaultTableModel)cateTable.getModel();
+            d.setRowCount(0);
+            
+            while (rs.next()){
+                Vector vector = new Vector();
+                for (int i = 0 ;i<c ; i++){
+                    vector.add(rs.getString("id"));
+                    vector.add(rs.getString("title"));
+                    vector.add(rs.getString("status"));
+                }
+                d.addRow(vector);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void resetInfoCategory(){
+        txtTitle.setText("");
+        cbStatus.setSelectedIndex(-1);
+        this.selectedIndexId = -1;
+        btnDelete.setEnabled(false);
+        btnCancel.setEnabled(false);
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -252,10 +388,11 @@ public class CategoryForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JTable cateTable;
+    private javax.swing.JComboBox cbStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -267,7 +404,6 @@ public class CategoryForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
 }
