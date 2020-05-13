@@ -21,12 +21,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author luuhiep
  */
-public class CategoryForm extends javax.swing.JFrame {
+public class BrandForm extends javax.swing.JFrame {
 
     /**
      * Creates new form CategoryForm
      */
-    public CategoryForm() {
+    public BrandForm() {
         initComponents();
         this.tableUpdate();
         this.resetInfoCategory();
@@ -147,7 +147,7 @@ public class CategoryForm extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Lucida Grande", 0, 16))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Brand", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Lucida Grande", 0, 16))); // NOI18N
 
         jLabel7.setText("Title");
 
@@ -240,7 +240,7 @@ public class CategoryForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(cateTable);
 
         jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 40)); // NOI18N
-        jLabel9.setText("CATEGORY");
+        jLabel9.setText("BRAND");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -287,10 +287,10 @@ public class CategoryForm extends javax.swing.JFrame {
         String btnStatus = btnAdd.getText();
         
         if (btnStatus == "Add"){
-            statement = "INSERT INTO category(title, status) ";
+            statement = "INSERT INTO brand(title, status) ";
             statement += String.format("VALUES(\"%s\", \"%s\");",title, status);
         } else if (btnStatus == "Update") {
-            statement = "UPDATE category ";
+            statement = "UPDATE brand ";
             statement += String.format("SET title=\"%s\", status=\"%s\" ", title, status);
             statement += String.format("WHERE id = %d", this.selectedIndexId);
         }
@@ -305,7 +305,7 @@ public class CategoryForm extends javax.swing.JFrame {
             this.resetInfoCategory();
             this.tableUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BrandForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -330,7 +330,7 @@ public class CategoryForm extends javax.swing.JFrame {
         int dialogResult;
         dialogResult = JOptionPane.showConfirmDialog(
                 null, 
-                String.format("Do you want to delete category %s", d.getValueAt(selectedId, 1).toString()), 
+                String.format("Do you want to delete brand %s", d.getValueAt(selectedId, 1).toString()), 
                 "Warning", 
                 JOptionPane.YES_NO_OPTION);
         
@@ -342,7 +342,7 @@ public class CategoryForm extends javax.swing.JFrame {
     private void deleteCurrentCategory() {
         String statement = "";
         
-        statement = "DELETE FROM category ";
+        statement = "DELETE FROM brand ";
         statement += String.format("WHERE id = %d", this.selectedIndexId);
 
         try {
@@ -355,7 +355,7 @@ public class CategoryForm extends javax.swing.JFrame {
             this.resetInfoCategory();
             this.tableUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BrandForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -363,7 +363,7 @@ public class CategoryForm extends javax.swing.JFrame {
         int c;
         try {
             conn = getConnection(DB_URL, USER_NAME, PASSWORD);
-            String statement = "SELECT * FROM category";
+            String statement = "SELECT * FROM brand";
             System.out.println(statement);
             pst = conn.prepareStatement(statement);
             ResultSet rs =pst.executeQuery();
@@ -383,7 +383,7 @@ public class CategoryForm extends javax.swing.JFrame {
                 d.addRow(vector);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BrandForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -413,20 +413,21 @@ public class CategoryForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CategoryForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CategoryForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CategoryForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CategoryForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CategoryForm().setVisible(true);
+                new BrandForm().setVisible(true);
             }
         });
     }
