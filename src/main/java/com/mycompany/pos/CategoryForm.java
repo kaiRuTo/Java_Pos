@@ -84,8 +84,9 @@ public class CategoryForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setMinimumSize(new java.awt.Dimension(1194, 599));
 
-        jPanel1.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -115,44 +116,33 @@ public class CategoryForm extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel5)))
-                .addContainerGap(92, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(55, 55, 55)
-                    .addComponent(jLabel6)
-                    .addContainerGap(82, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(57, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel6))
+                .addGap(80, 80, 80))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(122, 122, 122)
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel2)
-                .addGap(43, 43, 43)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel3)
-                .addGap(33, 33, 33)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel4)
-                .addGap(109, 109, 109)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel6)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(392, Short.MAX_VALUE)
-                    .addComponent(jLabel6)
-                    .addGap(378, 378, 378)))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -172,6 +162,11 @@ public class CategoryForm extends javax.swing.JFrame {
         });
 
         btnDelete.setText("Delete");
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
 
@@ -179,26 +174,24 @@ public class CategoryForm extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnAdd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(jLabel7)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addGap(38, 38, 38)
+                            .addComponent(cbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtTitle)))
+                .addGap(37, 37, 37))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(btnAdd)
+                .addGap(14, 14, 14)
+                .addComponent(btnDelete)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancel)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +209,7 @@ public class CategoryForm extends javax.swing.JFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnDelete)
                     .addComponent(btnCancel))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         cateTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -251,10 +244,10 @@ public class CategoryForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(82, 82, 82)
+                .addComponent(jScrollPane1)
                 .addGap(54, 54, 54))
         );
         layout.setVerticalGroup(
@@ -263,9 +256,11 @@ public class CategoryForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(192, 192, 192)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(188, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)))
+                .addGap(33, 33, 33))
         );
 
         pack();
@@ -314,6 +309,44 @@ public class CategoryForm extends javax.swing.JFrame {
         btnDelete.setEnabled(true);
         btnCancel.setEnabled(true);
     }//GEN-LAST:event_cateTableMouseClicked
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel d = (DefaultTableModel)cateTable.getModel();
+        int selectedId = cateTable.getSelectedRow();
+        this.selectedIndexId = Integer.parseInt(d.getValueAt(selectedId, 0).toString());
+        
+        int dialogResult;
+        dialogResult = JOptionPane.showConfirmDialog(
+                null, 
+                String.format("Do you want to delete category %s", d.getValueAt(selectedId, 1).toString()), 
+                "Warning", 
+                JOptionPane.YES_NO_OPTION);
+        
+        if (dialogResult == JOptionPane.YES_OPTION){
+            this.deleteCurrentCategory();
+        }
+    }//GEN-LAST:event_btnDeleteMouseClicked
+    
+    private void deleteCurrentCategory() {
+        String statement = "";
+        
+        statement = "DELETE FROM category ";
+        statement += String.format("WHERE id = %d", this.selectedIndexId);
+
+        try {
+            conn = getConnection(DB_URL, USER_NAME, PASSWORD);
+           
+            System.out.println(statement);
+            pst = conn.prepareStatement(statement);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "done");
+            this.resetInfoCategory();
+            this.tableUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     private void tableUpdate() {
         int c;
