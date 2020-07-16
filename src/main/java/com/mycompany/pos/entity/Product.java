@@ -7,35 +7,39 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "product")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @ToString(includeFieldNames=true)
-public class Customer {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ToString.Exclude
-    @Column(name = "id_customer")
-    private Long idCustomer;
+    @Column(name = "id_product")
+    private Long idProduct;
 
-    @Column(name = "firstName")
-    @NotBlank
-    private String firstName;
+    @Column(name = "slug")
+    private String slug;
 
-    @Column(name = "lastName")
-    @NotBlank
-    private String lastName;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "birthday")
-    private Date birthday;
+    @Column(name = "reference")
+    private String reference;
 
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "price")
+    private BigDecimal price;
+
+    @Column(name = "vat")
+    private BigDecimal vat;
+
+    @Column(name = "stockable")
+    private Boolean stockable;
 
     @Column(name = "createdAt", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

@@ -7,38 +7,29 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "order")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @ToString(includeFieldNames=true)
-public class Customer {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ToString.Exclude
-    @Column(name = "id_customer")
-    private Long idCustomer;
+    private Long id;
 
-    @Column(name = "firstName")
-    @NotBlank
-    private String firstName;
+    @ManyToOne
+    @JoinColumn(name = "id_customer")
+    private Customer customer;
 
-    @Column(name = "lastName")
-    @NotBlank
-    private String lastName;
-
-    @Column(name = "birthday")
-    private Date birthday;
-
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "orderedAt")
+    private Date orderedAt;
 
     @Column(name = "createdAt", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private Date createdAt;
+    private java.util.Date createdAt;
 }

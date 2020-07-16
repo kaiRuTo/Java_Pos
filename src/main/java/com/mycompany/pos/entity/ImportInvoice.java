@@ -7,8 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "customer")
@@ -16,29 +15,35 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString(includeFieldNames=true)
-public class Customer {
+public class ImportInvoice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ToString.Exclude
-    @Column(name = "id_customer")
-    private Long idCustomer;
+    @Column(name = "id_import_invoice")
+    private Long idImportInvoice;
 
-    @Column(name = "firstName")
-    @NotBlank
-    private String firstName;
+    @ManyToOne
+    @JoinColumn(name = "id_product")
+    private Product product;
 
-    @Column(name = "lastName")
-    @NotBlank
-    private String lastName;
+    @ManyToOne
+    @JoinColumn(name = "id_supplier")
+    private Supplier supplier;
 
-    @Column(name = "birthday")
-    private Date birthday;
+    @Column(name = "quantity")
+    private Long quantity;
 
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "orderedAt")
+    private Date orderedAt;
+
+    @Column(name = "arrivedAt")
+    private Date arrivedAt;
+
+    @Column(name = "arrived")
+    private Boolean arrived;
 
     @Column(name = "createdAt", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private Date createdAt;
+    private java.util.Date createdAt;
 }
