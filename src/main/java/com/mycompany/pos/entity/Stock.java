@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "stock")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class Stock {
     @Column(name = "id_stock")
     private Long idStock;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_product")
     private Product product;
 

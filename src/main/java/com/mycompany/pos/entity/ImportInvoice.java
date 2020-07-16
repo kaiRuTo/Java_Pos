@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "import_invoice")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -22,13 +22,13 @@ public class ImportInvoice {
     @Column(name = "id_import_invoice")
     private Long idImportInvoice;
 
-    @ManyToOne
-    @JoinColumn(name = "id_product")
-    private Product product;
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_supplier")
     private Supplier supplier;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_product")
+    private Product product;
 
     @Column(name = "quantity")
     private Long quantity;

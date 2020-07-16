@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "invoice")
+@Table(name = "product_invoice")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -23,13 +23,13 @@ public class ProductInvoice {
     @Column(name = "id_product_invoice")
     private Long idProductInvoice;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_product")
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "id_order")
-    private Order order;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_orders")
+    private Orders orders;
 
     @Column(name = "quantity")
     private Long quantity;

@@ -10,22 +10,20 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @ToString(includeFieldNames=true)
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ToString.Exclude
-    private Long id;
+    private Long idOrders;
 
-    @ManyToOne
-    @JoinColumn(name = "id_customer")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
 
-    @Column(name = "orderedAt")
     private Date orderedAt;
 
     @Column(name = "createdAt", nullable = false, updatable = false)
