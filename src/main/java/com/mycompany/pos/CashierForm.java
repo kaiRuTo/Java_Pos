@@ -21,12 +21,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author luuhiep
  */
-public class BrandForm extends javax.swing.JFrame {
+public class CashierForm extends javax.swing.JFrame {
 
     /**
      * Creates new form CategoryForm
      */
-    public BrandForm() {
+    public CashierForm() {
         initComponents();
         this.tableUpdate();
         this.resetInfoCategory();
@@ -79,6 +79,8 @@ public class BrandForm extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        txtTitle1 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         cateTable = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
@@ -147,9 +149,15 @@ public class BrandForm extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Brand", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Lucida Grande", 0, 16))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Crashier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Lucida Grande", 0, 16))); // NOI18N
 
-        jLabel7.setText("Title");
+        jLabel7.setText("Username");
+
+        txtTitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTitleActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Status");
 
@@ -171,46 +179,67 @@ public class BrandForm extends javax.swing.JFrame {
 
         btnCancel.setText("Cancel");
 
+        jLabel10.setText("Password");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addGap(38, 38, 38)
-                            .addComponent(cbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(txtTitle)))
-                .addGap(37, 37, 37))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(btnAdd)
-                .addGap(14, 14, 14)
-                .addComponent(btnDelete)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancel)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel8)
+                                .addGap(38, 38, 38))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnAdd)
+                                .addGap(18, 18, 18)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbStatus, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnDelete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCancel)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel10)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTitle1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtTitle, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
                     .addComponent(btnDelete)
-                    .addComponent(btnCancel))
-                .addContainerGap())
+                    .addComponent(btnCancel)
+                    .addComponent(btnAdd))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         cateTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -221,7 +250,7 @@ public class BrandForm extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Id", "Title", "Status"
+                "Id", "Username", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -240,7 +269,7 @@ public class BrandForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(cateTable);
 
         jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 40)); // NOI18N
-        jLabel9.setText("BRAND");
+        jLabel9.setText("CASHIER");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -248,12 +277,12 @@ public class BrandForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(82, 82, 82)
-                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                         .addGap(54, 54, 54))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -267,11 +296,12 @@ public class BrandForm extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                        .addGap(33, 33, 33))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)))
-                .addGap(33, 33, 33))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -280,18 +310,19 @@ public class BrandForm extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         
-        String title = txtTitle.getText();
+        String username = txtTitle.getText();
+        String password = txtTitle.getText();
         String status = cbStatus.getSelectedItem().toString();
         String statement = "";
         
         String btnStatus = btnAdd.getText();
         
         if (btnStatus == "Add"){
-            statement = "INSERT INTO brand(title, status) ";
-            statement += String.format("VALUES(\"%s\", \"%s\");",title, status);
+            statement = "INSERT INTO cashier(username, password, status) ";
+            statement += String.format("VALUES(\"%s\", \"%s\", \"%s\");",username, password, status);
         } else if (btnStatus == "Update") {
-            statement = "UPDATE brand ";
-            statement += String.format("SET title=\"%s\", status=\"%s\" ", title, status);
+            statement = "UPDATE cashier ";
+            statement += String.format("SET username=\"%s\", password=\"%s\", status=\"%s\" ", username, password, status);
             statement += String.format("WHERE id = %d", this.selectedIndexId);
         }
         
@@ -305,7 +336,7 @@ public class BrandForm extends javax.swing.JFrame {
             this.resetInfoCategory();
             this.tableUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(BrandForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CashierForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -330,7 +361,7 @@ public class BrandForm extends javax.swing.JFrame {
         int dialogResult;
         dialogResult = JOptionPane.showConfirmDialog(
                 null, 
-                String.format("Do you want to delete brand %s", d.getValueAt(selectedId, 1).toString()), 
+                String.format("Do you want to delete cashier %s", d.getValueAt(selectedId, 1).toString()), 
                 "Warning", 
                 JOptionPane.YES_NO_OPTION);
         
@@ -338,11 +369,15 @@ public class BrandForm extends javax.swing.JFrame {
             this.deleteCurrentCategory();
         }
     }//GEN-LAST:event_btnDeleteMouseClicked
+
+    private void txtTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTitleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTitleActionPerformed
     
     private void deleteCurrentCategory() {
         String statement = "";
         
-        statement = "DELETE FROM brand ";
+        statement = "DELETE FROM cashier ";
         statement += String.format("WHERE id = %d", this.selectedIndexId);
 
         try {
@@ -355,7 +390,7 @@ public class BrandForm extends javax.swing.JFrame {
             this.resetInfoCategory();
             this.tableUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(BrandForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CashierForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -363,7 +398,7 @@ public class BrandForm extends javax.swing.JFrame {
         int c;
         try {
             conn = getConnection(DB_URL, USER_NAME, PASSWORD);
-            String statement = "SELECT * FROM brand";
+            String statement = "SELECT * FROM cashier";
             System.out.println(statement);
             pst = conn.prepareStatement(statement);
             ResultSet rs =pst.executeQuery();
@@ -376,14 +411,18 @@ public class BrandForm extends javax.swing.JFrame {
             while (rs.next()){
                 Vector vector = new Vector();
                 for (int i = 0 ;i<c ; i++){
-                    vector.add(rs.getString("id"));
-                    vector.add(rs.getString("title"));
-                    vector.add(rs.getString("status"));
+                    vector.add(rs.getString("name"));
+                    vector.add(rs.getString("tenMH"));
+                    vector.add(rs.getString("date"));
+                    vector.add(rs.getInt("cathi"));
+                    vector.add(rs.getString("phongthi"));
+                    vector.add(rs.getInt("sosv"));
+                    vector.add(rs.getInt("socbct"));
                 }
                 d.addRow(vector);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(BrandForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CashierForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -413,26 +452,14 @@ public class BrandForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BrandForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BrandForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BrandForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BrandForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -441,7 +468,7 @@ public class BrandForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BrandForm().setVisible(true);
+                new CashierForm().setVisible(true);
             }
         });
     }
@@ -453,6 +480,7 @@ public class BrandForm extends javax.swing.JFrame {
     private javax.swing.JTable cateTable;
     private javax.swing.JComboBox cbStatus;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -465,5 +493,6 @@ public class BrandForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtTitle;
+    private javax.swing.JTextField txtTitle1;
     // End of variables declaration//GEN-END:variables
 }
