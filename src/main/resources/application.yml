@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: POS
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        #MySQL	              org.hibernate.dialect.MySQLDialect
+        #MySQL with InnoDB	  org.hibernate.dialect.MySQLInnoDBDialect
+        dialect: org.hibernate.dialect.MySQLInnoDBDialect
+  datasource:
+    url: <connection string>
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
