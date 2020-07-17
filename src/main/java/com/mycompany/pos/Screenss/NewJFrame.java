@@ -5,7 +5,12 @@
  */
 package com.mycompany.pos.Screenss;
 
+import com.mycompany.Constants.DialogStatus.Status;
 import com.mycompany.Dialog.ThemDonHangDialog;
+import com.mycompany.Dialog.ThongTinKhachHangDialog;
+import com.mycompany.Dialog.ThongTinSanPhamDialog;
+import com.mycompany.Dialog.ThongTinThuongHieuDialog;
+import javax.swing.JFrame;
 
 /**
  *
@@ -87,15 +92,23 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "STT", "Tên khách hàng", "Tổng giá trị đơn hàng", "VAT", "Thành tiền"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setText("Xoá");
@@ -159,6 +172,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton6.setMaximumSize(new java.awt.Dimension(70, 20));
         jButton6.setMinimumSize(new java.awt.Dimension(70, 20));
         jButton6.setPreferredSize(new java.awt.Dimension(70, 20));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel9.setText("Sản phẩm");
@@ -167,11 +185,21 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton7.setMaximumSize(new java.awt.Dimension(70, 20));
         jButton7.setMinimumSize(new java.awt.Dimension(70, 20));
         jButton7.setPreferredSize(new java.awt.Dimension(70, 20));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Chỉnh sửa");
         jButton8.setMaximumSize(new java.awt.Dimension(70, 20));
         jButton8.setMinimumSize(new java.awt.Dimension(70, 20));
         jButton8.setPreferredSize(new java.awt.Dimension(70, 20));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -181,9 +209,24 @@ public class NewJFrame extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "STT", "Sản phẩm", "Giá tiền", "VAT"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -224,6 +267,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton9.setMaximumSize(new java.awt.Dimension(70, 20));
         jButton9.setMinimumSize(new java.awt.Dimension(70, 20));
         jButton9.setPreferredSize(new java.awt.Dimension(70, 20));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel10.setText("Thương hiệu");
@@ -237,19 +285,45 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton11.setMaximumSize(new java.awt.Dimension(70, 20));
         jButton11.setMinimumSize(new java.awt.Dimension(70, 20));
         jButton11.setPreferredSize(new java.awt.Dimension(70, 20));
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "STT", "Tên Thương hiệu", "SLug"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(jTable3);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(0).setResizable(false);
+            jTable3.getColumnModel().getColumn(0).setPreferredWidth(30);
+        }
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -354,6 +428,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton15.setMaximumSize(new java.awt.Dimension(70, 20));
         jButton15.setMinimumSize(new java.awt.Dimension(70, 20));
         jButton15.setPreferredSize(new java.awt.Dimension(70, 20));
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel12.setText("Khách hàng");
@@ -367,6 +446,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton17.setMaximumSize(new java.awt.Dimension(70, 20));
         jButton17.setMinimumSize(new java.awt.Dimension(70, 20));
         jButton17.setPreferredSize(new java.awt.Dimension(70, 20));
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -531,6 +615,54 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         (new ThemDonHangDialog()).show();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+        ThongTinKhachHangDialog screenTTKH = new ThongTinKhachHangDialog();
+        screenTTKH.setStatus(Status.ADD);
+        screenTTKH.show();
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        ThongTinSanPhamDialog screenTTSP = new ThongTinSanPhamDialog();
+        screenTTSP.setStatus(Status.ADD);
+        screenTTSP.show();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        ThongTinSanPhamDialog screenTTSP = new ThongTinSanPhamDialog();
+        screenTTSP.setStatus(Status.UPDATE);
+        screenTTSP.show();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        
+        //DeleteSanpham
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        ThongTinThuongHieuDialog screenTTTH = new ThongTinThuongHieuDialog();
+        screenTTTH.setStatus(Status.ADD);
+        screenTTTH.show();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        ThongTinThuongHieuDialog screenTTTH = new ThongTinThuongHieuDialog();
+        screenTTTH.setStatus(Status.UPDATE);
+        screenTTTH.show();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        // TODO add your handling code here:
+        ThongTinKhachHangDialog screenTTKH = new ThongTinKhachHangDialog();
+        screenTTKH.setStatus(Status.UPDATE);
+        screenTTKH.show();
+    }//GEN-LAST:event_jButton17ActionPerformed
 
     /**
      * @param args the command line arguments
