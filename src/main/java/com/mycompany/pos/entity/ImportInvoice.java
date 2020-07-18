@@ -7,7 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "import_invoice")
@@ -45,5 +45,5 @@ public class ImportInvoice {
     @Column(name = "createdAt", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private java.util.Date createdAt;
+    private Date createdAt;
 }
