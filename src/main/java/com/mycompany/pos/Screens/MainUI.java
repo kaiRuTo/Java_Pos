@@ -10,19 +10,49 @@ import com.mycompany.Dialog.ThemDonHangDialog;
 import com.mycompany.Dialog.ThongTinKhachHangDialog;
 import com.mycompany.Dialog.ThongTinSanPhamDialog;
 import com.mycompany.Dialog.ThongTinThuongHieuDialog;
+import com.mycompany.pos.SwingApplication;
+import com.mycompany.pos.entity.Customer;
+import com.mycompany.pos.service.CustomerService;
+import java.sql.ResultSetMetaData;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author luuhiep
  */
+@SpringBootApplication
 public class MainUI extends javax.swing.JFrame {
+    private CustomerService cs;
+    private List<Customer> _listCustomer;
 
     /**
      * Creates new form NewJFrame
      */
     public MainUI() {
         initComponents();
+      
+
+    }
+    
+    @Autowired
+    public MainUI(CustomerService cs) {
+        initComponents();
+        this.cs = cs;
+        loadTable();
     }
 
     /**
@@ -70,7 +100,8 @@ public class MainUI extends javax.swing.JFrame {
         btnXoaKhachHang = new javax.swing.JButton();
         btnChinhSuaKhachHang = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        tableKhachHang = new javax.swing.JTable();
+        btnThemKhachHang1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -452,18 +483,43 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tableKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "STT", "Tên", "Họ", "Ngày Sinh", "SDT"
             }
-        ));
-        jScrollPane5.setViewportView(jTable5);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(tableKhachHang);
+
+        btnThemKhachHang1.setText("Tải lại");
+        btnThemKhachHang1.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnThemKhachHang1.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnThemKhachHang1.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnThemKhachHang1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemKhachHang1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -476,6 +532,8 @@ public class MainUI extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnThemKhachHang1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnThemKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnChinhSuaKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -491,7 +549,8 @@ public class MainUI extends javax.swing.JFrame {
                     .addComponent(btnXoaKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(btnChinhSuaKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThemKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThemKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThemKhachHang1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
                 .addContainerGap())
@@ -664,6 +723,11 @@ public class MainUI extends javax.swing.JFrame {
         screenTTKH.show();
     }//GEN-LAST:event_btnChinhSuaKhachHangActionPerformed
 
+    private void btnThemKhachHang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKhachHang1ActionPerformed
+        // TODO add your handling code here:
+        loadTableCustomer();
+    }//GEN-LAST:event_btnThemKhachHang1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -692,6 +756,12 @@ public class MainUI extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
+        ConfigurableApplicationContext context = new SpringApplicationBuilder(SwingApplication.class).headless(false).run(args);
+        SwingUtilities.invokeLater(()-> {
+//            var ex = context.getBean(MainUI.class);
+//            ex.loadTable();
+        });
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -708,6 +778,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton btnChinhSuaThuongHieu;
     private javax.swing.JButton btnThemDonHang;
     private javax.swing.JButton btnThemKhachHang;
+    private javax.swing.JButton btnThemKhachHang1;
     private javax.swing.JButton btnThemKhuyenMai;
     private javax.swing.JButton btnThemSanPham;
     private javax.swing.JButton btnThemThuongHieu;
@@ -745,7 +816,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
+    private javax.swing.JTable tableKhachHang;
     // End of variables declaration//GEN-END:variables
     
     private void loadTable() {
@@ -773,7 +844,29 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     private void loadTableCustomer(){
+        List<Customer> listCustomer = cs.findAll();
+        _listCustomer = listCustomer;
+        DefaultTableModel d = (DefaultTableModel)tableKhachHang.getModel();
+        d.setRowCount(0);
         
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        int i = 0;
+        for(Customer c: listCustomer) {
+            Vector vector = new Vector();
+            vector.add(i);
+            
+          
+            vector.add(c.getFirstName());
+            vector.add(c.getLastName());
+            
+            Date birthday = c.getBirthday(); 
+            vector.add(formatter.format(birthday));
+            
+            vector.add(c.getPhone());
+           
+            i++;
+            d.addRow(vector);
+        }
     }
 
 }

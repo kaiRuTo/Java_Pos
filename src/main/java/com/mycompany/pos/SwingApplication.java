@@ -1,5 +1,6 @@
 package com.mycompany.pos;
 
+import com.mycompany.pos.Screens.MainUI;
 import com.mycompany.pos.ui.forms.customer.controller.CustomerController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
