@@ -3,22 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.Dialog;
+package com.mycompany.pos.Screens.Dialog;
 
 import com.mycompany.Constants.DialogStatus.Status;
+import com.mycompany.pos.entity.Supplier;
+import com.mycompany.pos.service.SupplierService;
 import javax.swing.JFrame;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author luuhiep
  */
+@Component
 public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
-
+    private SupplierService _supplierService;
+    private Supplier _supplier;
+    
     /**
      * Creates new form ThongTinSanPhamDialog
      */
     public ThongTinThuongHieuDialog() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    @Autowired
+    public ThongTinThuongHieuDialog(SupplierService supplierService) {
+        initComponents();
+        _supplierService = supplierService;
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -32,18 +46,18 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtTitle1 = new javax.swing.JTextField();
+        txtPhone = new javax.swing.JTextField();
         txtTitle = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtTitle2 = new javax.swing.JTextField();
+        txtSlug = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        txtTitle5 = new javax.swing.JTextField();
+        txtId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,7 +110,7 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
             }
         });
 
-        txtTitle5.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        txtId.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,7 +119,7 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                    .addComponent(txtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                     .addComponent(jLabel10)
                     .addComponent(txtTitle)
                     .addComponent(jLabel7)
@@ -115,8 +129,8 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel8)
                         .addComponent(jLabel12)
-                        .addComponent(txtTitle2, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-                        .addComponent(txtTitle5))
+                        .addComponent(txtSlug, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                        .addComponent(txtId))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -142,15 +156,15 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTitle5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSlug, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
@@ -239,15 +253,23 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtSlug;
     private javax.swing.JTextField txtTitle;
-    private javax.swing.JTextField txtTitle1;
-    private javax.swing.JTextField txtTitle2;
-    private javax.swing.JTextField txtTitle5;
     // End of variables declaration//GEN-END:variables
     
     //// My code
     
     private Status _status;
+    
+    public void clearData() {
+        _supplier = null;
+        txtTitle.setText("");
+        txtSlug.setText("");
+        txtPhone.setText("");
+        txtId.setText("");
+    }
     
     public void setStatus(Status status){
         _status = status;
@@ -281,9 +303,35 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
 
     private void update(){
         
+        String title = txtTitle.getText();
+        String slug = txtSlug.getText();
+        String phone = txtPhone.getText();
+        
+        Supplier supplier = new Supplier();
+        supplier.setName(title);
+        supplier.setSlug(slug);
+        
+        _supplierService.save(supplier);
+        this.dispose();
     }
     
     private void add(){
+        String title = txtTitle.getText();
+        String slug = txtSlug.getText();
+        String phone = txtPhone.getText();
         
+        Supplier supplier = new Supplier();
+        supplier.setName(title);
+        supplier.setSlug(slug);
+        
+        _supplierService.save(supplier);
+        this.dispose();
+    }
+    
+    private void setSupplier(Supplier supplier){
+        this._supplier = supplier;
+        
+        txtTitle.setText(supplier.getName());
+        txtSlug.setText(supplier.getSlug());
     }
 }

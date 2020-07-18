@@ -46,7 +46,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="txtTitle1" pref="300" max="32767" attributes="0"/>
+                      <Component id="txtPhone" pref="300" max="32767" attributes="0"/>
                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                       <Component id="txtTitle" max="32767" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
@@ -57,8 +57,8 @@
                       <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTitle2" alignment="0" pref="334" max="32767" attributes="0"/>
-                          <Component id="txtTitle5" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtSlug" alignment="0" pref="334" max="32767" attributes="0"/>
+                          <Component id="txtId" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jButton1" min="-2" pref="112" max="-2" attributes="0"/>
@@ -92,7 +92,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="txtTitle" min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="txtTitle5" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="txtId" min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -101,8 +101,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtTitle1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="txtTitle2" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="txtPhone" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="txtSlug" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="40" max="32767" attributes="0"/>
               </Group>
@@ -110,7 +110,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="txtTitle1">
+        <Component class="javax.swing.JTextField" name="txtPhone">
         </Component>
         <Component class="javax.swing.JTextField" name="txtTitle">
           <Properties>
@@ -159,7 +159,7 @@
             <Property name="text" type="java.lang.String" value="Slug"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTitle2">
+        <Component class="javax.swing.JTextField" name="txtSlug">
         </Component>
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
@@ -212,7 +212,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTitle5">
+        <Component class="javax.swing.JTextField" name="txtId">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="18" style="0"/>

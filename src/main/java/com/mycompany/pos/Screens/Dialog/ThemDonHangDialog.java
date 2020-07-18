@@ -3,19 +3,45 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.Dialog;
+package com.mycompany.pos.Screens.Dialog;
+
+import com.mycompany.pos.entity.Product;
+import com.mycompany.pos.service.CustomerService;
+import com.mycompany.pos.service.OrdersService;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author luuhiep
  */
+@Component
 public class ThemDonHangDialog extends javax.swing.JFrame {
-
+    private List<Product> _listProduct;
+    private List<Product> _listProductInOrder;
+    
+    private OrdersService _orderService;
+    
+    
     /**
      * Creates new form ThemDonHangDialog
      */
     public ThemDonHangDialog() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    
+    @Autowired
+    public ThemDonHangDialog(OrdersService ordersService) {
+        this._orderService = ordersService;
+        initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -29,7 +55,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableProductInOrder = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -43,7 +69,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableProducts = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
 
@@ -51,7 +77,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableProductInOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -77,14 +103,14 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setRowHeight(24);
-        jTable1.setSize(new java.awt.Dimension(600, 64));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(30);
+        tableProductInOrder.setRowHeight(24);
+        tableProductInOrder.setSize(new java.awt.Dimension(600, 64));
+        jScrollPane1.setViewportView(tableProductInOrder);
+        if (tableProductInOrder.getColumnModel().getColumnCount() > 0) {
+            tableProductInOrder.getColumnModel().getColumn(0).setResizable(false);
+            tableProductInOrder.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tableProductInOrder.getColumnModel().getColumn(4).setResizable(false);
+            tableProductInOrder.getColumnModel().getColumn(4).setPreferredWidth(30);
         }
 
         jLabel1.setFont(new java.awt.Font("Open Sans", 0, 36)); // NOI18N
@@ -120,7 +146,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel9.setText("200.000Đ");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -146,13 +172,13 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setRowHeight(24);
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(60);
+        tableProducts.setRowHeight(24);
+        jScrollPane2.setViewportView(tableProducts);
+        if (tableProducts.getColumnModel().getColumnCount() > 0) {
+            tableProducts.getColumnModel().getColumn(0).setResizable(false);
+            tableProducts.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tableProducts.getColumnModel().getColumn(1).setResizable(false);
+            tableProducts.getColumnModel().getColumn(1).setPreferredWidth(60);
         }
 
         jLabel10.setText("Tìm sản phẩm:");
@@ -311,8 +337,41 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tableProductInOrder;
+    private javax.swing.JTable tableProducts;
     // End of variables declaration//GEN-END:variables
+    
+    public void clearData(){
+        
+    }
+    
+    public void setListProduct(List<Product> listProduct) {
+        _listProduct = listProduct;
+        
+        loadListProduct();
+    }
+    
+    private void loadListProduct(){
+        DefaultTableModel d = (DefaultTableModel)tableProducts.getModel();
+        d.setRowCount(0);
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        int i = 0;
+        for(Product c: _listProduct) {
+            Vector vector = new Vector();
+            vector.add(i);
+            
+            vector.add(c.getName());
+            vector.add(c.getPrice());
+            
+           
+            i++;
+            d.addRow(vector);
+        }
+    }
+    
+    
+
+
 }

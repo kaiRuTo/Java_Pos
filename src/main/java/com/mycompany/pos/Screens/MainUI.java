@@ -6,13 +6,19 @@
 package com.mycompany.pos.Screens;
 
 import com.mycompany.Constants.DialogStatus.Status;
-import com.mycompany.Dialog.ThemDonHangDialog;
-import com.mycompany.Dialog.ThongTinKhachHangDialog;
-import com.mycompany.Dialog.ThongTinSanPhamDialog;
-import com.mycompany.Dialog.ThongTinThuongHieuDialog;
+import com.mycompany.pos.Screens.Dialog.ThemDonHangDialog;
+import com.mycompany.pos.Screens.Dialog.ThongTinKhachHangDialog;
+import com.mycompany.pos.Screens.Dialog.ThongTinSanPhamDialog;
+import com.mycompany.pos.Screens.Dialog.ThongTinThuongHieuDialog;
 import com.mycompany.pos.SwingApplication;
 import com.mycompany.pos.entity.Customer;
+import com.mycompany.pos.entity.Orders;
+import com.mycompany.pos.entity.Product;
+import com.mycompany.pos.entity.Supplier;
 import com.mycompany.pos.service.CustomerService;
+import com.mycompany.pos.service.OrdersService;
+import com.mycompany.pos.service.ProductService;
+import com.mycompany.pos.service.SupplierService;
 import java.sql.ResultSetMetaData;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,10 +40,22 @@ import org.springframework.stereotype.Component;
  *
  * @author luuhiep
  */
-@SpringBootApplication
+@Component
 public class MainUI extends javax.swing.JFrame {
-    private CustomerService cs;
+    private CustomerService _customerService;
+    private ProductService _productService;
+    private OrdersService _ordersService;
+    private SupplierService _supplierService;
+    
     private List<Customer> _listCustomer;
+    private List<Product> _listProduct;
+    private List<Orders> _listOrder;
+    private List<Supplier> _listSupplier;
+    
+    private ThongTinKhachHangDialog _screenTTKH;
+    private ThongTinSanPhamDialog _screenTTSP;                    
+    private ThongTinThuongHieuDialog _screenTTTH;               
+    private ThemDonHangDialog _screenTDH;
 
     /**
      * Creates new form NewJFrame
@@ -49,9 +67,29 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     @Autowired
-    public MainUI(CustomerService cs) {
+    public MainUI(
+            ThongTinKhachHangDialog screenTTKH, 
+            ThongTinSanPhamDialog screenTTSP,
+            ThongTinThuongHieuDialog screenTTTH,
+            ThemDonHangDialog screenTDH,
+            CustomerService customerService,
+            ProductService productService,
+            OrdersService ordersService,
+            SupplierService supplierService
+    ) {
         initComponents();
-        this.cs = cs;
+        this._customerService = customerService;
+        this._productService = productService;
+        this._ordersService = _ordersService;
+        this._supplierService = supplierService;
+        
+        this._screenTTKH = screenTTKH;
+        this._screenTTSP = screenTTSP;
+        this._screenTTTH = screenTTTH;
+        this._screenTDH = screenTDH;
+        
+        setListener();
+        
         loadTable();
     }
 
@@ -68,7 +106,7 @@ public class MainUI extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableOrder = new javax.swing.JTable();
         btnXoaDonHang = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         btnChinhSuaDonHang = new javax.swing.JButton();
@@ -79,14 +117,14 @@ public class MainUI extends javax.swing.JFrame {
         btnXoaSanPham = new javax.swing.JButton();
         btnChinhSuaSanPham = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableProduct = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         btnThemThuongHieu = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         btnXoaThuongHieu = new javax.swing.JButton();
         btnChinhSuaThuongHieu = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tableSupplier = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         btnThemKhuyenMai = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
@@ -102,6 +140,13 @@ public class MainUI extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tableKhachHang = new javax.swing.JTable();
         btnThemKhachHang1 = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        btnThemVaoKho = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        btnXoaSanPham1 = new javax.swing.JButton();
+        btnChinhSuaSanPham1 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tableProduct1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -121,7 +166,7 @@ public class MainUI extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -140,7 +185,7 @@ public class MainUI extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableOrder);
 
         btnXoaDonHang.setText("Xoá");
         btnXoaDonHang.setMaximumSize(new java.awt.Dimension(70, 20));
@@ -199,6 +244,8 @@ public class MainUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Đơn hàng", jPanel4);
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
         btnThemSanPham.setText("Thêm");
         btnThemSanPham.setMaximumSize(new java.awt.Dimension(70, 20));
         btnThemSanPham.setMinimumSize(new java.awt.Dimension(70, 20));
@@ -232,7 +279,7 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -258,7 +305,7 @@ public class MainUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tableProduct);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -294,6 +341,8 @@ public class MainUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Sản phẩm", jPanel5);
 
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
         btnThemThuongHieu.setText("Thêm");
         btnThemThuongHieu.setMaximumSize(new java.awt.Dimension(70, 20));
         btnThemThuongHieu.setMinimumSize(new java.awt.Dimension(70, 20));
@@ -305,7 +354,7 @@ public class MainUI extends javax.swing.JFrame {
         });
 
         jLabel10.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel10.setText("Thương hiệu");
+        jLabel10.setText("Nhà cung cấp");
 
         btnXoaThuongHieu.setText("Xoá");
         btnXoaThuongHieu.setMaximumSize(new java.awt.Dimension(70, 20));
@@ -322,7 +371,7 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tableSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -332,7 +381,7 @@ public class MainUI extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "STT", "Tên Thương hiệu", "SLug"
+                "STT", "Tên nhà cung cấp", "SLug"
             }
         ) {
             Class[] types = new Class [] {
@@ -350,10 +399,10 @@ public class MainUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setResizable(false);
-            jTable3.getColumnModel().getColumn(0).setPreferredWidth(30);
+        jScrollPane3.setViewportView(tableSupplier);
+        if (tableSupplier.getColumnModel().getColumnCount() > 0) {
+            tableSupplier.getColumnModel().getColumn(0).setResizable(false);
+            tableSupplier.getColumnModel().getColumn(0).setPreferredWidth(30);
         }
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -388,7 +437,9 @@ public class MainUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Thương hiêu", jPanel6);
+        jTabbedPane1.addTab("Nhà cung cấp", jPanel6);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         btnThemKhuyenMai.setText("Thêm");
         btnThemKhuyenMai.setMaximumSize(new java.awt.Dimension(70, 20));
@@ -454,6 +505,8 @@ public class MainUI extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Khuyến mãi", jPanel7);
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
         btnThemKhachHang.setText("Thêm");
         btnThemKhachHang.setMaximumSize(new java.awt.Dimension(70, 20));
@@ -557,6 +610,103 @@ public class MainUI extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Khách hàng", jPanel8);
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+
+        btnThemVaoKho.setText("Thêm");
+        btnThemVaoKho.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnThemVaoKho.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnThemVaoKho.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnThemVaoKho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemVaoKhoActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jLabel13.setText("Kho");
+
+        btnXoaSanPham1.setText("Xoá");
+        btnXoaSanPham1.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnXoaSanPham1.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnXoaSanPham1.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnXoaSanPham1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaSanPham1ActionPerformed(evt);
+            }
+        });
+
+        btnChinhSuaSanPham1.setText("Chỉnh sửa");
+        btnChinhSuaSanPham1.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnChinhSuaSanPham1.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnChinhSuaSanPham1.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnChinhSuaSanPham1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChinhSuaSanPham1ActionPerformed(evt);
+            }
+        });
+
+        tableProduct1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "STT", "Sản phẩm", "Giá tiền", "VAT"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(tableProduct1);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 917, Short.MAX_VALUE)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnThemVaoKho, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnChinhSuaSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnXoaSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnXoaSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(btnChinhSuaSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThemVaoKho, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Kho", jPanel9);
 
         jPanel1.setBackground(new java.awt.Color(55, 126, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(250, 800));
@@ -670,24 +820,51 @@ public class MainUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemDonHangActionPerformed
+    private void btnChinhSuaSanPham1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaSanPham1ActionPerformed
         // TODO add your handling code here:
-        (new ThemDonHangDialog()).show();
-    }//GEN-LAST:event_btnThemDonHangActionPerformed
+    }//GEN-LAST:event_btnChinhSuaSanPham1ActionPerformed
+
+    private void btnXoaSanPham1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPham1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXoaSanPham1ActionPerformed
+
+    private void btnThemVaoKhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVaoKhoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemVaoKhoActionPerformed
+
+    private void btnThemKhachHang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKhachHang1ActionPerformed
+        // TODO add your handling code here:
+        loadTableCustomer();
+    }//GEN-LAST:event_btnThemKhachHang1ActionPerformed
+
+    private void btnChinhSuaKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaKhachHangActionPerformed
+        // TODO add your handling code here:
+        int selectedIndex = tableKhachHang.getSelectedRow();
+
+        _screenTTKH.setStatus(Status.UPDATE);
+        _screenTTKH.setCustomer(_listCustomer.get(selectedIndex));
+        _screenTTKH.setVisible(true);
+    }//GEN-LAST:event_btnChinhSuaKhachHangActionPerformed
 
     private void btnThemKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKhachHangActionPerformed
         // TODO add your handling code here:
-        ThongTinKhachHangDialog screenTTKH = new ThongTinKhachHangDialog();
-        screenTTKH.setStatus(Status.ADD);
-        screenTTKH.show();
+        _screenTTKH.setStatus(Status.ADD);
+        _screenTTKH.setVisible(true);
     }//GEN-LAST:event_btnThemKhachHangActionPerformed
 
-    private void btnThemSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPhamActionPerformed
+    private void btnChinhSuaThuongHieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaThuongHieuActionPerformed
         // TODO add your handling code here:
-        ThongTinSanPhamDialog screenTTSP = new ThongTinSanPhamDialog();
-        screenTTSP.setStatus(Status.ADD);
-        screenTTSP.show();
-    }//GEN-LAST:event_btnThemSanPhamActionPerformed
+        ThongTinThuongHieuDialog screenTTTH = new ThongTinThuongHieuDialog();
+        screenTTTH.setStatus(Status.UPDATE);
+        screenTTTH.show();
+    }//GEN-LAST:event_btnChinhSuaThuongHieuActionPerformed
+
+    private void btnThemThuongHieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemThuongHieuActionPerformed
+        // TODO add your handling code here:
+        ThongTinThuongHieuDialog screenTTTH = new ThongTinThuongHieuDialog();
+        screenTTTH.setStatus(Status.ADD);
+        screenTTTH.show();
+    }//GEN-LAST:event_btnThemThuongHieuActionPerformed
 
     private void btnChinhSuaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaSanPhamActionPerformed
         // TODO add your handling code here:
@@ -698,35 +875,21 @@ public class MainUI extends javax.swing.JFrame {
 
     private void btnXoaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamActionPerformed
         // TODO add your handling code here:
-        
+
         //DeleteSanpham
     }//GEN-LAST:event_btnXoaSanPhamActionPerformed
 
-    private void btnThemThuongHieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemThuongHieuActionPerformed
+    private void btnThemSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPhamActionPerformed
         // TODO add your handling code here:
-        ThongTinThuongHieuDialog screenTTTH = new ThongTinThuongHieuDialog();
-        screenTTTH.setStatus(Status.ADD);
-        screenTTTH.show();
-    }//GEN-LAST:event_btnThemThuongHieuActionPerformed
+        ThongTinSanPhamDialog screenTTSP = new ThongTinSanPhamDialog();
+        screenTTSP.setStatus(Status.ADD);
+        screenTTSP.show();
+    }//GEN-LAST:event_btnThemSanPhamActionPerformed
 
-    private void btnChinhSuaThuongHieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaThuongHieuActionPerformed
+    private void btnThemDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemDonHangActionPerformed
         // TODO add your handling code here:
-        ThongTinThuongHieuDialog screenTTTH = new ThongTinThuongHieuDialog();
-        screenTTTH.setStatus(Status.UPDATE);
-        screenTTTH.show();
-    }//GEN-LAST:event_btnChinhSuaThuongHieuActionPerformed
-
-    private void btnChinhSuaKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaKhachHangActionPerformed
-        // TODO add your handling code here:
-        ThongTinKhachHangDialog screenTTKH = new ThongTinKhachHangDialog();
-        screenTTKH.setStatus(Status.UPDATE);
-        screenTTKH.show();
-    }//GEN-LAST:event_btnChinhSuaKhachHangActionPerformed
-
-    private void btnThemKhachHang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKhachHang1ActionPerformed
-        // TODO add your handling code here:
-        loadTableCustomer();
-    }//GEN-LAST:event_btnThemKhachHang1ActionPerformed
+        (new ThemDonHangDialog()).show();
+    }//GEN-LAST:event_btnThemDonHangActionPerformed
 
     /**
      * @param args the command line arguments
@@ -755,12 +918,6 @@ public class MainUI extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
-        ConfigurableApplicationContext context = new SpringApplicationBuilder(SwingApplication.class).headless(false).run(args);
-        SwingUtilities.invokeLater(()-> {
-//            var ex = context.getBean(MainUI.class);
-//            ex.loadTable();
-        });
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -775,6 +932,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton btnChinhSuaKhachHang;
     private javax.swing.JButton btnChinhSuaKhuyenMai;
     private javax.swing.JButton btnChinhSuaSanPham;
+    private javax.swing.JButton btnChinhSuaSanPham1;
     private javax.swing.JButton btnChinhSuaThuongHieu;
     private javax.swing.JButton btnThemDonHang;
     private javax.swing.JButton btnThemKhachHang;
@@ -782,15 +940,18 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton btnThemKhuyenMai;
     private javax.swing.JButton btnThemSanPham;
     private javax.swing.JButton btnThemThuongHieu;
+    private javax.swing.JButton btnThemVaoKho;
     private javax.swing.JButton btnXoaDonHang;
     private javax.swing.JButton btnXoaKhachHang;
     private javax.swing.JButton btnXoaKhuyenMai;
     private javax.swing.JButton btnXoaSanPham;
+    private javax.swing.JButton btnXoaSanPham1;
     private javax.swing.JButton btnXoaThuongHieu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -806,18 +967,58 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable tableKhachHang;
+    private javax.swing.JTable tableOrder;
+    private javax.swing.JTable tableProduct;
+    private javax.swing.JTable tableProduct1;
+    private javax.swing.JTable tableSupplier;
     // End of variables declaration//GEN-END:variables
+    
+    private void setListener(){
+        _screenTTKH.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                // your code
+                _screenTTKH.clearData();
+                loadTableCustomer();
+            }
+        });
+         
+        this._screenTTSP.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                // your code
+                _screenTTSP.clearData();
+                loadTableProduct();
+            }
+        });
+        this._screenTTTH.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                // your code
+                _screenTTTH.clearData();
+                loadTableBrand();
+            }
+        });
+        
+        this._screenTDH.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                // your code
+//                _screenTDH.clearData();
+                loadTableOrder();
+            }
+        });
+    }
     
     private void loadTable() {
         loadTableOrder();
@@ -833,10 +1034,48 @@ public class MainUI extends javax.swing.JFrame {
 
     private void loadTableProduct(){
         
+        List<Product> listProduct = _productService.findAll();
+        _listProduct = listProduct;
+        DefaultTableModel d = (DefaultTableModel)tableProduct.getModel();
+        d.setRowCount(0);
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        int i = 0;
+        for(Product c: listProduct) {
+            Vector vector = new Vector();
+            vector.add(i);
+            
+          
+            vector.add(c.getName());
+            vector.add(c.getSlug());
+            
+           
+            i++;
+            d.addRow(vector);
+        }
     }
 
     private void loadTableBrand(){
         
+        List<Supplier> listSupplier = _supplierService.findAll();
+        _listSupplier = listSupplier;
+        DefaultTableModel d = (DefaultTableModel)tableKhachHang.getModel();
+        d.setRowCount(0);
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        int i = 0;
+        for(Supplier c: listSupplier) {
+            Vector vector = new Vector();
+            vector.add(i);
+            
+          
+            vector.add(c.getName());
+            vector.add(c.getSlug());
+            
+           
+            i++;
+            d.addRow(vector);
+        }
     }
 
     private void loadTableCoupon(){
@@ -844,7 +1083,7 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     private void loadTableCustomer(){
-        List<Customer> listCustomer = cs.findAll();
+        List<Customer> listCustomer = _customerService.findAll();
         _listCustomer = listCustomer;
         DefaultTableModel d = (DefaultTableModel)tableKhachHang.getModel();
         d.setRowCount(0);

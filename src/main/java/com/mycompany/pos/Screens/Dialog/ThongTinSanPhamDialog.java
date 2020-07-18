@@ -3,21 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.Dialog;
+package com.mycompany.pos.Screens.Dialog;
 
 import com.mycompany.Constants.DialogStatus.Status;
+import com.mycompany.pos.entity.Product;
+import com.mycompany.pos.service.CustomerService;
+import com.mycompany.pos.service.ProductService;
+import java.math.BigDecimal;
 import javax.swing.JFrame;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author luuhiep
  */
-public class ThongTinKhachHangDialog extends javax.swing.JFrame {
+@Component
+public class ThongTinSanPhamDialog extends javax.swing.JFrame {
 
+    
+    private ProductService ps;
+    private Product _product;
+    
+    
     /**
      * Creates new form ThongTinSanPhamDialog
      */
-    public ThongTinKhachHangDialog() {
+    public ThongTinSanPhamDialog() {
+        initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    
+    @Autowired
+    public ThongTinSanPhamDialog(ProductService productService) {
+        this.ps = productService;
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
@@ -32,18 +52,22 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtTitle1 = new javax.swing.JTextField();
+        txtReference = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
         txtTitle = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        cbStockable = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
-        txtTitle2 = new javax.swing.JTextField();
+        txtVAT = new javax.swing.JTextField();
+        txtSlug = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        txtTitle5 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,19 +76,27 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
         txtTitle.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel10.setText("Điện thoại");
+        jLabel10.setText("Giá");
 
         jLabel7.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel7.setText("Tên khách hàng");
+        jLabel7.setText("Tên Sản phẩm");
 
         jLabel1.setFont(new java.awt.Font("Open Sans", 0, 36)); // NOI18N
-        jLabel1.setText("Khách hàng");
+        jLabel1.setText("Sản phẩm");
+
+        jLabel11.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jLabel11.setText("Reference");
 
         jLabel8.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel8.setText("Họ khách hàng");
+        jLabel8.setText("Stockable");
+
+        cbStockable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngưng Hoạt động", "Hoạt động", " " }));
 
         jLabel12.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel12.setText("Birthday");
+        jLabel12.setText("VAT");
+
+        jLabel13.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jLabel13.setText("Slug");
 
         jButton3.setText("Trở lại");
         jButton3.setMaximumSize(new java.awt.Dimension(70, 20));
@@ -96,8 +128,6 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
             }
         });
 
-        txtTitle5.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -105,18 +135,23 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                     .addComponent(jLabel10)
                     .addComponent(txtTitle)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(txtReference))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel12)
-                        .addComponent(txtTitle2, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-                        .addComponent(txtTitle5))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel13)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel8)
+                            .addComponent(cbStockable, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12)
+                            .addComponent(txtSlug, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                            .addComponent(txtVAT)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -140,18 +175,26 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTitle5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                    .addComponent(cbStockable, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtReference, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSlug, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -208,44 +251,58 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThongTinKhachHangDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThongTinSanPhamDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThongTinKhachHangDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThongTinSanPhamDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThongTinKhachHangDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThongTinSanPhamDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThongTinKhachHangDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThongTinSanPhamDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThongTinKhachHangDialog().setVisible(true);
+                new ThongTinSanPhamDialog().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbStockable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtReference;
+    private javax.swing.JTextField txtSlug;
     private javax.swing.JTextField txtTitle;
-    private javax.swing.JTextField txtTitle1;
-    private javax.swing.JTextField txtTitle2;
-    private javax.swing.JTextField txtTitle5;
+    private javax.swing.JTextField txtVAT;
     // End of variables declaration//GEN-END:variables
     
     //// My code
     
     private Status _status;
+    
+    public void clearData() {
+        _product = null;
+        txtTitle.setText("");
+        txtSlug.setText("");
+        txtPrice.setText("");
+        txtVAT.setText("");
+        txtReference.setText("");
+        txtSlug.setText("");
+        cbStockable.setSelectedIndex(0);
+    }
     
     public void setStatus(Status status){
         _status = status;
@@ -278,10 +335,56 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
     }
 
     private void update(){
+        long id = _product.getIdProduct();
+        String title = txtTitle.getText();
+        int price = Integer.parseInt(txtPrice.getText());
+        int vat = Integer.parseInt(txtVAT.getText());
+        String reference = txtReference.getText();
+        String slug = txtSlug.getText();
+        Boolean stockable = (cbStockable.getSelectedIndex() == 1);
         
+        Product product = new Product();
+        product.setName(title);
+        product.setPrice(BigDecimal.valueOf(price));
+        product.setVat(BigDecimal.valueOf(vat));
+        product.setReference(reference);
+        product.setSlug(slug);
+        product.setStockable(stockable);
+        
+        ps.save(product);
+        this.dispose();
     }
     
     private void add(){
+        String title = txtTitle.getText();
+        int price = Integer.parseInt(txtPrice.getText());
+        int vat = Integer.parseInt(txtVAT.getText());
+        String reference = txtReference.getText();
+        String slug = txtSlug.getText();
+        Boolean stockable = (cbStockable.getSelectedIndex() == 1);
+        
+        Product product = new Product();
+        product.setName(title);
+        product.setPrice(BigDecimal.valueOf(price));
+        product.setVat(BigDecimal.valueOf(vat));
+        product.setReference(reference);
+        product.setSlug(slug);
+        product.setStockable(stockable);
+        
+        ps.save(product);
+        this.dispose();
+        
+    }
+    
+    public void setProduct(Product product) {
+        _product = product;
+        
+        txtTitle.setText(product.getName());
+        txtPrice.setText(product.getPrice().toString());
+        txtVAT.setText(product.getVat().toString());
+        txtReference.setText(product.getReference());
+        txtSlug.setText(product.getSlug());
+        cbStockable.setSelectedIndex(product.getStockable()?1:0);
         
     }
 }
