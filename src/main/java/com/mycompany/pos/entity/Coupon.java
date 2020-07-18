@@ -1,5 +1,6 @@
 package com.mycompany.pos.entity;
 
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,21 +11,25 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "coupon")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @ToString(includeFieldNames=true)
-public class Orders {
+public class Coupon {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @ToString.Exclude
-    private Long idOrders;
+    private String idCoupon;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "id_orders")
+    private Orders orders;
 
-    private Date orderedAt;
+    private Boolean isUsed;
+    
+    private float discountPercentage;
+
+    private Date expiryDate;
 
     @Column(name = "createdAt", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
