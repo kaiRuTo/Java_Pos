@@ -21,6 +21,6 @@ public class OrdersService {
     public void delete(Orders orders) {
         ordersRepository.delete(orders);}
 
-    public void save(Orders orders) {
-        ordersRepository.save(orders);}
+    public Orders save(Orders orders) {
+        return ordersRepository.save(orders);}
 }

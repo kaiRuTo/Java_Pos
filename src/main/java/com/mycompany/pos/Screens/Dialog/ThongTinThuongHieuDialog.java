@@ -328,7 +328,7 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
         this.dispose();
     }
     
-    private void setSupplier(Supplier supplier){
+    public void setSupplier(Supplier supplier){
         this._supplier = supplier;
         
         txtTitle.setText(supplier.getName());

@@ -21,7 +21,7 @@ public class Stock {
     @Column(name = "id_stock")
     private Long idStock;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_product")
     private Product product;
 

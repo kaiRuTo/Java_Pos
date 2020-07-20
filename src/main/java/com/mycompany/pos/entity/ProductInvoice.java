@@ -23,11 +23,11 @@ public class ProductInvoice {
     @Column(name = "id_product_invoice")
     private Long idProductInvoice;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_product")
     private Product product;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_orders")
     private Orders orders;
 

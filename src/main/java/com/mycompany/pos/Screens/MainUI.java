@@ -6,7 +6,10 @@
 package com.mycompany.pos.Screens;
 
 import com.mycompany.Constants.DialogStatus.Status;
+import com.mycompany.pos.Screens.Dialog.NCCTheoSanPhamDialog;
+import com.mycompany.pos.Screens.Dialog.SanPhamTheoNCCDialog;
 import com.mycompany.pos.Screens.Dialog.ThemDonHangDialog;
+import com.mycompany.pos.Screens.Dialog.ThongTinDonHangDialog;
 import com.mycompany.pos.Screens.Dialog.ThongTinKhachHangDialog;
 import com.mycompany.pos.Screens.Dialog.ThongTinSanPhamDialog;
 import com.mycompany.pos.Screens.Dialog.ThongTinThuongHieuDialog;
@@ -14,8 +17,10 @@ import com.mycompany.pos.SwingApplication;
 import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.entity.Orders;
 import com.mycompany.pos.entity.Product;
+import com.mycompany.pos.entity.ProductInvoice;
 import com.mycompany.pos.entity.Supplier;
 import com.mycompany.pos.service.CustomerService;
+import com.mycompany.pos.service.ProductInvoiceService;
 import com.mycompany.pos.service.OrdersService;
 import com.mycompany.pos.service.ProductService;
 import com.mycompany.pos.service.SupplierService;
@@ -45,17 +50,22 @@ public class MainUI extends javax.swing.JFrame {
     private CustomerService _customerService;
     private ProductService _productService;
     private OrdersService _ordersService;
+    private ProductInvoiceService _productInvoiceService;
     private SupplierService _supplierService;
     
     private List<Customer> _listCustomer;
     private List<Product> _listProduct;
+    private List<ProductInvoice> _listProductInvoice;
     private List<Orders> _listOrder;
     private List<Supplier> _listSupplier;
     
-    private ThongTinKhachHangDialog _screenTTKH;
-    private ThongTinSanPhamDialog _screenTTSP;                    
-    private ThongTinThuongHieuDialog _screenTTTH;               
-    private ThemDonHangDialog _screenTDH;
+    private ThongTinKhachHangDialog _thongTinKhachHangDialog;
+    private ThongTinSanPhamDialog _thongTinSanPhamDialog;                    
+    private ThongTinThuongHieuDialog _thongTinThuongHieuDialog;               
+    private ThemDonHangDialog _themDonHangDialog;           
+    private ThongTinDonHangDialog _thongTinDonHangDialog;
+    private NCCTheoSanPhamDialog _nccTheoSanPhamDialog;
+    private SanPhamTheoNCCDialog _sanPhamTheoNCCDialog;
 
     /**
      * Creates new form NewJFrame
@@ -67,26 +77,33 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     @Autowired
-    public MainUI(
-            ThongTinKhachHangDialog screenTTKH, 
-            ThongTinSanPhamDialog screenTTSP,
-            ThongTinThuongHieuDialog screenTTTH,
-            ThemDonHangDialog screenTDH,
-            CustomerService customerService,
-            ProductService productService,
-            OrdersService ordersService,
-            SupplierService supplierService
+    public MainUI(  ThongTinDonHangDialog       thongTinDonHangDialog,
+                    ThongTinKhachHangDialog     thongTinKhachHangDialog, 
+                    ThongTinSanPhamDialog       thongTinSanPhamDialog,
+                    ThongTinThuongHieuDialog    thongTinThuongHieuDialog,
+                    ThemDonHangDialog           themDonHangDialog,
+                    NCCTheoSanPhamDialog        nccTheoSanPhamDialog,
+                    SanPhamTheoNCCDialog        sanPhamTheoNCCDialog,
+                    CustomerService             customerService,
+                    ProductService              productService,
+                    OrdersService               ordersService,
+                    ProductInvoiceService       productInvoiceService,
+                    SupplierService             supplierService
     ) {
         initComponents();
         this._customerService = customerService;
         this._productService = productService;
-        this._ordersService = _ordersService;
+        this._ordersService = ordersService;
+        this._productInvoiceService = productInvoiceService;
         this._supplierService = supplierService;
         
-        this._screenTTKH = screenTTKH;
-        this._screenTTSP = screenTTSP;
-        this._screenTTTH = screenTTTH;
-        this._screenTDH = screenTDH;
+        this._thongTinDonHangDialog = thongTinDonHangDialog;
+        this._thongTinKhachHangDialog = thongTinKhachHangDialog;
+        this._thongTinSanPhamDialog = thongTinSanPhamDialog;
+        this._thongTinThuongHieuDialog = thongTinThuongHieuDialog;
+        this._themDonHangDialog = themDonHangDialog;
+        this._nccTheoSanPhamDialog = nccTheoSanPhamDialog;
+        this._sanPhamTheoNCCDialog = sanPhamTheoNCCDialog;
         
         setListener();
         
@@ -118,6 +135,7 @@ public class MainUI extends javax.swing.JFrame {
         btnChinhSuaSanPham = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableProduct = new javax.swing.JTable();
+        btnThemSanPham1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         btnThemThuongHieu = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
@@ -125,6 +143,7 @@ public class MainUI extends javax.swing.JFrame {
         btnChinhSuaThuongHieu = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableSupplier = new javax.swing.JTable();
+        btnThemThuongHieu1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         btnThemKhuyenMai = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
@@ -174,15 +193,22 @@ public class MainUI extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Tên khách hàng", "Tổng giá trị đơn hàng", "VAT", "Thành tiền"
+                "STT", "Tên khách hàng", "SDT", "Ngày", "Tông giá trị đơn hàng"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tableOrder);
@@ -195,10 +221,15 @@ public class MainUI extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel8.setText("Đơn hàng ");
 
-        btnChinhSuaDonHang.setText("Chỉnh sửa");
+        btnChinhSuaDonHang.setText("Thông Tin");
         btnChinhSuaDonHang.setMaximumSize(new java.awt.Dimension(70, 20));
         btnChinhSuaDonHang.setMinimumSize(new java.awt.Dimension(70, 20));
         btnChinhSuaDonHang.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnChinhSuaDonHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChinhSuaDonHangActionPerformed(evt);
+            }
+        });
 
         btnThemDonHang.setText("Thêm");
         btnThemDonHang.setMaximumSize(new java.awt.Dimension(70, 20));
@@ -307,6 +338,16 @@ public class MainUI extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tableProduct);
 
+        btnThemSanPham1.setText("Nhập hàng");
+        btnThemSanPham1.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnThemSanPham1.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnThemSanPham1.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnThemSanPham1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemSanPham1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -318,6 +359,8 @@ public class MainUI extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnThemSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnThemSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnChinhSuaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -333,7 +376,8 @@ public class MainUI extends javax.swing.JFrame {
                     .addComponent(btnXoaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(btnChinhSuaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThemSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThemSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThemSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
                 .addContainerGap())
@@ -405,6 +449,16 @@ public class MainUI extends javax.swing.JFrame {
             tableSupplier.getColumnModel().getColumn(0).setPreferredWidth(30);
         }
 
+        btnThemThuongHieu1.setText("Nhập hàng");
+        btnThemThuongHieu1.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnThemThuongHieu1.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnThemThuongHieu1.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnThemThuongHieu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemThuongHieu1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -416,6 +470,8 @@ public class MainUI extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnThemThuongHieu1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnThemThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnChinhSuaThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -431,7 +487,8 @@ public class MainUI extends javax.swing.JFrame {
                     .addComponent(btnXoaThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(btnChinhSuaThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThemThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThemThuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThemThuongHieu1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
                 .addContainerGap())
@@ -841,36 +898,38 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         int selectedIndex = tableKhachHang.getSelectedRow();
 
-        _screenTTKH.setStatus(Status.UPDATE);
-        _screenTTKH.setCustomer(_listCustomer.get(selectedIndex));
-        _screenTTKH.setVisible(true);
+        _thongTinKhachHangDialog.setStatus(Status.UPDATE);
+        _thongTinKhachHangDialog.setCustomer(_listCustomer.get(selectedIndex));
+        _thongTinKhachHangDialog.setVisible(true);
     }//GEN-LAST:event_btnChinhSuaKhachHangActionPerformed
 
     private void btnThemKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKhachHangActionPerformed
         // TODO add your handling code here:
-        _screenTTKH.setStatus(Status.ADD);
-        _screenTTKH.setVisible(true);
+        _thongTinKhachHangDialog.setStatus(Status.ADD);
+        _thongTinKhachHangDialog.setVisible(true);
     }//GEN-LAST:event_btnThemKhachHangActionPerformed
 
     private void btnChinhSuaThuongHieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaThuongHieuActionPerformed
         // TODO add your handling code here:
-        ThongTinThuongHieuDialog screenTTTH = new ThongTinThuongHieuDialog();
-        screenTTTH.setStatus(Status.UPDATE);
-        screenTTTH.show();
+        
+        int selectedIndex = tableProduct.getSelectedRow();
+        _thongTinSanPhamDialog.setStatus(Status.UPDATE);
+        _thongTinSanPhamDialog.setProduct(_listProduct.get(selectedIndex));
+        _thongTinSanPhamDialog.setVisible(true);
     }//GEN-LAST:event_btnChinhSuaThuongHieuActionPerformed
 
     private void btnThemThuongHieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemThuongHieuActionPerformed
         // TODO add your handling code here:
-        ThongTinThuongHieuDialog screenTTTH = new ThongTinThuongHieuDialog();
-        screenTTTH.setStatus(Status.ADD);
-        screenTTTH.show();
+        _thongTinThuongHieuDialog.setStatus(Status.ADD);
+        _thongTinThuongHieuDialog.setVisible(true);
     }//GEN-LAST:event_btnThemThuongHieuActionPerformed
 
     private void btnChinhSuaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaSanPhamActionPerformed
         // TODO add your handling code here:
-        ThongTinSanPhamDialog screenTTSP = new ThongTinSanPhamDialog();
-        screenTTSP.setStatus(Status.UPDATE);
-        screenTTSP.show();
+        int selectedIndex = tableSupplier.getSelectedRow();
+        _thongTinThuongHieuDialog.setStatus(Status.UPDATE);
+        _thongTinThuongHieuDialog.setSupplier(_listSupplier.get(selectedIndex));
+        _thongTinThuongHieuDialog.setVisible(true);
     }//GEN-LAST:event_btnChinhSuaSanPhamActionPerformed
 
     private void btnXoaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamActionPerformed
@@ -881,15 +940,39 @@ public class MainUI extends javax.swing.JFrame {
 
     private void btnThemSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPhamActionPerformed
         // TODO add your handling code here:
-        ThongTinSanPhamDialog screenTTSP = new ThongTinSanPhamDialog();
-        screenTTSP.setStatus(Status.ADD);
-        screenTTSP.show();
+        _thongTinSanPhamDialog.setStatus(Status.ADD);
+        _thongTinSanPhamDialog.setVisible(true);
     }//GEN-LAST:event_btnThemSanPhamActionPerformed
 
     private void btnThemDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemDonHangActionPerformed
         // TODO add your handling code here:
-        (new ThemDonHangDialog()).show();
+        _themDonHangDialog.loadList();
+        _themDonHangDialog.setVisible(true);
+        
     }//GEN-LAST:event_btnThemDonHangActionPerformed
+
+    private void btnThemSanPham1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPham1ActionPerformed
+        // TODO add your handling code here:
+        _nccTheoSanPhamDialog.loadList();
+        _nccTheoSanPhamDialog.setVisible(true);
+    }//GEN-LAST:event_btnThemSanPham1ActionPerformed
+
+    private void btnThemThuongHieu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemThuongHieu1ActionPerformed
+        // TODO add your handling code here:
+        int index = tableSupplier.getSelectedRow();
+        if (index <0 && index >= _listSupplier.size()) 
+            return;
+        
+        _sanPhamTheoNCCDialog.setSupplier(_listSupplier.get(index));
+        _sanPhamTheoNCCDialog.setVisible(true);
+    }//GEN-LAST:event_btnThemThuongHieu1ActionPerformed
+
+    private void btnChinhSuaDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaDonHangActionPerformed
+        // TODO add your handling code here:
+        int index = tableOrder.getSelectedRow();
+        _thongTinDonHangDialog.setOrderWithCustomer(_listOrder.get(index), _listOrder.get(index).getCustomer());
+        _thongTinDonHangDialog.setVisible(true);
+    }//GEN-LAST:event_btnChinhSuaDonHangActionPerformed
 
     /**
      * @param args the command line arguments
@@ -939,7 +1022,9 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton btnThemKhachHang1;
     private javax.swing.JButton btnThemKhuyenMai;
     private javax.swing.JButton btnThemSanPham;
+    private javax.swing.JButton btnThemSanPham1;
     private javax.swing.JButton btnThemThuongHieu;
+    private javax.swing.JButton btnThemThuongHieu1;
     private javax.swing.JButton btnThemVaoKho;
     private javax.swing.JButton btnXoaDonHang;
     private javax.swing.JButton btnXoaKhachHang;
@@ -984,37 +1069,37 @@ public class MainUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     private void setListener(){
-        _screenTTKH.addWindowListener(new java.awt.event.WindowAdapter() {
+        _thongTinKhachHangDialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                 // your code
-                _screenTTKH.clearData();
+                _thongTinKhachHangDialog.clearData();
                 loadTableCustomer();
             }
         });
          
-        this._screenTTSP.addWindowListener(new java.awt.event.WindowAdapter() {
+        this._thongTinSanPhamDialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                 // your code
-                _screenTTSP.clearData();
+                _thongTinSanPhamDialog.clearData();
                 loadTableProduct();
             }
         });
-        this._screenTTTH.addWindowListener(new java.awt.event.WindowAdapter() {
+        this._thongTinThuongHieuDialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                 // your code
-                _screenTTTH.clearData();
+                _thongTinThuongHieuDialog.clearData();
                 loadTableBrand();
             }
         });
         
-        this._screenTDH.addWindowListener(new java.awt.event.WindowAdapter() {
+        this._themDonHangDialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                 // your code
-//                _screenTDH.clearData();
+                _themDonHangDialog.clearData();
                 loadTableOrder();
             }
         });
@@ -1030,6 +1115,42 @@ public class MainUI extends javax.swing.JFrame {
     
     private void loadTableOrder(){
         
+        List<Orders> listOrders = _ordersService.findAll();
+        List<ProductInvoice> listProductInvoice = _productInvoiceService.findAll();
+        _listOrder = listOrders;
+        _listProductInvoice = listProductInvoice;
+        DefaultTableModel d = (DefaultTableModel)tableOrder.getModel();
+        d.setRowCount(0);
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm dd/MM/yyyy");
+        int i = 1;
+        for(Orders c: _listOrder) {
+            Vector vector = new Vector();
+            vector.add(i);
+            
+          
+            vector.add(c.getCustomer().getFirstName());
+            vector.add(c.getCustomer().getPhone());
+            vector.add(formatter.format(c.getOrderedAt()));
+            long tongTien = 0;
+            for (ProductInvoice pi: _listProductInvoice){
+                if (pi.getOrders().getIdOrders().equals(c.getIdOrders())){
+                    
+                    long soluong = pi.getQuantity().longValue();
+                    double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
+                    double  dongia = pi.getPrice().longValue() * VAT;
+                    long giasanpham = soluong *  (long)dongia;
+                    
+                    tongTien = tongTien + giasanpham;
+                }
+            }
+            
+            vector.add(tongTien);
+            
+           
+            i++;
+            d.addRow(vector);
+        }
     }
 
     private void loadTableProduct(){
@@ -1040,14 +1161,15 @@ public class MainUI extends javax.swing.JFrame {
         d.setRowCount(0);
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        int i = 0;
+        int i = 1;
         for(Product c: listProduct) {
             Vector vector = new Vector();
             vector.add(i);
             
           
             vector.add(c.getName());
-            vector.add(c.getSlug());
+            vector.add(c.getPrice());
+            vector.add(c.getVat());
             
            
             i++;
@@ -1059,11 +1181,11 @@ public class MainUI extends javax.swing.JFrame {
         
         List<Supplier> listSupplier = _supplierService.findAll();
         _listSupplier = listSupplier;
-        DefaultTableModel d = (DefaultTableModel)tableKhachHang.getModel();
+        DefaultTableModel d = (DefaultTableModel)tableSupplier.getModel();
         d.setRowCount(0);
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        int i = 0;
+        int i = 1;
         for(Supplier c: listSupplier) {
             Vector vector = new Vector();
             vector.add(i);
@@ -1089,7 +1211,7 @@ public class MainUI extends javax.swing.JFrame {
         d.setRowCount(0);
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        int i = 0;
+        int i = 1;
         for(Customer c: listCustomer) {
             Vector vector = new Vector();
             vector.add(i);
@@ -1099,7 +1221,10 @@ public class MainUI extends javax.swing.JFrame {
             vector.add(c.getLastName());
             
             Date birthday = c.getBirthday(); 
-            vector.add(formatter.format(birthday));
+            if (birthday != null)
+                vector.add(formatter.format(birthday));
+            else 
+                vector.add("");
             
             vector.add(c.getPhone());
            

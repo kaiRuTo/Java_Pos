@@ -21,7 +21,7 @@ public class Orders {
     @ToString.Exclude
     private Long idOrders;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Customer customer;
 
     private Date orderedAt;

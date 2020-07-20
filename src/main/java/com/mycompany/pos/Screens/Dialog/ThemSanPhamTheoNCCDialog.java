@@ -5,16 +5,13 @@
  */
 package com.mycompany.pos.Screens.Dialog;
 
-import com.mycompany.pos.entity.Customer;
+import com.mycompany.pos.entity.ImportInvoice;
 import com.mycompany.pos.entity.Product;
-import com.mycompany.pos.entity.Orders;
-import com.mycompany.pos.entity.ProductInvoice;
-import com.mycompany.pos.entity.Stock;
+import com.mycompany.pos.entity.Supplier;
 import com.mycompany.pos.service.CustomerService;
+import com.mycompany.pos.service.ImportInvoiceService;
 import com.mycompany.pos.service.OrdersService;
-import com.mycompany.pos.service.ProductInvoiceService;
-import com.mycompany.pos.service.ProductService;
-import com.mycompany.pos.service.StockService;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,7 +19,6 @@ import java.util.List;
 import java.util.UnknownFormatConversionException;
 import java.util.Vector;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -34,47 +30,29 @@ import org.springframework.stereotype.Component;
  * @author luuhiep
  */
 @Component
-public class ThemDonHangDialog extends javax.swing.JFrame {
-    private TimKhachHangDialog _timKhachHangDialog;
-    
-    private Customer _customer;
-    
+public class ThemSanPhamTheoNCCDialog extends javax.swing.JFrame {
     private List<Product> _listProduct;
     private List<Product> _listProductInOrder;
-    private List<Stock> _listStock;
     private List<Soluong> _listSoluong;
+    private Supplier _supplier;
     
-    private ProductService _productService;
-    private OrdersService _orderService;
-    private StockService _stockService;
-    private ProductInvoiceService _productInvoiceService;
+    private ImportInvoiceService _importInvoiceService;
     
     
     /**
      * Creates new form ThemDonHangDialog
      */
-    public ThemDonHangDialog() {
+    public ThemSanPhamTheoNCCDialog() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     
     @Autowired
-    public ThemDonHangDialog(   TimKhachHangDialog      timKhachHangDialog,
-                                ProductService          productService, 
-                                OrdersService           ordersService,
-                                StockService            stockService,
-                                ProductInvoiceService   productInvoiceService) {
-        this._timKhachHangDialog = timKhachHangDialog;
-        this._productInvoiceService = productInvoiceService;
-        this._productService = productService;
-        this._orderService = ordersService;
-        this._stockService = stockService;
+    public ThemSanPhamTheoNCCDialog(ImportInvoiceService importInvoiceService) {
+        this._importInvoiceService = importInvoiceService;
         initComponents();
         addListener();
-        _listSoluong = new ArrayList<Soluong>();
-        _listProductInOrder = new ArrayList<Product>();
-        
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -92,13 +70,10 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         tableProductInOrder = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        lbCustomerName = new javax.swing.JLabel();
-        lbGiaTien = new javax.swing.JLabel();
-        lbGiamGia = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lbSL = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lbTongTien = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -106,6 +81,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         tableProducts = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,7 +102,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -139,6 +115,11 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         });
         tableProductInOrder.setRowHeight(24);
         tableProductInOrder.setSize(new java.awt.Dimension(600, 64));
+        tableProductInOrder.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableProductInOrderKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableProductInOrder);
         if (tableProductInOrder.getColumnModel().getColumnCount() > 0) {
             tableProductInOrder.getColumnModel().getColumn(0).setResizable(false);
@@ -148,64 +129,50 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         }
 
         jLabel1.setFont(new java.awt.Font("Open Sans", 0, 36)); // NOI18N
-        jLabel1.setText("Đơn hàng");
+        jLabel1.setText("Sản phẩm");
 
         jButton1.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jButton1.setText("THANH TOÁN");
+        jButton1.setText("THÊM VÀO KHO");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jButton2.setText("CHỌN KHÁCH HÀNG");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel2.setText("Khách hàng");
+        jLabel2.setText("NCC");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel3.setText("Giá tiền");
+        jLabel3.setText("SL sản phẩm");
 
-        jLabel4.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel4.setText("Giảm giá");
+        jLabel5.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jLabel5.setText("LƯU HIỆP");
 
-        lbCustomerName.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        lbCustomerName.setText("Chưa chọn");
-
-        lbGiaTien.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        lbGiaTien.setText("0");
-
-        lbGiamGia.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        lbGiamGia.setText("0");
+        lbSL.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        lbSL.setText("200");
 
         jLabel8.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel8.setText("Tổng tiền");
 
         lbTongTien.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        lbTongTien.setText("0");
+        lbTongTien.setText("200.000Đ");
 
         tableProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "STT", "Sản phẩm", "Giá", "Số lượng"
+                "STT", "Sản phẩm", "Giá"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -232,6 +199,14 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
 
         jLabel10.setText("Tìm sản phẩm:");
 
+        jButton2.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jButton2.setText("XOÁ SẢN PHẨM");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -241,29 +216,32 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
+                                    .addComponent(lbTongTien, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(3, 3, 3)
-                                        .addComponent(jLabel8)))
-                                .addGap(103, 103, 103)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lbGiaTien)
-                                    .addComponent(lbCustomerName)
-                                    .addComponent(lbGiamGia)
+                                        .addGap(26, 26, 26)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel8))
+                                        .addGap(103, 103, 103)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lbSL)
+                                            .addComponent(jLabel5)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lbTongTien)
-                                        .addGap(2, 2, 2))))
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(22, 22, 22)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -271,7 +249,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,21 +271,17 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel2)
-                                .addComponent(lbCustomerName))
+                                .addComponent(jLabel5))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel3)
-                                .addComponent(lbGiaTien))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lbGiamGia)
-                                .addComponent(jLabel4))
+                                .addComponent(lbSL))
                             .addGap(18, 18, 18)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lbTongTien)
-                                .addComponent(jLabel8))
+                                .addComponent(jLabel8)
+                                .addComponent(lbTongTien))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
@@ -336,75 +310,56 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
 
     private void tableProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMouseClicked
         // TODO add your handling code here:
-        
-        addCurrentProductToOrder();
-        
+        addCurrenadtProductToStockTmp();
     }//GEN-LAST:event_tableProductsMouseClicked
+
+    private void tableProductInOrderKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableProductInOrderKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableProductInOrderKeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int row = tableProductInOrder.getSelectedRow();
+        
+        long productId = _listProductInOrder.get(row).getIdProduct();
+        
+        _listProductInOrder.remove(row);
+        
+        _listSoluong.removeIf(n -> (n.id ==productId));
+        
+        reloadTableProductInOrder();
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if (_customer  == null){
+        for (Product c: _listProductInOrder){
+            ImportInvoice importInvoice = new ImportInvoice();
+            importInvoice.setCreatedAt(new Date());
+            importInvoice.setOrderedAt(new Date());
+            importInvoice.setProduct(c);
+            importInvoice.setSupplier(_supplier);
             
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng");
-        }
-        Orders order = new Orders();
-        order.setCreatedAt(new Date());
-        order.setOrderedAt(new Date());
-        
-        order.setCustomer(_customer);
-        order = _orderService.save(order);
-        
-        for (Product  p: _listProductInOrder){
-            ProductInvoice productInvoice = new ProductInvoice();
-            productInvoice.setOrders(order);
-            productInvoice.setProduct(p);
-            
-            int index = -1 ;
+             int index = -1 ;
             for (int j = 0; j<_listSoluong.size(); j ++){
-                if ((long)_listSoluong.get(j).id == p.getIdProduct()){
+                if ((long)_listSoluong.get(j).id == c.getIdProduct()){
                     index = j;
                     break;
                 }
             }
             
             if (index >=0){
-                productInvoice.setQuantity(_listSoluong.get(index).soluong);
+                importInvoice.setQuantity(_listSoluong.get(index).soluong);
             } else{
-                productInvoice.setQuantity((long)1);
+                importInvoice.setQuantity((long)1);
             }
             
-            productInvoice.setPrice(p.getPrice());
-            productInvoice.setVat(p.getVat());
-            
-            _productInvoiceService.save(productInvoice);
-            
-            
-            index = -1 ;
-            for (int j = 0; j<_listStock.size(); j ++){
-                if ((long)_listStock.get(j).getProduct().getIdProduct() == p.getIdProduct()){
-                    index = j;
-                    break;
-                }
-            }
-            
-            if (index >= 0){
-                Stock stock = _listStock.get(index);
-                stock.setQuantity(stock.getQuantity() - _listSoluong.get(index).soluong);
-                
-                _stockService.save(stock);
-            }
+            _importInvoiceService.save(importInvoice);
             
         }
-            
-
         this.dispose();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        _timKhachHangDialog.loadListCustomer();
-        _timKhachHangDialog.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -423,20 +378,21 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThemDonHangDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemSanPhamTheoNCCDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThemDonHangDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemSanPhamTheoNCCDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThemDonHangDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemSanPhamTheoNCCDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThemDonHangDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemSanPhamTheoNCCDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThemDonHangDialog().setVisible(true);
+                new ThemSanPhamTheoNCCDialog().setVisible(true);
             }
         });
     }
@@ -448,22 +404,22 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel lbCustomerName;
-    private javax.swing.JLabel lbGiaTien;
-    private javax.swing.JLabel lbGiamGia;
+    private javax.swing.JLabel lbSL;
     private javax.swing.JLabel lbTongTien;
     private javax.swing.JTable tableProductInOrder;
     private javax.swing.JTable tableProducts;
     // End of variables declaration//GEN-END:variables
     
-    
+    public void clearData(){
+        tableProductInOrder.clearSelection();
+    }
     
     private void addListener(){
         tableProductInOrder.getModel().addTableModelListener(new TableModelListener() {
@@ -486,11 +442,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
 
                     for(Soluong c: _listSoluong) {
                         if (c.id == id){
-                            Soluong sltmp = new Soluong();
-                            sltmp.id = c.id;
-                            sltmp.soluong = resul;
-                            if (canGetFromStock(sltmp))
-                                c.soluong = resul;
+                            c.soluong = resul;
                             reloadTableProductInOrder();
                             break;
                         }
@@ -502,56 +454,23 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                 
             }
         });
+    }
+    
+    public void setListProductWithSupplier(List<Product> listProduct, Supplier supplier) {
+        _supplier = supplier;
+        _listProduct = listProduct;
+        _listProductInOrder = new ArrayList<Product>();
+        _listSoluong = new ArrayList<Soluong>();
         
-        _timKhachHangDialog.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                // your code
-//                _screenTDH.clearData();
-                Customer customer = _timKhachHangDialog.getCurrentCustomer();
-                if (customer != null){
-                    _customer = customer;
-                    lbCustomerName.setText(_customer.getFirstName());
-                }
-            }
-        });
-    }
-    
-    
-    public void clearData(){
-        _listProductInOrder.clear();
-        _listSoluong.clear();
-        _customer = null;
-        lbCustomerName.setText("Chưa chọn");
-        lbGiaTien.setText("0");
-        lbGiamGia.setText("0");
-        lbTongTien.setText("0");
-    }
-
-    public void loadList(){
         loadListProduct();
-        loadListStock();
-        
-        loadTableProduct();
     }
-
-    private void loadListStock() {
-        List<Stock> listStock = _stockService.findAll();
-        _listStock = listStock;
-    }
-    
     
     private void loadListProduct(){
-        List<Product> listProduct = _productService.findAll();
-        _listProduct = listProduct;  
-    }
-
-    private void loadTableProduct() {    
         DefaultTableModel d = (DefaultTableModel)tableProducts.getModel();
         d.setRowCount(0);
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        int i = 1;
+        int i = 0;
         for(Product c: _listProduct) {
             Vector vector = new Vector();
             vector.add(i);
@@ -559,20 +478,13 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             vector.add(c.getName());
             vector.add(c.getPrice());
             
-            long allStock = 0;
-            for(Stock s: _listStock){
-                allStock = allStock + s.getQuantity();
-            }
-            
-            vector.add(allStock);
-            
            
             i++;
             d.addRow(vector);
         }
     }
     
-    private void addCurrentProductToOrder(){
+    private void addCurrenadtProductToStockTmp(){
         int selectedIndex = tableProducts.getSelectedRow();
        
         Product product = _listProduct.get(selectedIndex);
@@ -583,36 +495,11 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             soLuong.id = product.getIdProduct();
             soLuong.soluong = 1;
             
-            if (canGetFromStock(soLuong))
-                _listSoluong.add(soLuong);
-        } else {
-           for (Soluong sl: _listSoluong){
-               if (sl.id == product.getIdProduct()){
-                   Soluong sltmp = new Soluong();
-                   sltmp.id = sl.id;
-                   sltmp.soluong = sl.soluong + 1;
-                   if (canGetFromStock(sltmp))
-                        sl.soluong = sl.soluong + 1;
-               }
-           }
+            _listSoluong.add(soLuong);
         }
-        
-        
+       
         reloadTableProductInOrder();
     }
-    
-    private boolean canGetFromStock(Soluong sl){
-        int index = -1 ;
-        for (int j = 0; j<_listStock.size(); j ++){
-            if ((long)_listStock.get(j).getProduct().getIdProduct() == sl.id    ){
-                if (sl.soluong <= _listStock.get(j).getQuantity())
-                    return true;
-                return false;
-            }
-        }
-        return false;
-    }
-    
     
     private void reloadTableProductInOrder(){
         DefaultTableModel _d = (DefaultTableModel)tableProductInOrder.getModel();
@@ -622,7 +509,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         long tongHoaDon = 0;
         long tongSL = 0;
-        int i = 1;
+        int i = 0;
         for(Product c: _listProduct) {
             Vector vector = new Vector();
             vector.add(i);
@@ -640,30 +527,24 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             }
             
             if (index >= 0){
-                long soluong = _listSoluong.get(index).soluong;
-                double VAT = ( 1.0 + c.getVat().longValue()/100.0);
-                double  dongia = c.getPrice().longValue() * VAT;
-                long tongTien = soluong *  (long)dongia;
-                
-                vector.add(soluong);
+                vector.add(_listSoluong.get(index).soluong);
+                long tongTien = _listSoluong.get(index).soluong *  c.getPrice().longValue();
                 vector.add(tongTien);
-                
+                tongSL = tongSL + _listSoluong.get(index).soluong;
                 tongHoaDon = tongHoaDon + tongTien;
             } else {
-                
                 Soluong soLuong = new Soluong();
                 soLuong.id = c.getIdProduct();
                 soLuong.soluong = 1;
-                
+
                 _listSoluong.add(soLuong);
                 
                 vector.add(1);
-                vector.add(  c.getPrice().longValue() * ( 1.0 + c.getVat().longValue()/100));
+                vector.add( c.getPrice().longValue());
                 
-                double VAT = ( 1.0 + c.getVat().longValue()/100.0);
-                double dongia = c.getPrice().longValue() * VAT;
                 
-                tongHoaDon = tongHoaDon + (long)dongia;
+                tongSL = tongSL + 1;
+                tongHoaDon = tongHoaDon + c.getPrice().longValue();
             }
             
            
@@ -672,11 +553,11 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             d.addRow(vector);
         }
         
-        lbGiaTien.setText(String.format("%d", tongHoaDon));
         lbTongTien.setText(String.format("%d", tongHoaDon));
+        lbSL.setText(String.format("%d", tongSL));
+        
         
     }
-    
     
     class Soluong{
         public long id;
@@ -685,6 +566,4 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             
         };
     }
-
-
 }
