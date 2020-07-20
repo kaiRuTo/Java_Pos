@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
-    @Query(value = "SELECT * FROM coupon c WHERE c.is_used = true AND c.expiry_date > CURRENT_TIME")
+    @Query(value = "SELECT c FROM Coupon c WHERE c.isUsed = TRUE AND c.expiryDate > CURRENT_TIME")
     List<Coupon> findAllAvailableCoupon();
 }
