@@ -18,8 +18,12 @@ import java.util.Date;
 @ToString(includeFieldNames=true)
 public class Coupon {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @ToString.Exclude
+    @Column(name = "id_coupon")
     private String idCoupon;
+
+    private String code;
 
     @ManyToOne
     @JoinColumn(name = "id_orders")
