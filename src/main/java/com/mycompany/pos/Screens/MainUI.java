@@ -5,7 +5,7 @@
  */
 package com.mycompany.pos.Screens;
 
-import com.mycompany.Constants.DialogStatus.Status;
+import com.mycompany.pos.screens.constants.DialogStatus.Status;
 import com.mycompany.pos.Screens.Dialog.NCCTheoSanPhamDialog;
 import com.mycompany.pos.Screens.Dialog.SanPhamTheoNCCDialog;
 import com.mycompany.pos.Screens.Dialog.ThemDonHangDialog;
@@ -502,6 +502,11 @@ public class MainUI extends javax.swing.JFrame {
         btnThemKhuyenMai.setMaximumSize(new java.awt.Dimension(70, 20));
         btnThemKhuyenMai.setMinimumSize(new java.awt.Dimension(70, 20));
         btnThemKhuyenMai.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnThemKhuyenMai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemKhuyenMaiActionPerformed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel11.setText("Khuyến mãi");
@@ -518,15 +523,30 @@ public class MainUI extends javax.swing.JFrame {
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "STT", "Code", "Phần trâm giảm giá", "Ngày tạo", "Ngày hết hạn", "Trạng thái"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(jTable4);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -973,6 +993,10 @@ public class MainUI extends javax.swing.JFrame {
         _thongTinDonHangDialog.setOrderWithCustomer(_listOrder.get(index), _listOrder.get(index).getCustomer());
         _thongTinDonHangDialog.setVisible(true);
     }//GEN-LAST:event_btnChinhSuaDonHangActionPerformed
+
+    private void btnThemKhuyenMaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKhuyenMaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemKhuyenMaiActionPerformed
 
     /**
      * @param args the command line arguments
