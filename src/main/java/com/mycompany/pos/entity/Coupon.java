@@ -21,7 +21,7 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ToString.Exclude
     @Column(name = "id_coupon")
-    private String idCoupon;
+    private Long idCoupon;
 
     private String code;
 
