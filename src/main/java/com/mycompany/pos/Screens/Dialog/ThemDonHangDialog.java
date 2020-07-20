@@ -343,9 +343,16 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        if (_listProductInOrder.size()<=0){
+            
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm");
+            return;
+            
+        }
         if (_customer  == null){
             
             JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng");
+            return;
         }
         Orders order = new Orders();
         order.setCreatedAt(new Date());
@@ -556,12 +563,20 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             Vector vector = new Vector();
             vector.add(i);
             
+            if (!c.getStockable()){
+                continue;
+            }
+            
             vector.add(c.getName());
             vector.add(c.getPrice());
             
             long allStock = 0;
             for(Stock s: _listStock){
                 allStock = allStock + s.getQuantity();
+            }
+            
+            if (allStock <= 0) {
+                continue;
             }
             
             vector.add(allStock);

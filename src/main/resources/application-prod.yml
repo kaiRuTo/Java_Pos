@@ -2,13 +2,17 @@ spring:
   application:
     name: POS
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
+        format_sql: true
+        #MySQL	              org.hibernate.dialect.MySQLDialect
+        #MySQL with InnoDB	  org.hibernate.dialect.MySQLInnoDBDialect
         dialect: com.mycompany.pos.CustomDialect
   datasource:
-    url: jdbc:mysql://localhost:3306/java_pos?autoReconnect=true&useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/mipos?autoReconnect=true&useUnicode=yes&characterEncoding=UTF-8
     username: root
-    password: root
-    driver-class-name: org.mariadb.jdbc.Driver
+    password: 123456789
+    driver-class-name: com.mysql.jdbc.Driver
