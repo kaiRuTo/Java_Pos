@@ -24,6 +24,9 @@ public class Orders {
     @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Coupon coupon;
+
     private Date orderedAt;
 
     @Column(name = "createdAt", nullable = false, updatable = false)

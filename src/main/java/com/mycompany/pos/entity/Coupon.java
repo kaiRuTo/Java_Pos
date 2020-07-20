@@ -25,10 +25,6 @@ public class Coupon {
 
     private String code;
 
-    @ManyToOne
-    @JoinColumn(name = "id_orders")
-    private Orders orders;
-
     private Boolean isUsed;
     
     private float discountPercentage;
