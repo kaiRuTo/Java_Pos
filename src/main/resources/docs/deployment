@@ -9,12 +9,12 @@ I. Using embedded H2 database
 		3.1 Go to project root folder and run:
 			$ mvn clean install
 			$ mvn spring-boot:run
-		3.2 Or you can use your favorite IDE of choice and config the project as maven project, resolve the dependency, then run the main() class in SwingApplication.class.
+
+		3.2 (Optional) You can use your favorite IDE of choice and config the project as maven project, resolve the dependency, then run the main() class in SwingApplication.class.
 
 II. Using other database engine
 	Currently only support MySQL and MariaDB connections. If you want to connect to other database engine, add appropiate connector dependency to pom.xml
-		1. Go to application.yml and change profile to 'prod'
-		2. Create a CustomDialect class inside root package (com.mycompany.pos)
+		1. Create a CustomDialect class inside root package (com.mycompany.pos)
 				---------------------------------------------------------------------
 				package com.mycompany.pos;
 
@@ -26,9 +26,9 @@ II. Using other database engine
 					}
 				}
 				---------------------------------------------------------------------
-			where 'MariaDB103Dialect' is the syntax dialect of your database engine. Consult https://docs.jboss.org/hibernate/orm/5.3/javadocs/org/hibernate/dialect/package-summary.html
-			to find the correct dialect and replace. This class is to make sure the your data will be saved in correct UTF-8 charset if you use Vietnamese.
-		3. Make sure you already created the database 'java_pos'
-		4. Go to application-prod.yml and change the necessary info (url, username & password, dialect)
-		5. Do the same as step 3.x in section I
-
+			where 'MariaDB103Dialect' is the syntax dialect of your database engine. Consult
+				https://docs.jboss.org/hibernate/orm/5.3/javadocs/org/hibernate/dialect/package-summary.html
+			to find the correct dialect and replace if necessary. This class is to make sure the your data will be saved in correct UTF-8 charset if you use Vietnamese.
+		2. Make sure you already created the database 'java_pos'
+		3. Go to application-prod.yml and change the necessary info (url, username & password, dialect)
+		4. Do the same as step 3.x in section I
