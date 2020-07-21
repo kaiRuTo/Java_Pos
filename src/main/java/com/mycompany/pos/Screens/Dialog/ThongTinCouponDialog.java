@@ -5,11 +5,13 @@
  */
 package com.mycompany.pos.Screens.Dialog;
 
-import com.mycompany.pos.screens.constants.DialogStatus.Status;
+import com.mycompany.pos.Screens.Constants.DialogStatus.Status;
 import com.mycompany.pos.entity.Coupon;
 import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.service.CouponService;
+import com.mycompany.pos.util.CouponGenerator;
 import java.util.Date;
+import javax.swing.JFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,12 +29,14 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
      */
     public ThongTinCouponDialog() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     @Autowired
     public ThongTinCouponDialog(CouponService couponService) {
         initComponents();
         this._couponService = couponService;
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -279,7 +283,8 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
     private Status _status;
     
     public void setRandom(){
-        
+        String genCP = new CouponGenerator().createCouponCode();
+        txtCode.setText(genCP);
     }
     
     public void clearData() {
@@ -322,14 +327,34 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
     }
 
     private void update(){
+        Coupon coupon = new Coupon();
+        coupon.setIdCoupon(_coupon.getIdCoupon());
+        coupon.setCode(txtCode.getText());
+        coupon.setIsUsed(false);
+        coupon.setCreatedAt(jDateApplyDay.getDate());
+        coupon.setExpiryDate(jDateExpireDay.getDate());
+        coupon.setDiscountPercentage((float)jSpinnerPercent.getValue());
+        _couponService.save(coupon);
     }
     
     private void add(){
-        
+        Coupon coupon = new Coupon();
+        coupon.setCode(txtCode.getText());
+        coupon.setIsUsed(false);
+        coupon.setCreatedAt(jDateApplyDay.getDate());
+        coupon.setExpiryDate(jDateExpireDay.getDate());
+        coupon.setDiscountPercentage((float)jSpinnerPercent.getValue());
+        _couponService.save(coupon);
     }
 
     public void setCoupon(Coupon coupon) {
         
+        _coupon = coupon;
+        txtCode.setText(coupon.getCode());
+        cbStatus.setSelectedIndex(coupon.getIsUsed() ? 1 : 0);
+        jDateApplyDay.setDate(coupon.getCreatedAt());
+        jDateExpireDay.setDate(coupon.getExpiryDate());
+        jSpinnerPercent.setValue(coupon.getDiscountPercentage());
     }
 
 }

@@ -5,7 +5,7 @@
  */
 package com.mycompany.pos.Screens.Dialog;
 
-import com.mycompany.pos.screens.constants.DialogStatus.Status;
+import com.mycompany.pos.Screens.Constants.DialogStatus.Status;
 import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.service.CustomerService;
 import java.util.Date;

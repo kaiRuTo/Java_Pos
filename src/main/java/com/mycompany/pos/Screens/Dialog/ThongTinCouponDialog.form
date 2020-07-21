@@ -250,11 +250,6 @@
         <Component class="com.toedter.calendar.JDateChooser" name="jDateApplyDay">
         </Component>
         <Component class="javax.swing.JSpinner" name="jSpinnerPercent">
-          <Properties>
-            <Property name="mixingCutoutShape" type="java.awt.Shape" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="default"/>
-            </Property>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

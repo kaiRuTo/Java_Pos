@@ -5,7 +5,7 @@
  */
 package com.mycompany.pos.Screens;
 
-import com.mycompany.pos.screens.constants.DialogStatus.Status;
+import com.mycompany.pos.Screens.Constants.DialogStatus.Status;
 import com.mycompany.pos.Screens.Dialog.NCCTheoSanPhamDialog;
 import com.mycompany.pos.Screens.Dialog.SanPhamTheoNCCDialog;
 import com.mycompany.pos.Screens.Dialog.ThemDonHangDialog;
@@ -13,12 +13,15 @@ import com.mycompany.pos.Screens.Dialog.ThongTinDonHangDialog;
 import com.mycompany.pos.Screens.Dialog.ThongTinKhachHangDialog;
 import com.mycompany.pos.Screens.Dialog.ThongTinSanPhamDialog;
 import com.mycompany.pos.Screens.Dialog.ThongTinThuongHieuDialog;
+import com.mycompany.pos.Screens.Dialog.ThongTinCouponDialog;
 import com.mycompany.pos.SwingApplication;
+import com.mycompany.pos.entity.Coupon;
 import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.entity.Orders;
 import com.mycompany.pos.entity.Product;
 import com.mycompany.pos.entity.ProductInvoice;
 import com.mycompany.pos.entity.Supplier;
+import com.mycompany.pos.service.CouponService;
 import com.mycompany.pos.service.CustomerService;
 import com.mycompany.pos.service.ProductInvoiceService;
 import com.mycompany.pos.service.OrdersService;
@@ -52,13 +55,16 @@ public class MainUI extends javax.swing.JFrame {
     private OrdersService _ordersService;
     private ProductInvoiceService _productInvoiceService;
     private SupplierService _supplierService;
+    private CouponService _couponService;
     
     private List<Customer> _listCustomer;
     private List<Product> _listProduct;
     private List<ProductInvoice> _listProductInvoice;
     private List<Orders> _listOrder;
     private List<Supplier> _listSupplier;
+    private List<Coupon> _listCoupon;
     
+    private ThongTinCouponDialog _thongTinCouponDialog;
     private ThongTinKhachHangDialog _thongTinKhachHangDialog;
     private ThongTinSanPhamDialog _thongTinSanPhamDialog;                    
     private ThongTinThuongHieuDialog _thongTinThuongHieuDialog;               
@@ -84,11 +90,13 @@ public class MainUI extends javax.swing.JFrame {
                     ThemDonHangDialog           themDonHangDialog,
                     NCCTheoSanPhamDialog        nccTheoSanPhamDialog,
                     SanPhamTheoNCCDialog        sanPhamTheoNCCDialog,
+                    ThongTinCouponDialog        thongTinCouponDialog,
                     CustomerService             customerService,
                     ProductService              productService,
                     OrdersService               ordersService,
                     ProductInvoiceService       productInvoiceService,
-                    SupplierService             supplierService
+                    SupplierService             supplierService,
+                    CouponService               couponService
     ) {
         initComponents();
         this._customerService = customerService;
@@ -96,6 +104,7 @@ public class MainUI extends javax.swing.JFrame {
         this._ordersService = ordersService;
         this._productInvoiceService = productInvoiceService;
         this._supplierService = supplierService;
+        this._couponService = couponService;
         
         this._thongTinDonHangDialog = thongTinDonHangDialog;
         this._thongTinKhachHangDialog = thongTinKhachHangDialog;
@@ -104,6 +113,7 @@ public class MainUI extends javax.swing.JFrame {
         this._themDonHangDialog = themDonHangDialog;
         this._nccTheoSanPhamDialog = nccTheoSanPhamDialog;
         this._sanPhamTheoNCCDialog = sanPhamTheoNCCDialog;
+        this._thongTinCouponDialog = thongTinCouponDialog;
         
         setListener();
         
@@ -150,7 +160,7 @@ public class MainUI extends javax.swing.JFrame {
         btnXoaKhuyenMai = new javax.swing.JButton();
         btnChinhSuaKhuyenMai = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tableCoupon = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         btnThemKhachHang = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
@@ -520,8 +530,13 @@ public class MainUI extends javax.swing.JFrame {
         btnChinhSuaKhuyenMai.setMaximumSize(new java.awt.Dimension(70, 20));
         btnChinhSuaKhuyenMai.setMinimumSize(new java.awt.Dimension(70, 20));
         btnChinhSuaKhuyenMai.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnChinhSuaKhuyenMai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChinhSuaKhuyenMaiActionPerformed(evt);
+            }
+        });
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tableCoupon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -547,7 +562,7 @@ public class MainUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(tableCoupon);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -996,7 +1011,19 @@ public class MainUI extends javax.swing.JFrame {
 
     private void btnThemKhuyenMaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKhuyenMaiActionPerformed
         // TODO add your handling code here:
+        _thongTinCouponDialog.setRandom();
+        _thongTinCouponDialog.setStatus(Status.ADD);
+        _thongTinCouponDialog.setVisible(true);
     }//GEN-LAST:event_btnThemKhuyenMaiActionPerformed
+
+    private void btnChinhSuaKhuyenMaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaKhuyenMaiActionPerformed
+        // TODO add your handling code here:
+        
+        int selectedIndex = tableCoupon.getSelectedRow();
+        _thongTinCouponDialog.setStatus(Status.UPDATE);
+        _thongTinCouponDialog.setCoupon(_listCoupon.get(selectedIndex));
+        _thongTinCouponDialog.setVisible(true);
+    }//GEN-LAST:event_btnChinhSuaKhuyenMaiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1084,7 +1111,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable4;
+    private javax.swing.JTable tableCoupon;
     private javax.swing.JTable tableKhachHang;
     private javax.swing.JTable tableOrder;
     private javax.swing.JTable tableProduct;
@@ -1124,6 +1151,14 @@ public class MainUI extends javax.swing.JFrame {
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                 // your code
                 _themDonHangDialog.clearData();
+                loadTableOrder();
+            }
+        });
+        this._thongTinCouponDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                // your code
+                _thongTinCouponDialog.clearData();
                 loadTableOrder();
             }
         });
@@ -1225,7 +1260,28 @@ public class MainUI extends javax.swing.JFrame {
     }
 
     private void loadTableCoupon(){
+        List<Coupon> listCoupon = _couponService.findAll();
+        _listCoupon = listCoupon;
+        DefaultTableModel d = (DefaultTableModel)tableCoupon.getModel();
+        d.setRowCount(0);
         
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        int i = 1;
+        for(Coupon c: listCoupon) {
+            Vector vector = new Vector();
+            vector.add(i);
+            
+          
+            vector.add(c.getCode());
+            vector.add(c.getDiscountPercentage());
+            vector.add(formatter.format(c.getCreatedAt()));
+            vector.add(formatter.format(c.getExpiryDate()));
+            vector.add(c.getIsUsed()? "Đã được sủa dụng": "Chưa sử dụng");
+            
+           
+            i++;
+            d.addRow(vector);
+        }
     }
     
     private void loadTableCustomer(){
