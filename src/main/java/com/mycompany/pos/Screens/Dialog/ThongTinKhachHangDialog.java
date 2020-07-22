@@ -10,6 +10,9 @@ import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.service.CustomerService;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
+import com.mycompany.pos.util.MyIntFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +39,7 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
     public ThongTinKhachHangDialog(CustomerService customerService) {
         this.cs = customerService;
         initComponents();
+        setFilter();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -263,6 +267,11 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
     //// My code
     
     private Status _status;
+    
+    private void setFilter() {
+        PlainDocument doc = (PlainDocument) txtPhone.getDocument();
+        doc.setDocumentFilter(new MyIntFilter());
+    }
     
     public void clearData() {
         _customer = null;

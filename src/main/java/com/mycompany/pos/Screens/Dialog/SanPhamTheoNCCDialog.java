@@ -89,6 +89,7 @@ public class SanPhamTheoNCCDialog extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        tableProduct.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         tableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -130,6 +131,7 @@ public class SanPhamTheoNCCDialog extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Open Sans", 0, 36)); // NOI18N
         jLabel1.setText("Nhà cung cấp");
 
+        btnThemSanPham1.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
         btnThemSanPham1.setText("Trở lại");
         btnThemSanPham1.setMaximumSize(new java.awt.Dimension(70, 20));
         btnThemSanPham1.setMinimumSize(new java.awt.Dimension(70, 20));
@@ -140,6 +142,7 @@ public class SanPhamTheoNCCDialog extends javax.swing.JFrame {
             }
         });
 
+        btnThemSanPham2.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
         btnThemSanPham2.setText("Nhập hàng");
         btnThemSanPham2.setMaximumSize(new java.awt.Dimension(70, 20));
         btnThemSanPham2.setMinimumSize(new java.awt.Dimension(70, 20));
@@ -150,6 +153,7 @@ public class SanPhamTheoNCCDialog extends javax.swing.JFrame {
             }
         });
 
+        btnThemSanPham3.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
         btnThemSanPham3.setText("Xác nhập");
         btnThemSanPham3.setMaximumSize(new java.awt.Dimension(70, 20));
         btnThemSanPham3.setMinimumSize(new java.awt.Dimension(70, 20));
@@ -192,11 +196,11 @@ public class SanPhamTheoNCCDialog extends javax.swing.JFrame {
                                     .addComponent(lbName)))
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnThemSanPham3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnThemSanPham3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnThemSanPham2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnThemSanPham2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnThemSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnThemSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(

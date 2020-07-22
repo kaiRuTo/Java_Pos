@@ -8,7 +8,9 @@ package com.mycompany.pos.Screens.Dialog;
 import com.mycompany.pos.Screens.Constants.DialogStatus.Status;
 import com.mycompany.pos.entity.Supplier;
 import com.mycompany.pos.service.SupplierService;
+import com.mycompany.pos.util.MyIntFilter;
 import javax.swing.JFrame;
+import javax.swing.text.PlainDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +35,8 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
     public ThongTinThuongHieuDialog(SupplierService supplierService) {
         initComponents();
         _supplierService = supplierService;
+        
+        setFilter();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -261,6 +265,11 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
     
     //// My code
     
+    private void setFilter() {
+        PlainDocument doc = (PlainDocument) txtPhone.getDocument();
+        doc.setDocumentFilter(new MyIntFilter());
+    }
+    
     private Status _status;
     
     public void clearData() {
@@ -310,6 +319,7 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
         Supplier supplier = new Supplier();
         supplier.setName(title);
         supplier.setSlug(slug);
+        supplier.setPhone(phone);
         
         _supplierService.save(supplier);
         this.dispose();
@@ -323,6 +333,7 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
         Supplier supplier = new Supplier();
         supplier.setName(title);
         supplier.setSlug(slug);
+        supplier.setPhone(phone);
         
         _supplierService.save(supplier);
         this.dispose();
@@ -333,5 +344,6 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
         
         txtTitle.setText(supplier.getName());
         txtSlug.setText(supplier.getSlug());
+        txtPhone.setText(supplier.getPhone());
     }
 }

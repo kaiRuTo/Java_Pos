@@ -10,8 +10,10 @@ import com.mycompany.pos.entity.Coupon;
 import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.service.CouponService;
 import com.mycompany.pos.util.CouponGenerator;
+import com.mycompany.pos.util.MyIntFilter;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.text.PlainDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +38,7 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
     public ThongTinCouponDialog(CouponService couponService) {
         initComponents();
         this._couponService = couponService;
+        setFilter();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -62,7 +65,7 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jDateExpireDay = new com.toedter.calendar.JDateChooser();
         jDateApplyDay = new com.toedter.calendar.JDateChooser();
-        jSpinnerPercent = new javax.swing.JSpinner();
+        txtPercent = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,6 +123,8 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
             }
         });
 
+        txtPercent.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -133,7 +138,7 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jLabel1)
                     .addComponent(jDateApplyDay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSpinnerPercent))
+                    .addComponent(txtPercent, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -184,7 +189,7 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpinnerPercent, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPercent, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -274,13 +279,18 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSpinner jSpinnerPercent;
     private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtPercent;
     // End of variables declaration//GEN-END:variables
 
     //// My code
     
     private Status _status;
+    
+    private void setFilter() {
+        PlainDocument doc = (PlainDocument) txtPercent.getDocument();
+        doc.setDocumentFilter(new MyIntFilter());
+    }
     
     public void setRandom(){
         String genCP = new CouponGenerator().createCouponCode();
@@ -293,7 +303,7 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
         cbStatus.setSelectedIndex(0);
         jDateApplyDay.setDate(null);
         jDateExpireDay.setDate(null);
-        jSpinnerPercent.setValue(0);
+        txtPercent.setText("");
     }
     
     public void setStatus(Status status){
@@ -333,8 +343,9 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
         coupon.setIsUsed(false);
         coupon.setCreatedAt(jDateApplyDay.getDate());
         coupon.setExpiryDate(jDateExpireDay.getDate());
-        coupon.setDiscountPercentage((float)jSpinnerPercent.getValue());
+        coupon.setDiscountPercentage(Float.parseFloat(txtPercent.getText()));
         _couponService.save(coupon);
+        this.dispose();
     }
     
     private void add(){
@@ -343,8 +354,10 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
         coupon.setIsUsed(false);
         coupon.setCreatedAt(jDateApplyDay.getDate());
         coupon.setExpiryDate(jDateExpireDay.getDate());
-        coupon.setDiscountPercentage((float)jSpinnerPercent.getValue());
+        float value = Float.parseFloat(txtPercent.getText());
+        coupon.setDiscountPercentage(value);
         _couponService.save(coupon);
+        this.dispose();
     }
 
     public void setCoupon(Coupon coupon) {
@@ -354,7 +367,7 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
         cbStatus.setSelectedIndex(coupon.getIsUsed() ? 1 : 0);
         jDateApplyDay.setDate(coupon.getCreatedAt());
         jDateExpireDay.setDate(coupon.getExpiryDate());
-        jSpinnerPercent.setValue(coupon.getDiscountPercentage());
+        txtPercent.setText(String.format("%.0f", _coupon.getDiscountPercentage()));
     }
 
 }

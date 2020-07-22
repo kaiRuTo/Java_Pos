@@ -112,11 +112,9 @@
                               <Group type="102" attributes="0">
                                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnThemDonHang" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnThemDonHang" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnChinhSuaDonHang" min="-2" pref="112" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnXoaDonHang" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnChinhSuaDonHang" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -128,7 +126,6 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnXoaDonHang" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnChinhSuaDonHang" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="btnThemDonHang" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
@@ -195,20 +192,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="btnXoaDonHang">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Xo&#xe1;"/>
-                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[70, 20]"/>
-                    </Property>
-                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[70, 20]"/>
-                    </Property>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[70, 20]"/>
-                    </Property>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel8">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -277,13 +260,11 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnThemSanPham1" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnThemSanPham" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnThemSanPham" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnChinhSuaSanPham" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnChinhSuaSanPham" min="-2" pref="112" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnXoaSanPham" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnXoaSanPham" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -299,7 +280,6 @@
                               <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnChinhSuaSanPham" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="btnThemSanPham" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="btnThemSanPham1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jScrollPane2" pref="645" max="32767" attributes="0"/>
@@ -416,23 +396,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="btnThemSanPham1">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Nh&#x1ead;p h&#xe0;ng"/>
-                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[70, 20]"/>
-                    </Property>
-                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[70, 20]"/>
-                    </Property>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[70, 20]"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemSanPham1ActionPerformed"/>
-                  </Events>
-                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel6">
@@ -459,13 +422,13 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnThemThuongHieu1" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnThemThuongHieu1" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnThemThuongHieu" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnThemThuongHieu" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnChinhSuaThuongHieu" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnChinhSuaThuongHieu" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnXoaThuongHieu" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnXoaThuongHieu" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -529,6 +492,9 @@
                       <Dimension value="[70, 20]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaThuongHieuActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnChinhSuaThuongHieu">
                   <Properties>
@@ -632,11 +598,11 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnThemKhuyenMai" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnThemKhuyenMai" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnChinhSuaKhuyenMai" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnChinhSuaKhuyenMai" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnXoaKhuyenMai" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnXoaKhuyenMai" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -699,6 +665,9 @@
                       <Dimension value="[70, 20]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaKhuyenMaiActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnChinhSuaKhuyenMai">
                   <Properties>
@@ -803,13 +772,13 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnThemKhachHang1" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnThemKhachHang1" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnThemKhachHang" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnThemKhachHang" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnChinhSuaKhachHang" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnChinhSuaKhachHang" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnXoaKhachHang" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnXoaKhachHang" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -837,6 +806,9 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnThemKhachHang">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="13" style="0"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[70, 20]"/>
@@ -873,6 +845,9 @@
                       <Dimension value="[70, 20]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaKhachHangActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnChinhSuaKhachHang">
                   <Properties>
@@ -922,17 +897,17 @@
                               <Renderer/>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
+                              <Title value="H&#x1ecd;"/>
                               <Editor/>
                               <Renderer/>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
+                              <Title value="Ng&#xe0;y Sinh"/>
                               <Editor/>
                               <Renderer/>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
+                              <Title value="SDT"/>
                               <Editor/>
                               <Renderer/>
                             </Column>
@@ -947,6 +922,9 @@
                 </Container>
                 <Component class="javax.swing.JButton" name="btnThemKhachHang1">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="13" style="0"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="T&#x1ea3;i l&#x1ea1;i"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[70, 20]"/>
@@ -972,8 +950,8 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Kho">
-                    <Property name="tabTitle" type="java.lang.String" value="Kho"/>
+                  <JTabbedPaneConstraints tabName="T&#xe0;i kho&#x1ea3;n">
+                    <Property name="tabTitle" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
@@ -988,11 +966,13 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnThemVaoKho" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnReloadAccount" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnChinhSuaSanPham1" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnThemAccount" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnXoaSanPham1" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="btnChinhSuaAccount" min="-2" pref="140" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="btnXoaAccount" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1004,10 +984,11 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnXoaSanPham1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="btnXoaAccount" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnChinhSuaSanPham1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="btnThemVaoKho" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="btnChinhSuaAccount" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="btnThemAccount" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="btnReloadAccount" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jScrollPane6" pref="645" max="32767" attributes="0"/>
@@ -1017,8 +998,11 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="btnThemVaoKho">
+                <Component class="javax.swing.JButton" name="btnThemAccount">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="13" style="0"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[70, 20]"/>
@@ -1031,7 +1015,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemVaoKhoActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemAccountActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel13">
@@ -1039,10 +1023,10 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="18" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Kho"/>
+                    <Property name="text" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnXoaSanPham1">
+                <Component class="javax.swing.JButton" name="btnXoaAccount">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Xo&#xe1;"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1056,10 +1040,10 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaSanPham1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaAccountActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnChinhSuaSanPham1">
+                <Component class="javax.swing.JButton" name="btnChinhSuaAccount">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Ch&#x1ec9;nh s&#x1eed;a"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1073,7 +1057,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChinhSuaSanPham1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChinhSuaAccountActionPerformed"/>
                   </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane6">
@@ -1083,28 +1067,16 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="tableProduct1">
+                    <Component class="javax.swing.JTable" name="tableUser">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="4" rowCount="4">
-                            <Column editable="true" title="STT" type="java.lang.Integer"/>
-                            <Column editable="false" title="S&#x1ea3;n ph&#x1ea9;m" type="java.lang.String"/>
-                            <Column editable="false" title="Gi&#xe1; ti&#x1ec1;n" type="java.lang.String"/>
-                            <Column editable="false" title="VAT" type="java.lang.String"/>
+                          <Table columnCount="2" rowCount="4">
+                            <Column editable="false" title="STT" type="java.lang.Integer"/>
+                            <Column editable="false" title="Username" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -1124,6 +1096,26 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JButton" name="btnReloadAccount">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="13" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="T&#x1ea3;i l&#x1ea1;i"/>
+                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[70, 20]"/>
+                    </Property>
+                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[70, 20]"/>
+                    </Property>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[70, 20]"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReloadAccountActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>

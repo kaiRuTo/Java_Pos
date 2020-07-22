@@ -7,11 +7,13 @@ package com.mycompany.pos.Screens.Dialog;
 
 import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.service.CustomerService;
+import com.mycompany.pos.util.MyIntFilter;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.PlainDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +44,7 @@ public class TimKhachHangDialog extends javax.swing.JFrame {
         initComponents();
         _customerService = customerService;
         
+        setFilter();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -331,6 +334,11 @@ public class TimKhachHangDialog extends javax.swing.JFrame {
     private javax.swing.JTextField txtTenKhachHang;
     // End of variables declaration//GEN-END:variables
 
+    private void setFilter() {
+        PlainDocument doc = (PlainDocument) txtPhone.getDocument();
+        doc.setDocumentFilter(new MyIntFilter());
+    }
+    
     public void loadListCustomer() {
         List<Customer> listCustomer = _customerService.findAll();
         

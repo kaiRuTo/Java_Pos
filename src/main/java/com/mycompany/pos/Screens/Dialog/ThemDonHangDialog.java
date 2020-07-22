@@ -5,11 +5,13 @@
  */
 package com.mycompany.pos.Screens.Dialog;
 
+import com.mycompany.pos.entity.Coupon;
 import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.entity.Product;
 import com.mycompany.pos.entity.Orders;
 import com.mycompany.pos.entity.ProductInvoice;
 import com.mycompany.pos.entity.Stock;
+import com.mycompany.pos.service.CouponService;
 import com.mycompany.pos.service.CustomerService;
 import com.mycompany.pos.service.OrdersService;
 import com.mycompany.pos.service.ProductInvoiceService;
@@ -38,15 +40,18 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     private TimKhachHangDialog _timKhachHangDialog;
     
     private Customer _customer;
+    private Coupon _coupon;
     
     private List<Product> _listProduct;
     private List<Product> _listProductInOrder;
     private List<Stock> _listStock;
     private List<Soluong> _listSoluong;
+    private List<Coupon> _listCoupon;
     
     private ProductService _productService;
     private OrdersService _orderService;
     private StockService _stockService;
+    private CouponService _couponService;
     private ProductInvoiceService _productInvoiceService;
     
     
@@ -64,12 +69,17 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                                 ProductService          productService, 
                                 OrdersService           ordersService,
                                 StockService            stockService,
-                                ProductInvoiceService   productInvoiceService) {
+                                ProductInvoiceService   productInvoiceService,
+                                CouponService           couponService
+                                ) {
+        
         this._timKhachHangDialog = timKhachHangDialog;
         this._productInvoiceService = productInvoiceService;
         this._productService = productService;
         this._orderService = ordersService;
         this._stockService = stockService;
+        this._couponService = couponService;
+        
         initComponents();
         addListener();
         _listSoluong = new ArrayList<Soluong>();
@@ -104,8 +114,9 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableProducts = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        txtCode = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        btnTimCoupon = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -230,7 +241,17 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             tableProducts.getColumnModel().getColumn(1).setPreferredWidth(60);
         }
 
-        jLabel10.setText("Tìm sản phẩm:");
+        jLabel10.setText("Mã giảm giá");
+
+        btnTimCoupon.setText("Tìm");
+        btnTimCoupon.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnTimCoupon.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnTimCoupon.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnTimCoupon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimCouponActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -244,6 +265,8 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,18 +283,19 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                                     .addComponent(lbGiamGia)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lbTongTien)
-                                        .addGap(2, 2, 2))))
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(2, 2, 2))))))
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(783, 783, 783)
                         .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addComponent(btnTimCoupon, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,7 +308,8 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTimCoupon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,6 +383,9 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         order.setCreatedAt(new Date());
         order.setOrderedAt(new Date());
         
+        if (_coupon != null)
+            order.setCoupon(_coupon);
+        
         order.setCustomer(_customer);
         order = _orderService.save(order);
         
@@ -413,6 +441,13 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         _timKhachHangDialog.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnTimCouponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimCouponActionPerformed
+        // TODO add your handling code here:
+        String code = txtCode.getText();
+        findCoupon(code);
+
+    }//GEN-LAST:event_btnTimCouponActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -449,6 +484,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTimCoupon;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -461,13 +497,13 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbCustomerName;
     private javax.swing.JLabel lbGiaTien;
     private javax.swing.JLabel lbGiamGia;
     private javax.swing.JLabel lbTongTien;
     private javax.swing.JTable tableProductInOrder;
     private javax.swing.JTable tableProducts;
+    private javax.swing.JTextField txtCode;
     // End of variables declaration//GEN-END:variables
     
     
@@ -545,6 +581,30 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     private void loadListStock() {
         List<Stock> listStock = _stockService.findAll();
         _listStock = listStock;
+    }
+    
+    private void findCoupon(String code) {
+        List<Coupon> listCoupon = _couponService.findAll();
+        _listCoupon = listCoupon;
+        
+        Coupon cFound = null;
+        
+        for (Coupon c: _listCoupon){
+            if (    c.getCode().equals(code) 
+                    && c.getExpiryDate().after(new Date()) 
+                    && c.getCreatedAt().before(new Date()) 
+                    && c.getIsUsed() == false){
+                cFound = c;
+                break;
+            }
+        }
+        if (cFound != null){
+            _coupon = cFound;
+            reloadTableProductInOrder();
+        } else {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy mã");
+        }
+        
     }
     
     
@@ -687,7 +747,17 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             d.addRow(vector);
         }
         
+                
+        
         lbGiaTien.setText(String.format("%d", tongHoaDon));
+        
+        
+        if (_coupon != null){
+            lbGiamGia.setText(String.format("%.0f%%", _coupon.getDiscountPercentage()));
+            double giamGia = ( 1.0 - _coupon.getDiscountPercentage()/100.0);
+            tongHoaDon = (long)(tongHoaDon * giamGia);
+        }
+        
         lbTongTien.setText(String.format("%d", tongHoaDon));
         
     }

@@ -9,8 +9,10 @@ import com.mycompany.pos.Screens.Constants.DialogStatus.Status;
 import com.mycompany.pos.entity.Product;
 import com.mycompany.pos.service.CustomerService;
 import com.mycompany.pos.service.ProductService;
+import com.mycompany.pos.util.MyIntFilter;
 import java.math.BigDecimal;
 import javax.swing.JFrame;
+import javax.swing.text.PlainDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +41,7 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     public ThongTinSanPhamDialog(ProductService productService) {
         this.ps = productService;
         initComponents();
+        setFilter();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -303,6 +306,13 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     
     private Status _status;
     
+    private void setFilter() {
+        PlainDocument docPrice = (PlainDocument) txtPrice.getDocument();
+        docPrice.setDocumentFilter(new MyIntFilter());
+        PlainDocument docVat = (PlainDocument) txtVAT.getDocument();
+        docVat.setDocumentFilter(new MyIntFilter());
+    }
+    
     public void clearData() {
         _product = null;
         txtTitle.setText("");
@@ -354,6 +364,7 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         Boolean stockable = (cbStockable.getSelectedIndex() == 1);
         
         Product product = new Product();
+        product.setIdProduct(id);
         product.setName(title);
         product.setPrice(BigDecimal.valueOf(price));
         product.setVat(BigDecimal.valueOf(vat));
@@ -390,8 +401,8 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         _product = product;
         
         txtTitle.setText(product.getName());
-        txtPrice.setText(product.getPrice().toString());
-        txtVAT.setText(product.getVat().toString());
+        txtPrice.setText(String.format("%d", product.getPrice().longValue()));
+        txtVAT.setText(String.format("%d", product.getVat().longValue()));
         txtReference.setText(product.getReference());
         txtSlug.setText(product.getSlug());
         cbStockable.setSelectedIndex(product.getStockable()?1:0);
