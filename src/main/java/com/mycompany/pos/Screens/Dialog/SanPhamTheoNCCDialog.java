@@ -246,6 +246,7 @@ public class SanPhamTheoNCCDialog extends javax.swing.JFrame {
 
     private void btnThemSanPham1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPham1ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnThemSanPham1ActionPerformed
 
     private void btnThemSanPham2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPham2ActionPerformed

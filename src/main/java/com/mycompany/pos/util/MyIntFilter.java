@@ -48,7 +48,7 @@ public class MyIntFilter extends DocumentFilter {
        sb.append(doc.getText(0, doc.getLength()));
        sb.replace(offset, offset + length, text);
 
-       if (test(sb.toString())) {
+       if (test(sb.toString()) || sb.equals("") || sb.length() == 0) {
           super.replace(fb, offset, length, text, attrs);
        } else {
           // warn the user and don't allow the replace

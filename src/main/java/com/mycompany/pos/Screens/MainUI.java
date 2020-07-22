@@ -420,22 +420,22 @@ public class MainUI extends javax.swing.JFrame {
 
         tableSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "STT", "Tên nhà cung cấp", "SLug"
+                "STT", "Tên nhà cung cấp", "SDT", "Slug"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -828,9 +828,9 @@ public class MainUI extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(55, 126, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(250, 800));
 
-        jLabel1.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Open Sans", 0, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Delivered Order");
+        jLabel1.setText("Doanh thi hôm nay");
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -840,15 +840,15 @@ public class MainUI extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("200");
 
-        jLabel4.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Open Sans", 0, 20)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Order today");
+        jLabel4.setText("Đơn hàng hôm nay");
 
         jLabel5.setFont(new java.awt.Font("Open Sans", 1, 48)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("200");
 
-        jLabel6.setFont(new java.awt.Font("Open Sans", 0, 24)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Open Sans", 0, 20)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Cancelled Order");
 
@@ -861,7 +861,7 @@ public class MainUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel5)
@@ -1012,7 +1012,10 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         int index = tableSupplier.getSelectedRow();
         if (index <0 && index >= _listSupplier.size()) 
+        {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp");
             return;
+        }
         
         _sanPhamTheoNCCDialog.setSupplier(_listSupplier.get(index));
         _sanPhamTheoNCCDialog.setVisible(true);
@@ -1387,6 +1390,7 @@ public class MainUI extends javax.swing.JFrame {
             
           
             vector.add(c.getName());
+            vector.add(c.getPhone());
             vector.add(c.getSlug());
             
            

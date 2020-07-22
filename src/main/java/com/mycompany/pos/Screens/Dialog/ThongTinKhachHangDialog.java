@@ -278,7 +278,7 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
         txtFirstName.setText("");
         txtLastName.setText("");
         txtPhone.setText("");
-        txtBirthday.setDate(new Date());
+        txtBirthday.setDate(null);
     }
     
     public void setStatus(Status status){

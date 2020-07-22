@@ -72,6 +72,7 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         txtCode.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        txtCode.setEnabled(false);
 
         jLabel10.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel10.setText("Ngày áp dụng");
@@ -91,7 +92,7 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
         cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chưa được dùng", "Đã được dùng" }));
 
         jLabel12.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel12.setText("Ngày hết hạng");
+        jLabel12.setText("Ngày hết hạn");
 
         jButton3.setText("Trở lại");
         jButton3.setMaximumSize(new java.awt.Dimension(70, 20));
@@ -144,20 +145,21 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12))
-                                .addGap(174, 174, 174))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(174, 174, 174))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(jDateExpireDay, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jDateExpireDay, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -316,6 +318,8 @@ public class ThongTinCouponDialog extends javax.swing.JFrame {
                 
                 jButton2.setText("Thêm");
                 jButton3.setText("Trở lại");
+                cbStatus.setVisible(false);
+                jLabel8.setVisible(false);
                 break;
             case UPDATE:
                 jButton1.setVisible(true);
