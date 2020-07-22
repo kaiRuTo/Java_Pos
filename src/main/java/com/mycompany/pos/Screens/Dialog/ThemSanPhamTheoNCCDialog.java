@@ -419,6 +419,7 @@ public class ThemSanPhamTheoNCCDialog extends javax.swing.JFrame {
     
     public void clearData(){
         tableProductInOrder.clearSelection();
+        _listProductInOrder.clear();
     }
     
     private void addListener(){

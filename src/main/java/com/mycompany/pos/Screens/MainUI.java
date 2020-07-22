@@ -194,11 +194,9 @@ public class MainUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        txtTongDonHang = new javax.swing.JLabel();
+        txtTongDoanhThu = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -329,20 +327,20 @@ public class MainUI extends javax.swing.JFrame {
 
         tableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Sản phẩm", "Giá tiền", "VAT", "Số lượng"
+                "STT", "Sản phẩm", "Giá tiền", "VAT", "Số lượng", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, true
+                true, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -836,51 +834,37 @@ public class MainUI extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Open Sans", 0, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Doanh thi hôm nay");
+        jLabel1.setText("Doanh thu hôm nay");
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("OVERVIEW");
 
-        jLabel3.setFont(new java.awt.Font("Open Sans", 1, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("200");
-
         jLabel4.setFont(new java.awt.Font("Open Sans", 0, 20)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Đơn hàng hôm nay");
 
-        jLabel5.setFont(new java.awt.Font("Open Sans", 1, 48)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("200");
+        txtTongDonHang.setFont(new java.awt.Font("Open Sans", 1, 28)); // NOI18N
+        txtTongDonHang.setForeground(new java.awt.Color(255, 255, 255));
+        txtTongDonHang.setText("200");
 
-        jLabel6.setFont(new java.awt.Font("Open Sans", 0, 20)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Cancelled Order");
-
-        jLabel7.setFont(new java.awt.Font("Open Sans", 1, 48)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("200");
+        txtTongDoanhThu.setFont(new java.awt.Font("Open Sans", 1, 28)); // NOI18N
+        txtTongDoanhThu.setForeground(new java.awt.Color(255, 255, 255));
+        txtTongDoanhThu.setText("200");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
+                .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
+                    .addComponent(txtTongDoanhThu)
+                    .addComponent(txtTongDonHang)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addGap(35, 35, 35))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(45, 45, 45)
-                    .addComponent(jLabel7)
-                    .addContainerGap(124, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -890,19 +874,12 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(txtTongDonHang)
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1)
-                .addGap(107, 107, 107)
-                .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(txtTongDoanhThu)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(388, Short.MAX_VALUE)
-                    .addComponent(jLabel7)
-                    .addGap(345, 345, 345)))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -1213,11 +1190,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -1241,6 +1214,8 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JTable tableProduct;
     private javax.swing.JTable tableSupplier;
     private javax.swing.JTable tableUser;
+    private javax.swing.JLabel txtTongDoanhThu;
+    private javax.swing.JLabel txtTongDonHang;
     // End of variables declaration//GEN-END:variables
     
     private void setListener(){
@@ -1325,6 +1300,9 @@ public class MainUI extends javax.swing.JFrame {
         
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm dd/MM/yyyy");
         int i = 1;
+        long TongDonHangTrongHomNay = 0;
+        long TongThuNhapTrongHomNay = 0;
+        
         for(Orders c: _listOrder) {
             Vector vector = new Vector();
             vector.add(i);
@@ -1350,12 +1328,21 @@ public class MainUI extends javax.swing.JFrame {
                 tongTien = (long)(tongTien * giamGia);
             }
             
+            Date toDay = new Date();
+            
+            if (c.getOrderedAt().getDate() == toDay.getDate() || c.getOrderedAt().getMonth() == toDay.getMonth() || c.getOrderedAt().getYear() == toDay.getYear() ){
+                TongDonHangTrongHomNay = TongDonHangTrongHomNay + 1;
+                TongThuNhapTrongHomNay = TongThuNhapTrongHomNay + tongTien;
+            }
             vector.add(tongTien);
             
            
             i++;
             d.addRow(vector);
         }
+        txtTongDonHang.setText(String.format("%,d", TongDonHangTrongHomNay));
+        txtTongDoanhThu.setText(String.format("%,d VND", TongThuNhapTrongHomNay));
+        
     }
 
     private void loadTableProduct(){
@@ -1380,10 +1367,12 @@ public class MainUI extends javax.swing.JFrame {
             
             long allStock = 0;
             for(Stock s: _listStock){
-                allStock = allStock + s.getQuantity();
+                if (s.getProduct().getIdProduct().equals(c.getIdProduct()))
+                    allStock = allStock + s.getQuantity();
             }
             
             vector.add(String.format("%,d", allStock));
+            vector.add(c.getStockable()?"Đang hoạt động": "Ngừng hoạt động");
             
             
            

@@ -33,6 +33,7 @@ public class LoginDialog extends javax.swing.JFrame {
     @Autowired
     public LoginDialog(UserService userService) {
         initComponents();
+        this.getRootPane().setDefaultButton(jButton1);
         this._userService = userService;
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
