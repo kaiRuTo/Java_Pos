@@ -34,6 +34,7 @@ public class LoginDialog extends javax.swing.JFrame {
     public LoginDialog(UserService userService) {
         initComponents();
         this._userService = userService;
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -60,7 +61,7 @@ public class LoginDialog extends javax.swing.JFrame {
         txtTitle.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel7.setText("Tên Sản phẩm");
+        jLabel7.setText("Username");
 
         jLabel8.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel8.setText("Mật khẩu");

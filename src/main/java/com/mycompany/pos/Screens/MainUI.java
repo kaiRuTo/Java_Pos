@@ -991,6 +991,7 @@ public class MainUI extends javax.swing.JFrame {
         
         if (dialogResult == JOptionPane.YES_OPTION){
             _productService.delete(_listProduct.get(tableProduct.getSelectedRow()));
+            loadTableProduct();
         }
     }//GEN-LAST:event_btnXoaSanPhamActionPerformed
 
@@ -1071,6 +1072,8 @@ public class MainUI extends javax.swing.JFrame {
 
             if (dialogResult == JOptionPane.YES_OPTION){
                 _supplierService.delete(_listSupplier.get(tableSupplier.getSelectedRow()));
+                loadTableBrand();
+                
             }
         } catch (NullPointerException ex){
             
@@ -1090,6 +1093,7 @@ public class MainUI extends javax.swing.JFrame {
 
             if (dialogResult == JOptionPane.YES_OPTION){
                 _couponService.delete(_listCoupon.get(tableCoupon.getSelectedRow()));
+                loadTableCoupon();
             }
         } catch (NullPointerException ex){
             
@@ -1109,6 +1113,7 @@ public class MainUI extends javax.swing.JFrame {
 
             if (dialogResult == JOptionPane.YES_OPTION){
                 _customerService.delete(_listCustomer.get(tableKhachHang.getSelectedRow()));
+                loadTableCustomer();
             }
         } catch (NullPointerException ex){
             
@@ -1128,6 +1133,7 @@ public class MainUI extends javax.swing.JFrame {
 
             if (dialogResult == JOptionPane.YES_OPTION){
                 _accountService.delete(_listUser.get(tableUser.getSelectedRow()));
+                loadTableUser();
             }
         } catch (NullPointerException ex){
             
@@ -1277,6 +1283,14 @@ public class MainUI extends javax.swing.JFrame {
                 // your code
                 _taoAccountDialog.clearData();
                 loadTableUser();
+            }
+        });
+        this._thongTinKhachHangDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                // your code
+                _thongTinKhachHangDialog.clearData();
+                loadTableCustomer();
             }
         });
     }
