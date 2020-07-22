@@ -943,10 +943,10 @@ public class MainUI extends javax.swing.JFrame {
     private void btnChinhSuaThuongHieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaThuongHieuActionPerformed
         // TODO add your handling code here:
         
-        int selectedIndex = tableProduct.getSelectedRow();
-        _thongTinSanPhamDialog.setStatus(Status.UPDATE);
-        _thongTinSanPhamDialog.setProduct(_listProduct.get(selectedIndex));
-        _thongTinSanPhamDialog.setVisible(true);
+        int selectedIndex = tableSupplier.getSelectedRow();
+        _thongTinThuongHieuDialog.setStatus(Status.UPDATE);
+        _thongTinThuongHieuDialog.setSupplier(_listSupplier.get(selectedIndex));
+        _thongTinThuongHieuDialog.setVisible(true);
     }//GEN-LAST:event_btnChinhSuaThuongHieuActionPerformed
 
     private void btnThemThuongHieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemThuongHieuActionPerformed
