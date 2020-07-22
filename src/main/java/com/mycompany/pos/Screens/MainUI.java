@@ -21,6 +21,7 @@ import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.entity.Orders;
 import com.mycompany.pos.entity.Product;
 import com.mycompany.pos.entity.ProductInvoice;
+import com.mycompany.pos.entity.Stock;
 import com.mycompany.pos.entity.Supplier;
 import com.mycompany.pos.entity.User;
 import com.mycompany.pos.service.CouponService;
@@ -28,6 +29,7 @@ import com.mycompany.pos.service.CustomerService;
 import com.mycompany.pos.service.ProductInvoiceService;
 import com.mycompany.pos.service.OrdersService;
 import com.mycompany.pos.service.ProductService;
+import com.mycompany.pos.service.StockService;
 import com.mycompany.pos.service.SupplierService;
 import com.mycompany.pos.service.UserService;
 import java.sql.ResultSetMetaData;
@@ -60,6 +62,7 @@ public class MainUI extends javax.swing.JFrame {
     private SupplierService _supplierService;
     private CouponService _couponService;
     private UserService _accountService;
+    private StockService _stockService;
     
     private List<Customer> _listCustomer;
     private List<Product> _listProduct;
@@ -68,6 +71,7 @@ public class MainUI extends javax.swing.JFrame {
     private List<Supplier> _listSupplier;
     private List<Coupon> _listCoupon;
     private List<User>  _listUser;
+    private List<Stock>  _listStock;
     
     private ThongTinCouponDialog _thongTinCouponDialog;
     private ThongTinKhachHangDialog _thongTinKhachHangDialog;
@@ -104,7 +108,8 @@ public class MainUI extends javax.swing.JFrame {
                     ProductInvoiceService       productInvoiceService,
                     SupplierService             supplierService,
                     CouponService               couponService,
-                    UserService                 userService
+                    UserService                 userService,
+                    StockService                stockService
     ) {
         initComponents();
         this._customerService = customerService;
@@ -114,6 +119,7 @@ public class MainUI extends javax.swing.JFrame {
         this._supplierService = supplierService;
         this._couponService = couponService;
         this._accountService = userService;
+        this._stockService = stockService;
         
         this._thongTinDonHangDialog = thongTinDonHangDialog;
         this._thongTinKhachHangDialog = thongTinKhachHangDialog;
@@ -323,20 +329,20 @@ public class MainUI extends javax.swing.JFrame {
 
         tableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Sản phẩm", "Giá tiền", "VAT"
+                "STT", "Sản phẩm", "Giá tiền", "VAT", "Số lượng"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false
+                true, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1299,6 +1305,7 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     private void loadTable() {
+        loadTableStock();
         loadTableOrder();
         loadTableProduct();
         loadTableBrand();
@@ -1366,8 +1373,18 @@ public class MainUI extends javax.swing.JFrame {
             
           
             vector.add(c.getName());
-            vector.add(c.getPrice());
+            
+            vector.add(String.format("%,d", c.getPrice().longValue()));
             vector.add(c.getVat());
+            
+            
+            long allStock = 0;
+            for(Stock s: _listStock){
+                allStock = allStock + s.getQuantity();
+            }
+            
+            vector.add(String.format("%,d", allStock));
+            
             
            
             i++;
@@ -1471,6 +1488,11 @@ public class MainUI extends javax.swing.JFrame {
             i++;
             d.addRow(vector);
         }
+    }
+    
+    private void loadTableStock(){
+        List<Stock> listStock = _stockService.findAll();
+        _listStock = listStock;
     }
 
 }

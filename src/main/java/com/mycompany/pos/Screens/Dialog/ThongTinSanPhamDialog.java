@@ -5,6 +5,7 @@
  */
 package com.mycompany.pos.Screens.Dialog;
 
+import com.github.slugify.Slugify;
 import com.mycompany.pos.Screens.Constants.DialogStatus.Status;
 import com.mycompany.pos.entity.Product;
 import com.mycompany.pos.service.CustomerService;
@@ -12,6 +13,8 @@ import com.mycompany.pos.service.ProductService;
 import com.mycompany.pos.util.MyIntFilter;
 import java.math.BigDecimal;
 import javax.swing.JFrame;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.PlainDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,6 +45,7 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         this.ps = productService;
         initComponents();
         setFilter();
+        addListener();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -65,8 +69,6 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         cbStockable = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         txtVAT = new javax.swing.JTextField();
-        txtSlug = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -78,6 +80,23 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         txtTitle.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        txtTitle.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                textChanged(evt);
+            }
+        });
+        txtTitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTitleActionPerformed(evt);
+            }
+        });
+        txtTitle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTitleKeyPressed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel10.setText("Giá");
@@ -98,9 +117,6 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel12.setText("VAT");
-
-        jLabel13.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel13.setText("Slug");
 
         jButton3.setText("Trở lại");
         jButton3.setMaximumSize(new java.awt.Dimension(70, 20));
@@ -157,13 +173,10 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel13)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel8)
-                            .addComponent(cbStockable, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12)
-                            .addComponent(txtSlug, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-                            .addComponent(txtVAT)))
+                        .addComponent(jLabel8)
+                        .addComponent(cbStockable, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel12)
+                        .addComponent(txtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -199,13 +212,9 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel13))
+                .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSlug, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -245,6 +254,22 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTitleActionPerformed
+        // TODO add your handling code here:
+       updateSlugTxt();
+    }//GEN-LAST:event_txtTitleActionPerformed
+
+    private void textChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_textChanged
+        // TODO add your handling code here:
+        
+        updateSlugTxt();
+    }//GEN-LAST:event_textChanged
+
+    private void txtTitleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTitleKeyPressed
+        // TODO add your handling code here:
+        updateSlugTxt();
+    }//GEN-LAST:event_txtTitleKeyPressed
 
     /**
      * @param args the command line arguments
@@ -290,14 +315,12 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextArea txtReference;
-    private javax.swing.JTextField txtSlug;
     private javax.swing.JTextField txtTitle;
     private javax.swing.JTextField txtVAT;
     // End of variables declaration//GEN-END:variables
@@ -316,11 +339,9 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     public void clearData() {
         _product = null;
         txtTitle.setText("");
-        txtSlug.setText("");
         txtPrice.setText("");
         txtVAT.setText("");
         txtReference.setText("");
-        txtSlug.setText("");
         cbStockable.setSelectedIndex(0);
     }
     
@@ -353,6 +374,16 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     private void delete() {
     
     }
+    
+    private void addListener(){
+        
+    }
+    
+    private String updateSlugTxt(){
+        Slugify slt = new Slugify();
+        String result  =slt.slugify(txtTitle.getText());
+        return result;
+    }
 
     private void update(){
         long id = _product.getIdProduct();
@@ -360,7 +391,7 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         int price = Integer.parseInt(txtPrice.getText());
         int vat = Integer.parseInt(txtVAT.getText());
         String reference = txtReference.getText();
-        String slug = txtSlug.getText();
+        String slug = updateSlugTxt();
         Boolean stockable = (cbStockable.getSelectedIndex() == 1);
         
         Product product = new Product();
@@ -381,7 +412,7 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         int price = Integer.parseInt(txtPrice.getText());
         int vat = Integer.parseInt(txtVAT.getText());
         String reference = txtReference.getText();
-        String slug = txtSlug.getText();
+        String slug = updateSlugTxt();
         Boolean stockable = (cbStockable.getSelectedIndex() == 1);
         
         Product product = new Product();
@@ -404,7 +435,6 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         txtPrice.setText(String.format("%d", product.getPrice().longValue()));
         txtVAT.setText(String.format("%d", product.getVat().longValue()));
         txtReference.setText(product.getReference());
-        txtSlug.setText(product.getSlug());
         cbStockable.setSelectedIndex(product.getStockable()?1:0);
         
     }

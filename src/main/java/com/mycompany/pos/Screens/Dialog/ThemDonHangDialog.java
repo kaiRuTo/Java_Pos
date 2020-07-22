@@ -632,7 +632,8 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             
             long allStock = 0;
             for(Stock s: _listStock){
-                allStock = allStock + s.getQuantity();
+                if (s.getProduct().getIdProduct().equals(c.getIdProduct()))
+                    allStock = allStock + s.getQuantity();
             }
             
             if (allStock <= 0) {
@@ -698,7 +699,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
         long tongHoaDon = 0;
         long tongSL = 0;
         int i = 1;
-        for(Product c: _listProduct) {
+        for(Product c: _listProductInOrder) {
             Vector vector = new Vector();
             vector.add(i);
             
