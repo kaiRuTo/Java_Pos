@@ -32,17 +32,52 @@ import com.mycompany.pos.service.ProductService;
 import com.mycompany.pos.service.StockService;
 import com.mycompany.pos.service.SupplierService;
 import com.mycompany.pos.service.UserService;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Paint;
 import java.sql.ResultSetMetaData;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -191,6 +226,29 @@ public class MainUI extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         tableUser = new javax.swing.JTable();
         btnReloadAccount = new javax.swing.JButton();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jSpinField1 = new com.toedter.components.JSpinField();
+        jSpinField2 = new com.toedter.components.JSpinField();
+        jSpinField3 = new com.toedter.components.JSpinField();
+        btnReloadAccount2 = new javax.swing.JButton();
+        jSpinField5 = new com.toedter.components.JSpinField();
+        jSpinField6 = new com.toedter.components.JSpinField();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jSpinField11 = new com.toedter.components.JSpinField();
+        jSpinField12 = new com.toedter.components.JSpinField();
+        jSpinField13 = new com.toedter.components.JSpinField();
+        btnReloadAccount5 = new javax.swing.JButton();
+        jSpinField14 = new com.toedter.components.JSpinField();
+        jSpinField15 = new com.toedter.components.JSpinField();
+        jSpinField16 = new com.toedter.components.JSpinField();
+        jLabel17 = new javax.swing.JLabel();
+        btnReloadAccount6 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -829,6 +887,182 @@ public class MainUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Tài khoản", jPanel9);
 
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel14.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jLabel14.setText("Thống kê");
+
+        jLabel5.setText("Doanh thu theo");
+
+        jLabel6.setText("Thống kê sản phảm bán được trong ngày");
+
+        jLabel15.setText("Xem so sánh Doanh thu theo");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tuần", "Tháng", "Năm" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tuần", "Tháng", "Năm" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
+        btnReloadAccount2.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        btnReloadAccount2.setText("Xem");
+        btnReloadAccount2.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount2.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount2.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadAccount2ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tuần", "Tháng", "Năm" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        btnReloadAccount5.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        btnReloadAccount5.setText("Xem");
+        btnReloadAccount5.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount5.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount5.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadAccount5ActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setText("So với");
+
+        btnReloadAccount6.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        btnReloadAccount6.setText("Xem");
+        btnReloadAccount6.setMaximumSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount6.setMinimumSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount6.setPreferredSize(new java.awt.Dimension(70, 20));
+        btnReloadAccount6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadAccount6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel15))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jSpinField11, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(jSpinField12, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(jSpinField13, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jSpinField14, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(jSpinField15, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(jSpinField16, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnReloadAccount5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel10Layout.createSequentialGroup()
+                                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jSpinField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(20, 20, 20)
+                                        .addComponent(jSpinField2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(20, 20, 20)))
+                                .addComponent(jSpinField3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 262, Short.MAX_VALUE)
+                                .addComponent(jSpinField5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                                .addComponent(jSpinField6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnReloadAccount2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnReloadAccount6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addGap(34, 34, 34)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnReloadAccount2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSpinField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel6)
+                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSpinField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSpinField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSpinField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5))
+                            .addComponent(jSpinField6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnReloadAccount6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(58, 58, 58)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel17))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSpinField11, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(jSpinField12, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(jSpinField13, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSpinField14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSpinField15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSpinField16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnReloadAccount5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(367, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Thống kê", jPanel10);
+
         jPanel1.setBackground(new java.awt.Color(55, 126, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(250, 800));
 
@@ -1127,6 +1361,377 @@ public class MainUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnXoaAccountActionPerformed
 
+    private void btnReloadAccount6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadAccount6ActionPerformed
+        // TODO add your handling code here:
+        LocalDateTime dateNow = LocalDateTime.now();
+        
+        
+        int selectedIndex = jComboBox1.getSelectedIndex();
+        
+        int month = jSpinField5.getValue();
+        int year = jSpinField6.getValue();
+        
+        String name = "";
+        
+        ArrayList<Soluong> listSoluong = getDT(selectedIndex,month, year);
+        
+        switch (selectedIndex){
+            case 0:
+                name = String.format("Doanh thu trong tháng %d-%d", month, year);
+                break;
+            case 1:
+                name = String.format("Doanh thu trong năm %d", year);
+                break;
+            case 2:
+                name = String.format("Doanh thu theo năm %d", year);
+                break;
+            default:
+                break;
+        }
+        
+        
+        var series = new XYSeries(name);
+        for (int i = 0; i<listSoluong.size(); i ++){
+            series.add(listSoluong.get(i).key, listSoluong.get(i).value);
+        }
+        
+        
+        var dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+        
+        
+        JFreeChart chart = createChart(dataset);
+        chart.getPlot().setBackgroundPaint(Color.WHITE);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        chartPanel.setBackground(Color.white);
+        
+        ChartFrame charFrame = new ChartFrame("Doanh Thu",chart);
+        charFrame.setVisible(true);
+        charFrame.pack();
+        
+    }//GEN-LAST:event_btnReloadAccount6ActionPerformed
+
+    private void btnReloadAccount5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadAccount5ActionPerformed
+        // TODO add your handling code here:
+        LocalDateTime dateNow = LocalDateTime.now();
+        
+        
+        int selectedIndex = jComboBox1.getSelectedIndex();
+        
+        int month1 = jSpinField12.getValue();
+        int year1 = jSpinField13.getValue();
+        
+        String name1 = "";
+        String name2 = "";
+        
+        ArrayList<Soluong> listSoluong1 = getDT(selectedIndex,month1, year1);
+        
+        
+        
+        int month2 = jSpinField15.getValue();
+        int year2 = jSpinField16.getValue();
+        
+        ArrayList<Soluong> listSoluong2 = getDT(selectedIndex,month2, year2);
+        
+        
+        switch (selectedIndex){
+            case 0:
+                name1 = String.format("Doanh thu trong tháng %d-%d", month1, year1);
+                name2 = String.format("Doanh thu trong tháng %d-%d", month2, year2);
+                break;
+            case 1:
+                name1 = String.format("Doanh thu trong năm %d", year1);
+                name2 = String.format("Doanh thu trong năm %d", year2);
+                break;
+            case 2:
+                name1 = String.format("Doanh thu theo năm %d", year1);
+                name2 = String.format("Doanh thu theo năm %d", year2);
+                break;
+            default:
+                break;
+        }
+        
+        var series1 = new XYSeries(name1);
+        for (int i = 0; i<listSoluong1.size(); i ++){
+            series1.add(listSoluong1.get(i).key, listSoluong1.get(i).value);
+        }
+        
+        var series2 = new XYSeries(name2);
+        for (int i = 0; i<listSoluong1.size(); i ++){
+            series2.add(listSoluong2.get(i).key, listSoluong1.get(i).value);
+        }
+        
+        
+        
+        var dataset = new XYSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+        
+        
+        
+        JFreeChart chart = createChart(dataset);
+        chart.getPlot().setBackgroundPaint(Color.WHITE);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        chartPanel.setBackground(Color.white);
+        
+        ChartFrame charFrame = new ChartFrame("Doanh Thu",chart);
+        charFrame.setVisible(true);
+        charFrame.pack();
+        
+    }//GEN-LAST:event_btnReloadAccount5ActionPerformed
+
+    
+    private static double getHighestArrayValue(ArrayList<Long> array) {
+        double max = 0;
+        for (int i = 1; i < array.size(); i++) {
+            if (array.get(i) > max) {
+                max = array.get(i);
+            }
+        }
+        return max;
+    }
+
+    
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+        int selectedIndex = jComboBox2.getSelectedIndex();
+        switch (selectedIndex){
+            case 0:
+                jSpinField11.setVisible(true);
+                jSpinField12.setVisible(true);
+                jSpinField13.setVisible(true);
+                
+                jSpinField14.setVisible(true);
+                jSpinField15.setVisible(true);
+                jSpinField16.setVisible(true);
+                break;
+            case 1:
+                
+                jSpinField11.setVisible(false);
+                jSpinField12.setVisible(true);
+                jSpinField13.setVisible(true);
+                
+                jSpinField14.setVisible(false);
+                jSpinField15.setVisible(true);
+                jSpinField16.setVisible(true);
+                break;
+            case 2:
+                jSpinField11.setVisible(false);
+                jSpinField12.setVisible(false);
+                jSpinField13.setVisible(true);
+                
+                jSpinField14.setVisible(false);
+                jSpinField15.setVisible(false);
+                jSpinField16.setVisible(true);
+                
+                break;
+            default:
+                return ;
+        }
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+         int selectedIndex = jComboBox1.getSelectedIndex();
+        switch (selectedIndex){
+            case 0:
+                jSpinField5.setVisible(true);
+                jSpinField6.setVisible(true);
+                
+                break;
+            case 1:
+                jSpinField5.setVisible(false);
+                jSpinField6.setVisible(true);
+                break;
+            case 2:
+                jSpinField5.setVisible(false);
+                jSpinField6.setVisible(false);
+                
+                break;
+            default:
+                return ;
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // TODO add your handling code here:
+        int selectedIndex = jComboBox3.getSelectedIndex();
+        switch (selectedIndex){
+            case 0:
+                jSpinField1.setVisible(true);
+                jSpinField2.setVisible(true);
+                jSpinField3.setVisible(true);
+                
+                break;
+            case 1:
+                jSpinField1.setVisible(false);
+                jSpinField2.setVisible(true);
+                jSpinField3.setVisible(true);
+                break;
+            case 2:
+                jSpinField1.setVisible(false);
+                jSpinField2.setVisible(false);
+                jSpinField3.setVisible(true);
+                
+                break;
+            default:
+                return ;
+        }
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void btnReloadAccount2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadAccount2ActionPerformed
+        // TODO add your handling code here:
+        ArrayList<Long> listSL;
+        listSL = new ArrayList<>();
+        ArrayList<Long> listDoanhThu;
+        listDoanhThu = new ArrayList<>();
+        int selectedIndex = jComboBox3.getSelectedIndex();
+
+        for(Product p: _listProduct) {
+            long soluong = 0;
+            long doanhThu = 0;
+            for (ProductInvoice pi: _listProductInvoice){
+                if (pi.getProduct().getIdProduct() == p.getIdProduct()){
+
+                    int date = jSpinField1.getValue();
+                    int month = jSpinField2.getValue();
+                    int year = jSpinField3.getValue();
+
+                    Date orderDate = pi.getOrders().getOrderedAt();
+
+                    switch (selectedIndex){
+                        case 0:
+                        if (orderDate.getDate() == date && orderDate.getMonth() == month && orderDate.getYear() == year){
+                            soluong = soluong + pi.getQuantity();
+
+                            long soluongSP = pi.getQuantity().longValue();
+                            double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
+                            double  dongia = pi.getPrice().longValue() * VAT;
+                            long giasanpham = soluongSP *  (long)dongia;
+
+                            doanhThu = doanhThu + giasanpham;
+
+                        }
+                        break;
+                        case 1:
+                        if (orderDate.getMonth() == month && orderDate.getYear() == year){
+                            soluong = soluong + pi.getQuantity();
+
+                            long soluongSP = pi.getQuantity().longValue();
+                            double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
+                            double  dongia = pi.getPrice().longValue() * VAT;
+                            long giasanpham = soluongSP *  (long)dongia;
+
+                            doanhThu = doanhThu + giasanpham;
+
+                        }
+                        break;
+                        case 2:
+                        if (orderDate.getMonth() == month && orderDate.getYear() == year){
+                            soluong = soluong + pi.getQuantity();
+
+                            long soluongSP = pi.getQuantity().longValue();
+                            double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
+                            double  dongia = pi.getPrice().longValue() * VAT;
+                            long giasanpham = soluongSP *  (long)dongia;
+
+                            doanhThu = doanhThu + giasanpham;
+
+                        }
+                        break;
+                        default:
+                        return ;
+                    }
+                }
+            }
+            listSL.add(soluong);
+            listDoanhThu.add(doanhThu);
+        }
+
+        CategoryDataset dataset = createDatasetAnalyzeProduct(_listProduct, listDoanhThu);
+
+        JFreeChart chart=ChartFactory.createBarChart(
+            "Doanh thu sản phẩm", //Chart Title
+            "", // Category axis
+            "VND", // Value axis
+            dataset,
+            PlotOrientation.VERTICAL,
+            true,true,false
+        );
+        chart.getPlot().setBackgroundPaint(Color.WHITE);
+
+        //          final CategoryPlot plot = chart.getCategoryPlot();
+        //        ((BarRenderer) plot.getRenderer())
+        //                .setBarPainter(new StandardBarPainter());
+        //
+        //        plot.setBackgroundPaint(Color.WHITE);
+        //
+        //        plot.setDomainGridlinesVisible(true);
+        //        plot.setRangeGridlinesVisible(true);
+        //
+        //        plot.setDomainGridlineStroke(new BasicStroke(0.25f));
+        //        plot.setRangeGridlineStroke(new BasicStroke(0.25f));
+        //
+        //        plot.setDomainGridlinePaint(new Color(204, 204, 204));
+        //        plot.setRangeGridlinePaint(new Color(204, 204, 204));
+        //
+        //        CategoryItemRenderer renderer = new CustomRenderer();
+        //        plot.setRenderer(renderer);
+        //
+        //        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        //        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        //        rangeAxis.setRange(0,getRoundedUpMultipleOfTen(getHighestArrayValue(listSL)));
+        //        rangeAxis.setTickUnit(new NumberTickUnit(10));
+        //
+        //        final BarRenderer renderer1 = (BarRenderer) plot.getRenderer();
+        //        renderer1.setDrawBarOutline(true);
+        //        renderer1.setShadowVisible(false);
+        //
+        //        renderer1.setSeriesOutlinePaint(0, new Color(204, 121, 167));
+        //        renderer1.setSeriesOutlinePaint(1, new Color(213, 94, 0));
+        //        renderer1.setSeriesOutlineStroke(0, new BasicStroke(2.5f));
+
+        //        renderer1.setBaseOutlineStroke(new BasicStroke(10f), true);
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        chartPanel.setBackground(Color.white);
+
+        PieDataset datasetPie = createDatasetAnalyzeProductPie(_listProduct, listSL);
+
+        JFreeChart chartPie = ChartFactory.createPieChart(
+            "Số lượng sản phẩm",
+            datasetPie,
+            true,
+            true,
+            false);
+
+        chartPie.getPlot().setBackgroundPaint(Color.WHITE);
+
+        //Format Label
+        PieSectionLabelGenerator labelGenerator = new StandardPieSectionLabelGenerator(
+            "{0} : ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
+        ((PiePlot) chartPie.getPlot()).setLabelGenerator(labelGenerator);
+
+        ChartPanel piePanel = new ChartPanel(chartPie);
+        piePanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        piePanel.setBackground(Color.white);
+
+        JFrame frame = new JFrame();
+        frame.setLayout(new GridLayout(0,2));
+        frame.add(chartPanel);
+        frame.add(piePanel);
+
+        frame.pack();
+        frame.setVisible(true);
+
+        //        ChartFrame charFrame = new ChartFrame("sdas",chart);
+        //        charFrame.setVisible(true);
+        //        charFrame.pack();
+    }//GEN-LAST:event_btnReloadAccount2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1171,6 +1776,9 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton btnChinhSuaSanPham;
     private javax.swing.JButton btnChinhSuaThuongHieu;
     private javax.swing.JButton btnReloadAccount;
+    private javax.swing.JButton btnReloadAccount2;
+    private javax.swing.JButton btnReloadAccount5;
+    private javax.swing.JButton btnReloadAccount6;
     private javax.swing.JButton btnThemAccount;
     private javax.swing.JButton btnThemDonHang;
     private javax.swing.JButton btnThemKhachHang;
@@ -1184,16 +1792,25 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton btnXoaKhuyenMai;
     private javax.swing.JButton btnXoaSanPham;
     private javax.swing.JButton btnXoaThuongHieu;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1207,6 +1824,17 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private com.toedter.components.JSpinField jSpinField1;
+    private com.toedter.components.JSpinField jSpinField11;
+    private com.toedter.components.JSpinField jSpinField12;
+    private com.toedter.components.JSpinField jSpinField13;
+    private com.toedter.components.JSpinField jSpinField14;
+    private com.toedter.components.JSpinField jSpinField15;
+    private com.toedter.components.JSpinField jSpinField16;
+    private com.toedter.components.JSpinField jSpinField2;
+    private com.toedter.components.JSpinField jSpinField3;
+    private com.toedter.components.JSpinField jSpinField5;
+    private com.toedter.components.JSpinField jSpinField6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tableCoupon;
     private javax.swing.JTable tableKhachHang;
@@ -1484,4 +2112,247 @@ public class MainUI extends javax.swing.JFrame {
         _listStock = listStock;
     }
 
+    private void setMaxDay() {
+        jSpinField1.setMaximum(30);
+        jSpinField1.setMinimum(3);
+    }
+    
+    
+    
+    private XYDataset createDataset() {
+
+        var series1 = new XYSeries("2014");
+        series1.add(18, 530);
+        series1.add(20, 580);
+        series1.add(25, 740);
+        series1.add(30, 901);
+        series1.add(40, 1300);
+        series1.add(50, 2219);
+
+        var series2 = new XYSeries("2016");
+        series2.add(18, 567);
+        series2.add(20, 612);
+        series2.add(25, 800);
+        series2.add(30, 980);
+        series2.add(40, 1210);
+        series2.add(50, 2350);
+
+        var dataset = new XYSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+
+        return dataset;
+    }
+
+    private JFreeChart createChart(final XYDataset dataset) {
+
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Doanh thu theo năm giữa năm này và năm trước",
+                "Age",
+                "Salary (€)",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false
+        );
+
+        XYPlot plot = chart.getXYPlot();
+
+        var renderer = new XYLineAndShapeRenderer();
+
+        renderer.setSeriesPaint(0, Color.RED);
+        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+        renderer.setSeriesPaint(1, Color.BLUE);
+        renderer.setSeriesStroke(1, new BasicStroke(2.0f));
+
+        plot.setRenderer(renderer);
+        plot.setBackgroundPaint(Color.white);
+        plot.setRangeGridlinesVisible(false);
+        plot.setDomainGridlinesVisible(false);
+
+        chart.getLegend().setFrame(BlockBorder.NONE);
+
+        chart.setTitle(new TextTitle("Average Salary per Age",
+                        new Font("Serif", Font.BOLD, 18)
+                )
+        );
+
+        return chart;
+    }
+    
+    private CategoryDataset createDatasetAnalyzeProduct(List<Product> listProduct, List<Long> listSoluong) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for(int i = 0; i< listSoluong.size(); i++){
+            dataset.addValue(listSoluong.get(i), listProduct.get(i).getName(), "");
+        }
+
+        return dataset;
+    }    
+    
+    private PieDataset createDatasetAnalyzeProductPie(List<Product> listProduct, List<Long> listSoluong) {
+        
+        DefaultPieDataset dataset=new DefaultPieDataset();
+       
+        for(int i = 0; i< listSoluong.size(); i++){
+            dataset.setValue( listProduct.get(i).getName(), listSoluong.get(i));
+        }
+
+        return dataset;
+    }
+    
+     static class CustomRenderer extends BarRenderer {
+
+        private Paint[] colors;
+
+        int transparency = 95;
+
+        // http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+        public CustomRenderer() {
+            this.colors = new Paint[] { new Color(1, 158, 115, transparency),
+                    new Color(240, 228, 66, transparency),
+                    new Color(0, 114, 178, transparency),
+                    new Color(213, 94, 0, transparency),
+                    new Color(204, 121, 167, transparency) };
+        }
+
+        public Paint getItemPaint(final int row, final int column) {
+            return this.colors[column % this.colors.length];
+        }
+    }
+     
+    private int getDayInAMonth(int month, int year){
+        YearMonth yearMonthObject = YearMonth.of(year, month);
+        int daysInMonth = yearMonthObject.lengthOfMonth(); //28  
+        return daysInMonth;
+    }
+     
+
+    private static double getRoundedUpMultipleOfTen(double number) {
+        return ((number + 9) / 10) * 10;
+    }
+
+    private ArrayList<Soluong> getDT(int selectedIndex,int month, int year){
+        LocalDateTime dateNow = LocalDateTime.now();
+        
+        ArrayList<Soluong> listSoluong = new ArrayList();
+        
+        String name = "";
+        
+        switch (selectedIndex){
+            case 0:
+                name = String.format("Doanh thu trong tháng %d-%d", month, year);
+                for (int i = 0 ; i < getDayInAMonth(month, year); i++){
+                    long doanhThu = 0;
+                    
+                    for (ProductInvoice pi: _listProductInvoice){
+                        
+                        Date orderDate = pi.getOrders().getOrderedAt();
+                        int orderDay = orderDate.getDate();
+                        int orderMonth = orderDate.getMonth() + 1;
+                        int orderYear = orderDate.getYear()+ 1900;
+                        
+                        if (i + 1 ==  orderDay && orderMonth == month && orderYear == year){
+
+                               long soluongSP = pi.getQuantity().longValue();
+                               double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
+                               double  dongia = pi.getPrice().longValue() * VAT;
+                               long giasanpham = soluongSP *  (long)dongia;
+
+                               doanhThu = doanhThu + giasanpham;
+
+                           }    
+                    }
+                    
+                    
+                    
+                    listSoluong.add(new Soluong(i+1, doanhThu));
+                }
+                break;
+            case 1:
+                name = String.format("Doanh thu trong năm %d", year);
+                for (int i = 0 ; i < 12; i++){
+                    long doanhThu = 0;
+                    
+                    for (ProductInvoice pi: _listProductInvoice){
+                        
+                        Date orderDate = pi.getOrders().getOrderedAt();
+                        int orderMonth = orderDate.getMonth() + 1;
+                        int orderYear = orderDate.getYear() + 1900;
+                        
+                        if (orderMonth == i + 1 && orderYear == year){
+
+                               long soluongSP = pi.getQuantity().longValue();
+                               double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
+                               double  dongia = pi.getPrice().longValue() * VAT;
+                               long giasanpham = soluongSP *  (long)dongia;
+
+                               doanhThu = doanhThu + giasanpham;
+
+                           }    
+                    }
+                    
+                    
+                    
+                    listSoluong.add(new Soluong(i+1, doanhThu));
+                }
+                
+                break;
+            case 2:
+                name = String.format("Doanh thu theo năm %d", year);
+                int maxYear = Integer.MIN_VALUE;
+                int minYear = Integer.MAX_VALUE;
+
+                for (Orders o: _listOrder){
+                    maxYear = (o.getOrderedAt().getYear()>maxYear) ? o.getOrderedAt().getYear() : maxYear;
+                    minYear = (o.getOrderedAt().getYear()<minYear) ? o.getOrderedAt().getYear() : minYear;
+                }
+                
+                for (int i  = minYear; i<= maxYear; i++){
+                    long doanhThu = 0;
+                    
+                    for (ProductInvoice pi: _listProductInvoice){
+                        
+                        Date orderDate = pi.getOrders().getOrderedAt();
+                        int orderYear = orderDate.getYear() + 1900;
+                        
+                        if ( i == orderYear){
+
+                               long soluongSP = pi.getQuantity().longValue();
+                               double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
+                               double  dongia = pi.getPrice().longValue() * VAT;
+                               long giasanpham = soluongSP *  (long)dongia;
+
+                               doanhThu = doanhThu + giasanpham;
+
+                           }    
+                    }
+                    
+                    
+                    
+                    listSoluong.add(new Soluong(i, doanhThu));
+                }
+                break;
+            default:
+                break;
+        }
+        
+        return listSoluong;
+    }
+    
+    class Soluong {
+        public int key;
+        public long value;
+        
+        Soluong(){
+            
+        }
+        
+        Soluong(int key, long value){
+            this.key = key;
+            this.value= value;
+        }
+    }
+    
 }
