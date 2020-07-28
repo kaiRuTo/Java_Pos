@@ -23,10 +23,6 @@ public class ImportInvoice {
     private Long idImportInvoice;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_supplier")
-    private Supplier supplier;
-
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_product")
     private Product product;
 
