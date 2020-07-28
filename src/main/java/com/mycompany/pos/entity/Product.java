@@ -25,6 +25,10 @@ public class Product {
     @Column(name = "id_product")
     private Long idProduct;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_supplier")
+    private Supplier supplier;
+
     @Column(name = "slug")
     private String slug;
 

@@ -25,10 +25,6 @@ public class Stock {
     @JoinColumn(name = "id_product")
     private Product product;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_supplier")
-    private Supplier supplier;
-
     @Column(name = "quantity")
     private Long quantity;
 
