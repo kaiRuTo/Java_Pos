@@ -1,8 +1,11 @@
 package com.mycompany.pos.entity;
 
+import com.mycompany.pos.util.StringPrefixedSequenceIdGenerator;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -18,10 +21,17 @@ import java.util.Date;
 @ToString(includeFieldNames=true)
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cseq")
+    @GenericGenerator(
+            name = "cseq",
+            strategy = "com.mycompany.pos.util.StringPrefixedSequenceIdGenerator",
+            parameters = {
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "50"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "KH"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%08d") })
     @ToString.Exclude
     @Column(name = "id_customer")
-    private Long idCustomer;
+    private String idCustomer;
 
     @Column(name = "firstName")
     @NotBlank
