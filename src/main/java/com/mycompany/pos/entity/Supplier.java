@@ -21,9 +21,6 @@ public class Supplier {
     @Column(name = "id_supplier")
     private Long idSupplier;
 
-    @Column(name = "slug")
-    private String slug;
-
     @Column(name = "name")
     private String name;
 

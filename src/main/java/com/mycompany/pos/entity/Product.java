@@ -29,9 +29,6 @@ public class Product {
     @JoinColumn(name = "id_supplier")
     private Supplier supplier;
 
-    @Column(name = "slug")
-    private String slug;
-
     @Column(name = "name")
     private String name;
 
