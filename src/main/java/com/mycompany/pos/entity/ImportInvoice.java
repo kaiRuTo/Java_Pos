@@ -22,11 +22,7 @@ public class ImportInvoice {
     @Column(name = "id_import_invoice")
     private Long idImportInvoice;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_supplier")
-    private Supplier supplier;
-
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_product")
     private Product product;
 

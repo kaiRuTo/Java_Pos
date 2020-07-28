@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "supplier")
@@ -19,9 +20,6 @@ public class Supplier {
     @ToString.Exclude
     @Column(name = "id_supplier")
     private Long idSupplier;
-
-    @Column(name = "slug")
-    private String slug;
 
     @Column(name = "name")
     private String name;
