@@ -409,6 +409,11 @@ public class MainUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProductMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableProduct);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -1003,8 +1008,7 @@ public class MainUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 262, Short.MAX_VALUE)
                                 .addComponent(jSpinField5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                                .addComponent(jSpinField6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)))
+                                .addComponent(jSpinField6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(20, 20, 20)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnReloadAccount2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1732,6 +1736,14 @@ public class MainUI extends javax.swing.JFrame {
         //        charFrame.pack();
     }//GEN-LAST:event_btnReloadAccount2ActionPerformed
 
+    private void tableProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductMouseClicked
+        // TODO add your handling code here:
+        
+        int selectedIndex = tableProduct.getSelectedRow();
+        _nccTheoSanPhamDialog.setProduct(_listProduct.get(selectedIndex));
+        _nccTheoSanPhamDialog.setVisible(true);
+    }//GEN-LAST:event_tableProductMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2025,8 +2037,6 @@ public class MainUI extends javax.swing.JFrame {
           
             vector.add(c.getName());
             vector.add(c.getPhone());
-            vector.add(c.getSlug());
-            
            
             i++;
             d.addRow(vector);

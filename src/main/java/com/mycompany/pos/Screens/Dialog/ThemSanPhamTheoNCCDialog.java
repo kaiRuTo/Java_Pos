@@ -338,7 +338,7 @@ public class ThemSanPhamTheoNCCDialog extends javax.swing.JFrame {
             importInvoice.setCreatedAt(new Date());
             importInvoice.setOrderedAt(new Date());
             importInvoice.setProduct(c);
-            importInvoice.setSupplier(_supplier);
+//            importInvoice.setSupplier(_supplier);
             
              int index = -1 ;
             for (int j = 0; j<_listSoluong.size(); j ++){

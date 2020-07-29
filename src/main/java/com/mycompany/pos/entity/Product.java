@@ -25,7 +25,7 @@ public class Product {
     @Column(name = "id_product")
     private Long idProduct;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_supplier")
     private Supplier supplier;
 

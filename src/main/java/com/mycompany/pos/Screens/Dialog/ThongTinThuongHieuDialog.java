@@ -306,7 +306,6 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
         
         Supplier supplier = new Supplier();
         supplier.setName(title);
-        supplier.setSlug(slug);
         supplier.setPhone(phone);
         
         _supplierService.save(supplier);
@@ -320,7 +319,6 @@ public class ThongTinThuongHieuDialog extends javax.swing.JFrame {
         
         Supplier supplier = new Supplier();
         supplier.setName(title);
-        supplier.setSlug(slug);
         supplier.setPhone(phone);
         
         _supplierService.save(supplier);

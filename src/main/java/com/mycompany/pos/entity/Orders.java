@@ -24,7 +24,7 @@ public class Orders {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Customer customer;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Coupon coupon;
 
     private Date orderedAt;

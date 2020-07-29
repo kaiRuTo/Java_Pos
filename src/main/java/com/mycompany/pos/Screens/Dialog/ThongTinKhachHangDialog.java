@@ -312,7 +312,7 @@ public class ThongTinKhachHangDialog extends javax.swing.JFrame {
     }
 
     private void update(){
-        long id = _customer.getIdCustomer();
+        String id = _customer.getIdCustomer();
         String firstName = txtFirstName.getText();
         String lastName = txtLastName.getText();
         String phone = txtPhone.getText();

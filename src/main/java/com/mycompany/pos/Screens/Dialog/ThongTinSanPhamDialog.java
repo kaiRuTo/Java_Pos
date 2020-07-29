@@ -8,6 +8,7 @@ package com.mycompany.pos.Screens.Dialog;
 import com.github.slugify.Slugify;
 import com.mycompany.pos.Screens.Constants.DialogStatus.Status;
 import com.mycompany.pos.entity.Product;
+import com.mycompany.pos.entity.Supplier;
 import com.mycompany.pos.service.CustomerService;
 import com.mycompany.pos.service.ProductService;
 import com.mycompany.pos.util.MyIntFilter;
@@ -26,9 +27,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ThongTinSanPhamDialog extends javax.swing.JFrame {
 
-    
+    private TimNhaCungCapDialog _timNhaCungCapDialog;
     private ProductService ps;
     private Product _product;
+    private Supplier _supplier;
     
     
     /**
@@ -41,7 +43,9 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     
     
     @Autowired
-    public ThongTinSanPhamDialog(ProductService productService) {
+    public ThongTinSanPhamDialog(   TimNhaCungCapDialog timNhaCungCapDialog,
+                                    ProductService productService) {
+        _timNhaCungCapDialog = timNhaCungCapDialog;
         this.ps = productService;
         initComponents();
         setFilter();
@@ -74,6 +78,9 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtReference = new javax.swing.JTextArea();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,7 +118,7 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         jLabel11.setText("Reference");
 
         jLabel8.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel8.setText("Stockable");
+        jLabel8.setText("Trạng thái");
 
         cbStockable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngưng Hoạt động", "Hoạt động", " " }));
 
@@ -152,6 +159,19 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         txtReference.setRows(5);
         jScrollPane1.setViewportView(txtReference);
 
+        jLabel9.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jLabel9.setText("Nhà cung cấp");
+
+        jLabel13.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jLabel13.setText("ABC");
+
+        jButton4.setText("Chọn");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -172,11 +192,16 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel8)
                         .addComponent(cbStockable, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel12)
-                        .addComponent(txtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4))
+                        .addComponent(jLabel13))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -198,12 +223,13 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel9)
+                    .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbStockable, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(jLabel13))
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel12))
@@ -212,10 +238,16 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbStockable, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -271,6 +303,13 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         updateSlugTxt();
     }//GEN-LAST:event_txtTitleKeyPressed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        
+        _timNhaCungCapDialog.loadListSupplier();
+        _timNhaCungCapDialog.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -311,12 +350,15 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtPrice;
@@ -326,6 +368,22 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     //// My code
+    
+     private void addListener(){
+        _timNhaCungCapDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                // your code
+//                _screenTDH.clearData();
+                Supplier supplier = _timNhaCungCapDialog.getCurrentSupplier();
+                if (supplier != null){
+                    _supplier = supplier;
+                    jLabel13.setText(_supplier.getName());
+                }
+            }
+        });
+    }
+    
     
     private Status _status;
     
@@ -375,10 +433,6 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
     
     }
     
-    private void addListener(){
-        
-    }
-    
     private String updateSlugTxt(){
         Slugify slt = new Slugify();
         String result  =slt.slugify(txtTitle.getText());
@@ -398,9 +452,9 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         product.setIdProduct(id);
         product.setName(title);
         product.setPrice(BigDecimal.valueOf(price));
+        product.setSupplier(_supplier);
         product.setVat(BigDecimal.valueOf(vat));
         product.setReference(reference);
-        product.setSlug(slug);
         product.setStockable(stockable);
         
         ps.save(product);
@@ -417,10 +471,10 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         
         Product product = new Product();
         product.setName(title);
+        product.setSupplier(_supplier);
         product.setPrice(BigDecimal.valueOf(price));
         product.setVat(BigDecimal.valueOf(vat));
         product.setReference(reference);
-        product.setSlug(slug);
         product.setStockable(stockable);
         
         ps.save(product);
@@ -436,6 +490,6 @@ public class ThongTinSanPhamDialog extends javax.swing.JFrame {
         txtVAT.setText(String.format("%d", product.getVat().longValue()));
         txtReference.setText(product.getReference());
         cbStockable.setSelectedIndex(product.getStockable()?1:0);
-        
+        _supplier = product.getSupplier();
     }
 }

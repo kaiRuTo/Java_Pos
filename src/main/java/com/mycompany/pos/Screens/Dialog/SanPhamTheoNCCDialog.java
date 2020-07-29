@@ -324,7 +324,6 @@ public class SanPhamTheoNCCDialog extends javax.swing.JFrame {
     public void setSupplier(Supplier supplier){
         _supplier = supplier;
         lbName.setText(_supplier.getName());
-        lbSlug.setText(_supplier.getSlug());
         loadList();
     }
     
@@ -371,10 +370,10 @@ public class SanPhamTheoNCCDialog extends javax.swing.JFrame {
         for(ImportInvoice c: _listImportInvoice) {
             Vector vector = new Vector();
             vector.add(i);
-            
-            if (!c.getSupplier().getIdSupplier().equals(_supplier.getIdSupplier()))
-                continue;
-            
+//            
+//            if (!c.getSupplier().getIdSupplier().equals(_supplier.getIdSupplier()))
+//                continue;
+//            
             vector.add(c.getProduct().getName());
             vector.add(c.getQuantity());
             vector.add(formatter.format(c.getOrderedAt()));

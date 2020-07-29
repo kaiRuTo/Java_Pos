@@ -8,9 +8,11 @@ package com.mycompany.pos.Screens.Dialog;
 import com.mycompany.pos.entity.Customer;
 import com.mycompany.pos.entity.ImportInvoice;
 import com.mycompany.pos.entity.Product;
+import com.mycompany.pos.entity.Stock;
 import com.mycompany.pos.entity.Supplier;
 import com.mycompany.pos.service.ImportInvoiceService;
 import com.mycompany.pos.service.ProductService;
+import com.mycompany.pos.service.StockService;
 import com.mycompany.pos.service.SupplierService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,14 +30,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
     
-    private ThemSanPhamTheoNCCDialog _themSanPhamTheoNCCDialog;
+    private ThemHangDialog _themHangDialog;
     
     private SupplierService _supplierService;
     private ProductService _productService;
+    private StockService _stockService;
     private ImportInvoiceService _importInvoiceService;
     
     private List<Supplier> _listSupplier;
+    private List<Stock> _listStock;
     private List<Product> _listProduct;
+    private Product _product;
     private List<ImportInvoice> _listImportInvoice;
     
     
@@ -49,14 +54,16 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
     }
 
     @Autowired
-    public NCCTheoSanPhamDialog(ThemSanPhamTheoNCCDialog    themSanPhamTheoNCCDialog, 
+    public NCCTheoSanPhamDialog(ThemHangDialog              themHangDialog,
+                                StockService                stockService,
                                 SupplierService             supplierService, 
                                 ProductService              productService, 
                                 ImportInvoiceService        importInvoiceService) {
         initComponents();
         
-        _themSanPhamTheoNCCDialog = themSanPhamTheoNCCDialog;
+        _themHangDialog = themHangDialog;
         
+        _stockService = stockService;
         _supplierService = supplierService;
         _productService = productService;
         _importInvoiceService = importInvoiceService;
@@ -82,10 +89,12 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
         btnThemSanPham3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        labelName = new javax.swing.JLabel();
+        labelPrice = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        labelVAT = new javax.swing.JLabel();
+        labelStock = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,20 +102,20 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
 
         tableSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Nhà cung cấp", "Số lượng", "Ngày thêm", "Ngày đến", "Đã đến"
+                "STT", "Số lượng", "Ngày thêm", "Ngày đến", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -126,7 +135,6 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
             tableSupplier.getColumnModel().getColumn(2).setResizable(false);
             tableSupplier.getColumnModel().getColumn(3).setResizable(false);
             tableSupplier.getColumnModel().getColumn(4).setResizable(false);
-            tableSupplier.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jLabel1.setFont(new java.awt.Font("Open Sans", 0, 36)); // NOI18N
@@ -168,17 +176,23 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel3.setText("Giá:");
 
-        jLabel4.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel4.setText("Sản phẩm");
+        labelName.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        labelName.setText("Sản phẩm");
 
-        jLabel5.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel5.setText("2000000000");
+        labelPrice.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        labelPrice.setText("2000000000");
 
         jLabel6.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
         jLabel6.setText("VAT:");
 
-        jLabel7.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
-        jLabel7.setText("2000000000");
+        labelVAT.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        labelVAT.setText("2000000000");
+
+        labelStock.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        labelStock.setText("0");
+
+        jLabel9.setFont(new java.awt.Font("Open Sans", 0, 18)); // NOI18N
+        jLabel9.setText("Số lượng trong kho");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -200,8 +214,8 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
                                         .addComponent(jLabel3)
                                         .addGap(94, 94, 94)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4))))
+                                    .addComponent(labelPrice)
+                                    .addComponent(labelName))))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -212,9 +226,15 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
                                 .addComponent(btnThemSanPham1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(85, 85, 85)
-                                .addComponent(jLabel6)
-                                .addGap(94, 94, 94)
-                                .addComponent(jLabel7)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(labelStock))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(94, 94, 94)
+                                        .addComponent(labelVAT)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(20, 20, 20))
         );
@@ -231,15 +251,18 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                    .addComponent(labelName)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(labelStock)))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(jLabel7))
+                        .addComponent(labelVAT))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(jLabel5)))
+                        .addComponent(labelPrice)))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
@@ -270,10 +293,21 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
 
     private void btnThemSanPham2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPham2ActionPerformed
         // TODO add your handling code here:
+        _themHangDialog.setProduct(_product);
+        _themHangDialog.setVisible(true);
     }//GEN-LAST:event_btnThemSanPham2ActionPerformed
 
     private void btnThemSanPham3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPham3ActionPerformed
         // TODO add your handling code here:
+         int index = tableSupplier.getSelectedRow();
+        
+        ImportInvoice importInvoice = _listImportInvoice.get(index);
+        importInvoice.setArrivedAt(new Date());
+        importInvoice.setArrived(true);
+        
+        _importInvoiceService.save(importInvoice);
+        _importInvoiceService.confirmArrived(importInvoice);
+        loadList();
     }//GEN-LAST:event_btnThemSanPham3ActionPerformed
 
     /**
@@ -319,28 +353,43 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelName;
+    private javax.swing.JLabel labelPrice;
+    private javax.swing.JLabel labelStock;
+    private javax.swing.JLabel labelVAT;
     private javax.swing.JTable tableSupplier;
     // End of variables declaration//GEN-END:variables
 
     private void addListener(){
-        _themSanPhamTheoNCCDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+        _themHangDialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                 // your code
-                _themSanPhamTheoNCCDialog.clearData();
+                _themHangDialog.clearData();
                 loadList();
             }
         });
     }
     
+    public void setProduct(Product product){
+        _product = product;
+        
+        double vat = _product.getVat().longValue()/100;
+        
+        labelName.setText(_product.getName());
+        labelPrice.setText(String.format("%,d", _product.getPrice().longValue()));
+        labelVAT.setText(String.format("%.2f", vat));
+        
+        
+        loadList();
+    }
+    
     public void loadList(){
-        loadListSuppliers();
+//        loadListSuppliers();
         loadListProduct();
         loadListImportInvoice();
         
@@ -355,7 +404,26 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
     private void loadListProduct(){
         List<Product> listProduct = _productService.findAll();
         _listProduct = listProduct;
+        
+        loadListStock();
     }
+      
+    private void loadListStock(){
+        List<Stock> listStock = _stockService.findAll();
+        _listStock = listStock;
+        
+        long allStock = 0;
+        
+        for (Stock s: _listStock){
+            if (s.getProduct().getIdProduct() == _product.getIdProduct()) 
+                allStock = s.getQuantity();
+        }
+        
+        labelStock.setText(String.format("%,d", allStock));
+        
+        
+    }
+    
     
     private void loadListImportInvoice(){
         List<ImportInvoice> listImportInvoice = _importInvoiceService.findAll();
@@ -372,7 +440,6 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
             Vector vector = new Vector();
             vector.add(i);
             
-            vector.add(c.getSupplier().getName());
             vector.add(c.getQuantity());
             vector.add(formatter.format(c.getOrderedAt()));
             if (c.getArrived() == null||  c.getArrived() == null || null == c.getArrivedAt()){
@@ -382,10 +449,12 @@ public class NCCTheoSanPhamDialog extends javax.swing.JFrame {
                 vector.add(formatter.format(c.getArrivedAt()));
                 vector.add( "Đã đến");
             }
-            
+     
             i++;
             d.addRow(vector);
         }
     }
+    
+    
     
 }

@@ -20,5 +20,5 @@ public class SupplierService {
 
     public void delete(Supplier supplier) {supplierRepository.delete(supplier);}
 
-    public void save(Supplier supplier) {supplierRepository.save(supplier);}
+    public Supplier save(Supplier supplier) { return supplierRepository.save(supplier);}
 }
