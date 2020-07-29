@@ -38,6 +38,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Paint;
+import java.math.BigInteger;
 import java.sql.ResultSetMetaData;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -168,7 +169,11 @@ public class MainUI extends javax.swing.JFrame {
         
         setListener();
         
+        loadDataThongKe();
+        
         loadTable();
+        jSpinField11.setVisible(false);
+        jSpinField14.setVisible(false);
     }
 
     /**
@@ -385,20 +390,20 @@ public class MainUI extends javax.swing.JFrame {
 
         tableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Sản phẩm", "Giá tiền", "VAT", "Số lượng", "Trạng thái"
+                "STT", "Sản phẩm", "Nhà cung cấp", "Giá tiền", "VAT", "Số lượng", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, true, true
+                true, false, true, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -487,22 +492,22 @@ public class MainUI extends javax.swing.JFrame {
 
         tableSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "STT", "Tên nhà cung cấp", "SDT", "Slug"
+                "STT", "Tên nhà cung cấp", "SDT"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -903,17 +908,26 @@ public class MainUI extends javax.swing.JFrame {
 
         jLabel15.setText("Xem so sánh Doanh thu theo");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tuần", "Tháng", "Năm" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tháng", "Năm" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tuần", "Tháng", "Năm" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tháng", "Năm" }));
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox3ActionPerformed(evt);
+            }
+        });
+
+        jSpinField2.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jSpinField2CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jSpinField2InputMethodTextChanged(evt);
             }
         });
 
@@ -928,7 +942,7 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tuần", "Tháng", "Năm" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tháng", "Năm" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -1372,8 +1386,8 @@ public class MainUI extends javax.swing.JFrame {
         
         int selectedIndex = jComboBox1.getSelectedIndex();
         
-        int month = jSpinField5.getValue();
-        int year = jSpinField6.getValue();
+        int month = jSpinField5.getValue()-1;
+        int year = jSpinField6.getValue()-1900;
         
         String name = "";
         
@@ -1381,13 +1395,13 @@ public class MainUI extends javax.swing.JFrame {
         
         switch (selectedIndex){
             case 0:
-                name = String.format("Doanh thu trong tháng %d-%d", month, year);
+                name = String.format("Doanh thu trong tháng %d-%d", month+1, year+1900);
                 break;
             case 1:
-                name = String.format("Doanh thu trong năm %d", year);
+                name = String.format("Doanh thu trong năm %d", year+1900);
                 break;
             case 2:
-                name = String.format("Doanh thu theo năm %d", year);
+                name = String.format("Doanh thu theo năm %d", year+1900);
                 break;
             default:
                 break;
@@ -1396,7 +1410,8 @@ public class MainUI extends javax.swing.JFrame {
         
         var series = new XYSeries(name);
         for (int i = 0; i<listSoluong.size(); i ++){
-            series.add(listSoluong.get(i).key, listSoluong.get(i).value);
+            long value = listSoluong.get(i).value.divide(BigInteger.valueOf(1000000)).longValueExact();
+            series.add(listSoluong.get(i).key, value);
         }
         
         
@@ -1421,10 +1436,10 @@ public class MainUI extends javax.swing.JFrame {
         LocalDateTime dateNow = LocalDateTime.now();
         
         
-        int selectedIndex = jComboBox1.getSelectedIndex();
+        int selectedIndex = jComboBox2.getSelectedIndex();
         
-        int month1 = jSpinField12.getValue();
-        int year1 = jSpinField13.getValue();
+        int month1 = jSpinField12.getValue()-1;
+        int year1 = jSpinField13.getValue()-1900;
         
         String name1 = "";
         String name2 = "";
@@ -1433,24 +1448,24 @@ public class MainUI extends javax.swing.JFrame {
         
         
         
-        int month2 = jSpinField15.getValue();
-        int year2 = jSpinField16.getValue();
+        int month2 = jSpinField15.getValue()-1;
+        int year2 = jSpinField16.getValue()-1900;
         
         ArrayList<Soluong> listSoluong2 = getDT(selectedIndex,month2, year2);
         
         
         switch (selectedIndex){
             case 0:
-                name1 = String.format("Doanh thu trong tháng %d-%d", month1, year1);
-                name2 = String.format("Doanh thu trong tháng %d-%d", month2, year2);
+                name1 = String.format("Doanh thu trong tháng %d-%d", month1+1, year1+1900);
+                name2 = String.format("Doanh thu trong tháng %d-%d ", month2+1, year2+1900);
                 break;
             case 1:
-                name1 = String.format("Doanh thu trong năm %d", year1);
-                name2 = String.format("Doanh thu trong năm %d", year2);
+                name1 = String.format("Doanh thu trong năm %d", year1+1900);
+                name2 = String.format("Doanh thu trong năm %d ", year2+1900);
                 break;
             case 2:
-                name1 = String.format("Doanh thu theo năm %d", year1);
-                name2 = String.format("Doanh thu theo năm %d", year2);
+                name1 = String.format("Doanh thu theo năm %d", year1+1900);
+                name2 = String.format("Doanh thu theo năm %d ", year2+1900);
                 break;
             default:
                 break;
@@ -1458,12 +1473,12 @@ public class MainUI extends javax.swing.JFrame {
         
         var series1 = new XYSeries(name1);
         for (int i = 0; i<listSoluong1.size(); i ++){
-            series1.add(listSoluong1.get(i).key, listSoluong1.get(i).value);
+            series1.add(listSoluong1.get(i).key, listSoluong1.get(i).value.divide(BigInteger.valueOf(1000000)));
         }
         
         var series2 = new XYSeries(name2);
-        for (int i = 0; i<listSoluong1.size(); i ++){
-            series2.add(listSoluong2.get(i).key, listSoluong1.get(i).value);
+        for (int i = 0; i<listSoluong2.size(); i ++){
+            series2.add(listSoluong2.get(i).key, listSoluong2.get(i).value.divide(BigInteger.valueOf(1000000)));
         }
         
         
@@ -1503,22 +1518,22 @@ public class MainUI extends javax.swing.JFrame {
         int selectedIndex = jComboBox2.getSelectedIndex();
         switch (selectedIndex){
             case 0:
-                jSpinField11.setVisible(true);
-                jSpinField12.setVisible(true);
-                jSpinField13.setVisible(true);
-                
-                jSpinField14.setVisible(true);
-                jSpinField15.setVisible(true);
-                jSpinField16.setVisible(true);
-                break;
-            case 1:
-                
                 jSpinField11.setVisible(false);
                 jSpinField12.setVisible(true);
                 jSpinField13.setVisible(true);
                 
                 jSpinField14.setVisible(false);
                 jSpinField15.setVisible(true);
+                jSpinField16.setVisible(true);
+                break;
+            case 1:
+                
+                jSpinField11.setVisible(false);
+                jSpinField12.setVisible(false);
+                jSpinField13.setVisible(true);
+                
+                jSpinField14.setVisible(false);
+                jSpinField15.setVisible(false);
                 jSpinField16.setVisible(true);
                 break;
             case 2:
@@ -1589,19 +1604,19 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         ArrayList<Long> listSL;
         listSL = new ArrayList<>();
-        ArrayList<Long> listDoanhThu;
+        ArrayList<BigInteger> listDoanhThu;
         listDoanhThu = new ArrayList<>();
         int selectedIndex = jComboBox3.getSelectedIndex();
 
         for(Product p: _listProduct) {
             long soluong = 0;
-            long doanhThu = 0;
+            BigInteger doanhThu = BigInteger.valueOf(0);
             for (ProductInvoice pi: _listProductInvoice){
                 if (pi.getProduct().getIdProduct() == p.getIdProduct()){
 
                     int date = jSpinField1.getValue();
-                    int month = jSpinField2.getValue();
-                    int year = jSpinField3.getValue();
+                    int month = jSpinField2.getValue()-1;
+                    int year = jSpinField3.getValue()-1900;
 
                     Date orderDate = pi.getOrders().getOrderedAt();
 
@@ -1615,7 +1630,7 @@ public class MainUI extends javax.swing.JFrame {
                             double  dongia = pi.getPrice().longValue() * VAT;
                             long giasanpham = soluongSP *  (long)dongia;
 
-                            doanhThu = doanhThu + giasanpham;
+                            doanhThu = doanhThu.add(BigInteger.valueOf(giasanpham));
 
                         }
                         break;
@@ -1628,12 +1643,12 @@ public class MainUI extends javax.swing.JFrame {
                             double  dongia = pi.getPrice().longValue() * VAT;
                             long giasanpham = soluongSP *  (long)dongia;
 
-                            doanhThu = doanhThu + giasanpham;
+                            doanhThu = doanhThu.add(BigInteger.valueOf(giasanpham));
 
                         }
                         break;
                         case 2:
-                        if (orderDate.getMonth() == month && orderDate.getYear() == year){
+                        if (orderDate.getYear() == year){
                             soluong = soluong + pi.getQuantity();
 
                             long soluongSP = pi.getQuantity().longValue();
@@ -1641,7 +1656,7 @@ public class MainUI extends javax.swing.JFrame {
                             double  dongia = pi.getPrice().longValue() * VAT;
                             long giasanpham = soluongSP *  (long)dongia;
 
-                            doanhThu = doanhThu + giasanpham;
+                            doanhThu = doanhThu.add(BigInteger.valueOf(giasanpham));
 
                         }
                         break;
@@ -1651,6 +1666,7 @@ public class MainUI extends javax.swing.JFrame {
                 }
             }
             listSL.add(soluong);
+            doanhThu = doanhThu.divide(BigInteger.valueOf(1000000));
             listDoanhThu.add(doanhThu);
         }
 
@@ -1659,7 +1675,7 @@ public class MainUI extends javax.swing.JFrame {
         JFreeChart chart=ChartFactory.createBarChart(
             "Doanh thu sản phẩm", //Chart Title
             "", // Category axis
-            "VND", // Value axis
+            "1.000.000 VND", // Value axis
             dataset,
             PlotOrientation.VERTICAL,
             true,true,false
@@ -1743,6 +1759,18 @@ public class MainUI extends javax.swing.JFrame {
         _nccTheoSanPhamDialog.setProduct(_listProduct.get(selectedIndex));
         _nccTheoSanPhamDialog.setVisible(true);
     }//GEN-LAST:event_tableProductMouseClicked
+
+    private void jSpinField2InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jSpinField2InputMethodTextChanged
+        // TODO add your handling code here:
+        int maxValue  = getDaygetInAMonth(jSpinField2.getValue(), jSpinField3.getValue());
+        jSpinField1.setMaximum(maxValue);
+    }//GEN-LAST:event_jSpinField2InputMethodTextChanged
+
+    private void jSpinField2CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jSpinField2CaretPositionChanged
+        // TODO add your handling code here:
+         int maxValue  = getDaygetInAMonth(jSpinField2.getValue(), jSpinField3.getValue());
+         jSpinField1.setMaximum(maxValue);
+    }//GEN-LAST:event_jSpinField2CaretPositionChanged
 
     /**
      * @param args the command line arguments
@@ -1876,6 +1904,14 @@ public class MainUI extends javax.swing.JFrame {
                 loadTableProduct();
             }
         });
+        this._nccTheoSanPhamDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                // your code
+                loadTableStock();
+                loadTableProduct();
+            }
+        });
         this._thongTinThuongHieuDialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
@@ -1970,7 +2006,7 @@ public class MainUI extends javax.swing.JFrame {
             
             Date toDay = new Date();
             
-            if (c.getOrderedAt().getDate() == toDay.getDate() || c.getOrderedAt().getMonth() == toDay.getMonth() || c.getOrderedAt().getYear() == toDay.getYear() ){
+            if (c.getOrderedAt().getDate() == toDay.getDate() && c.getOrderedAt().getMonth() == toDay.getMonth() && c.getOrderedAt().getYear() == toDay.getYear() ){
                 TongDonHangTrongHomNay = TongDonHangTrongHomNay + 1;
                 TongThuNhapTrongHomNay = TongThuNhapTrongHomNay + tongTien;
             }
@@ -2000,6 +2036,8 @@ public class MainUI extends javax.swing.JFrame {
             
           
             vector.add(c.getName());
+            
+            vector.add(c.getSupplier().getName());
             
             vector.add(String.format("%,d", c.getPrice().longValue()));
             vector.add(c.getVat());
@@ -2158,8 +2196,8 @@ public class MainUI extends javax.swing.JFrame {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Doanh thu theo năm giữa năm này và năm trước",
-                "Age",
-                "Salary (€)",
+                "",
+                "1.000.000 VND",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -2183,7 +2221,7 @@ public class MainUI extends javax.swing.JFrame {
 
         chart.getLegend().setFrame(BlockBorder.NONE);
 
-        chart.setTitle(new TextTitle("Average Salary per Age",
+        chart.setTitle(new TextTitle("",
                         new Font("Serif", Font.BOLD, 18)
                 )
         );
@@ -2191,7 +2229,7 @@ public class MainUI extends javax.swing.JFrame {
         return chart;
     }
     
-    private CategoryDataset createDatasetAnalyzeProduct(List<Product> listProduct, List<Long> listSoluong) {
+    private CategoryDataset createDatasetAnalyzeProduct(List<Product> listProduct, List<BigInteger> listSoluong) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         for(int i = 0; i< listSoluong.size(); i++){
@@ -2232,7 +2270,7 @@ public class MainUI extends javax.swing.JFrame {
         }
     }
      
-    private int getDayInAMonth(int month, int year){
+    private int getDaygetInAMonth(int month, int year){
         YearMonth yearMonthObject = YearMonth.of(year, month);
         int daysInMonth = yearMonthObject.lengthOfMonth(); //28  
         return daysInMonth;
@@ -2253,15 +2291,17 @@ public class MainUI extends javax.swing.JFrame {
         switch (selectedIndex){
             case 0:
                 name = String.format("Doanh thu trong tháng %d-%d", month, year);
-                for (int i = 0 ; i < getDayInAMonth(month, year); i++){
-                    long doanhThu = 0;
+                
+                for (int i = 0 ; i < getDaygetInAMonth(month, year); i++){
+                   
+                 BigInteger doanhThu = BigInteger.valueOf(0);
                     
                     for (ProductInvoice pi: _listProductInvoice){
                         
                         Date orderDate = pi.getOrders().getOrderedAt();
                         int orderDay = orderDate.getDate();
-                        int orderMonth = orderDate.getMonth() + 1;
-                        int orderYear = orderDate.getYear()+ 1900;
+                        int orderMonth = orderDate.getMonth();
+                        int orderYear = orderDate.getYear();
                         
                         if (i + 1 ==  orderDay && orderMonth == month && orderYear == year){
 
@@ -2269,8 +2309,15 @@ public class MainUI extends javax.swing.JFrame {
                                double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
                                double  dongia = pi.getPrice().longValue() * VAT;
                                long giasanpham = soluongSP *  (long)dongia;
+                               
+                               
+                                if (pi.getOrders().getCoupon() != null){
+                                    double giamGia = ( 1.0 - pi.getOrders().getCoupon().getDiscountPercentage()/100.0);
+                                    giasanpham = (long)(giasanpham * giamGia);
+                                }
+                               
 
-                               doanhThu = doanhThu + giasanpham;
+                               doanhThu = doanhThu.add(BigInteger.valueOf(giasanpham));
 
                            }    
                     }
@@ -2283,22 +2330,28 @@ public class MainUI extends javax.swing.JFrame {
             case 1:
                 name = String.format("Doanh thu trong năm %d", year);
                 for (int i = 0 ; i < 12; i++){
-                    long doanhThu = 0;
                     
+                 BigInteger doanhThu = BigInteger.valueOf(0);
                     for (ProductInvoice pi: _listProductInvoice){
                         
                         Date orderDate = pi.getOrders().getOrderedAt();
-                        int orderMonth = orderDate.getMonth() + 1;
-                        int orderYear = orderDate.getYear() + 1900;
+                        int orderMonth = orderDate.getMonth();
+                        int orderYear = orderDate.getYear();
                         
-                        if (orderMonth == i + 1 && orderYear == year){
+                        if (orderMonth == i && orderYear == year){
 
                                long soluongSP = pi.getQuantity().longValue();
                                double VAT = ( 1.0 + pi.getVat().longValue()/100.0);
                                double  dongia = pi.getPrice().longValue() * VAT;
                                long giasanpham = soluongSP *  (long)dongia;
 
-                               doanhThu = doanhThu + giasanpham;
+                                if (pi.getOrders().getCoupon() != null){
+                                    double giamGia = ( 1.0 - pi.getOrders().getCoupon().getDiscountPercentage()/100.0);
+                                    giasanpham = (long)(giasanpham * giamGia);
+                                }
+                               
+
+                               doanhThu = doanhThu.add(BigInteger.valueOf(giasanpham));
 
                            }    
                     }
@@ -2320,12 +2373,13 @@ public class MainUI extends javax.swing.JFrame {
                 }
                 
                 for (int i  = minYear; i<= maxYear; i++){
-                    long doanhThu = 0;
                     
+                 BigInteger doanhThu = BigInteger.valueOf(0);
+                 
                     for (ProductInvoice pi: _listProductInvoice){
                         
                         Date orderDate = pi.getOrders().getOrderedAt();
-                        int orderYear = orderDate.getYear() + 1900;
+                        int orderYear = orderDate.getYear();
                         
                         if ( i == orderYear){
 
@@ -2334,7 +2388,13 @@ public class MainUI extends javax.swing.JFrame {
                                double  dongia = pi.getPrice().longValue() * VAT;
                                long giasanpham = soluongSP *  (long)dongia;
 
-                               doanhThu = doanhThu + giasanpham;
+                                if (pi.getOrders().getCoupon() != null){
+                                    double giamGia = ( 1.0 - pi.getOrders().getCoupon().getDiscountPercentage()/100.0);
+                                    giasanpham = (long)(giasanpham * giamGia);
+                                }
+                               
+
+                               doanhThu = doanhThu.add(BigInteger.valueOf(giasanpham));
 
                            }    
                     }
@@ -2351,15 +2411,35 @@ public class MainUI extends javax.swing.JFrame {
         return listSoluong;
     }
     
+    private void loadDataThongKe(){
+        Date date = new Date();
+        
+        jSpinField1.setValue(date.getDate());
+        jSpinField2.setValue(date.getMonth()+1);
+        jSpinField3.setValue(date.getYear()+1900);
+        
+        jSpinField5.setValue(date.getMonth()+1);
+        jSpinField6.setValue(date.getYear()+1900);
+        
+        jSpinField11.setValue(date.getDate());
+        jSpinField12.setValue(date.getMonth()+1);
+        jSpinField13.setValue(date.getYear()+1900);
+        
+        jSpinField14.setValue(date.getDate());
+        jSpinField15.setValue(date.getMonth());
+        jSpinField16.setValue(date.getYear()+1900);
+        
+    }
+    
     class Soluong {
         public int key;
-        public long value;
+        public BigInteger value;
         
         Soluong(){
             
         }
         
-        Soluong(int key, long value){
+        Soluong(int key, BigInteger value){
             this.key = key;
             this.value= value;
         }

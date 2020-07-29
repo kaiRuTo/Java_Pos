@@ -358,9 +358,10 @@
                     <Component class="javax.swing.JTable" name="tableProduct">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="6" rowCount="4">
+                          <Table columnCount="7" rowCount="4">
                             <Column editable="true" title="STT" type="java.lang.Integer"/>
                             <Column editable="false" title="S&#x1ea3;n ph&#x1ea9;m" type="java.lang.String"/>
+                            <Column editable="true" title="Nh&#xe0; cung c&#x1ea5;p" type="java.lang.String"/>
                             <Column editable="false" title="Gi&#xe1; ti&#x1ec1;n" type="java.lang.String"/>
                             <Column editable="false" title="VAT" type="java.lang.String"/>
                             <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.String"/>
@@ -369,6 +370,11 @@
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -538,21 +544,15 @@
                     <Component class="javax.swing.JTable" name="tableSupplier">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="4" rowCount="6">
+                          <Table columnCount="3" rowCount="6">
                             <Column editable="false" title="STT" type="java.lang.Integer"/>
                             <Column editable="false" title="T&#xea;n nh&#xe0; cung c&#x1ea5;p" type="java.lang.String"/>
                             <Column editable="false" title="SDT" type="java.lang.String"/>
-                            <Column editable="false" title="Slug" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
                             <Column maxWidth="-1" minWidth="-1" prefWidth="30" resizable="false">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
                               <Renderer/>
@@ -1316,11 +1316,10 @@
                 <Component class="javax.swing.JComboBox" name="jComboBox1">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
+                      <StringArray count="3">
                         <StringItem index="0" value="Ng&#xe0;y"/>
-                        <StringItem index="1" value="Tu&#x1ea7;n"/>
-                        <StringItem index="2" value="Th&#xe1;ng"/>
-                        <StringItem index="3" value="N&#x103;m"/>
+                        <StringItem index="1" value="Th&#xe1;ng"/>
+                        <StringItem index="2" value="N&#x103;m"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -1334,11 +1333,10 @@
                 <Component class="javax.swing.JComboBox" name="jComboBox3">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
+                      <StringArray count="3">
                         <StringItem index="0" value="Ng&#xe0;y"/>
-                        <StringItem index="1" value="Tu&#x1ea7;n"/>
-                        <StringItem index="2" value="Th&#xe1;ng"/>
-                        <StringItem index="3" value="N&#x103;m"/>
+                        <StringItem index="1" value="Th&#xe1;ng"/>
+                        <StringItem index="2" value="N&#x103;m"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -1352,6 +1350,10 @@
                 <Component class="com.toedter.components.JSpinField" name="jSpinField1">
                 </Component>
                 <Component class="com.toedter.components.JSpinField" name="jSpinField2">
+                  <Events>
+                    <EventHandler event="caretPositionChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jSpinField2CaretPositionChanged"/>
+                    <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jSpinField2InputMethodTextChanged"/>
+                  </Events>
                 </Component>
                 <Component class="com.toedter.components.JSpinField" name="jSpinField3">
                 </Component>
@@ -1382,11 +1384,10 @@
                 <Component class="javax.swing.JComboBox" name="jComboBox2">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
+                      <StringArray count="3">
                         <StringItem index="0" value="Ng&#xe0;y"/>
-                        <StringItem index="1" value="Tu&#x1ea7;n"/>
-                        <StringItem index="2" value="Th&#xe1;ng"/>
-                        <StringItem index="3" value="N&#x103;m"/>
+                        <StringItem index="1" value="Th&#xe1;ng"/>
+                        <StringItem index="2" value="N&#x103;m"/>
                       </StringArray>
                     </Property>
                   </Properties>

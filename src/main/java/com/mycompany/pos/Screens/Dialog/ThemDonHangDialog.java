@@ -379,9 +379,13 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng");
             return;
         }
+        
+       
         Orders order = new Orders();
-        order.setCreatedAt(new Date());
-        order.setOrderedAt(new Date());
+        
+        Date now = new Date();
+        order.setCreatedAt(now);
+        order.setOrderedAt(now);
         
         if (_coupon != null)
             order.setCoupon(_coupon);
@@ -394,16 +398,16 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             productInvoice.setOrders(order);
             productInvoice.setProduct(p);
             
-            int index = -1 ;
+            int indexSL = -1 ;
             for (int j = 0; j<_listSoluong.size(); j ++){
                 if ((long)_listSoluong.get(j).id == p.getIdProduct()){
-                    index = j;
+                    indexSL = j;
                     break;
                 }
             }
             
-            if (index >=0){
-                productInvoice.setQuantity(_listSoluong.get(index).soluong);
+            if (indexSL >=0){
+                productInvoice.setQuantity(_listSoluong.get(indexSL).soluong);
             } else{
                 productInvoice.setQuantity((long)1);
             }
@@ -414,7 +418,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             _productInvoiceService.save(productInvoice);
             
             
-            index = -1 ;
+            int index = -1 ;
             for (int j = 0; j<_listStock.size(); j ++){
                 if ((long)_listStock.get(j).getProduct().getIdProduct() == p.getIdProduct()){
                     index = j;
@@ -424,7 +428,7 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
             
             if (index >= 0){
                 Stock stock = _listStock.get(index);
-                stock.setQuantity(stock.getQuantity() - _listSoluong.get(index).soluong);
+                stock.setQuantity(stock.getQuantity() - _listSoluong.get(indexSL).soluong);
                 
                 _stockService.save(stock);
             }
@@ -562,8 +566,8 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     
     
     public void clearData(){
-        _listProductInOrder.clear();
-        _listSoluong.clear();
+        _listProductInOrder = new ArrayList<>();
+        _listSoluong = new ArrayList<>();
         _customer = null;
         lbCustomerName.setText("Chưa chọn");
         lbGiaTien.setText("0");
@@ -572,8 +576,8 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     }
 
     public void loadList(){
-        loadListProduct();
         loadListStock();
+        loadListProduct();
         
         loadTableProduct();
     }
@@ -610,7 +614,26 @@ public class ThemDonHangDialog extends javax.swing.JFrame {
     
     private void loadListProduct(){
         List<Product> listProduct = _productService.findAll();
-        _listProduct = listProduct;  
+        _listProduct = new  ArrayList<Product>(); 
+        
+        for(Product c: listProduct) {
+            
+            if (!c.getStockable()){
+                continue;
+            }
+            
+            long allStock = 0;
+            for(Stock s: _listStock){
+                if (s.getProduct().getIdProduct().equals(c.getIdProduct()))
+                    allStock = allStock + s.getQuantity();
+            }
+            
+            if (allStock <= 0) {
+                continue;
+            }
+            
+            _listProduct.add(c);
+        }
     }
 
     private void loadTableProduct() {    
